@@ -1,0 +1,320 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Student Certificates — Errors2Experts{% endblock %}
+{% block meta_desc %}Certificates issued by Errors2Experts to students who completed IT training courses, internships and workshops.{% endblock %}
+{% block content %}
+
+<!-- ── PAGE HEADER ── -->
+<div style="text-align:center;padding:64px 20px 44px;background:linear-gradient(180deg,rgba(201,162,39,0.08) 0%,transparent 100%)">
+  <p style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--e2e-gold);margin-bottom:10px;font-weight:700;margin-top:20px;">RECOGNITION</p>
+  <h1 style="font-family:var(--font-display);font-size:clamp(2rem,5vw,3rem);font-weight:700;color:var(--text-dark);margin-bottom:0">Student Certificates</h1>
+  <p style="color:var(--text-muted);margin-top:12px;font-size:16px;max-width:520px;margin-left:auto;margin-right:auto">
+    Every student who completes our program receives an industry-recognised certificate.
+    Here's what yours could look like.
+  </p>
+  <div style="width:50px;height:4px;background:linear-gradient(90deg,var(--e2e-red),var(--e2e-gold),var(--e2e-green));border-radius:4px;margin:16px auto 0"></div>
+</div>
+
+<!-- ── FILTER TABS ── -->
+<section class="container" style="padding-bottom:12px">
+  <div id="cert-tabs" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:32px" role="tablist" aria-label="Filter certificates by type">
+    <button class="cert-tab active" data-filter="all" role="tab" aria-selected="true">All</button>
+    <button class="cert-tab" data-filter="course"     role="tab" aria-selected="false">Course Completion</button>
+    <button class="cert-tab" data-filter="internship" role="tab" aria-selected="false">Internship</button>
+    <button class="cert-tab" data-filter="workshop"   role="tab" aria-selected="false">Workshop</button>
+    <button class="cert-tab" data-filter="project"    role="tab" aria-selected="false">Live Project</button>
+  </div>
+</section>
+
+<!-- ── CERTIFICATE GRID ── -->
+<section class="container pb-5">
+
+  {% if certificates %}
+
+  <div class="cert-grid stagger-children" role="list" aria-label="Certificate gallery">
+    {% for cert in certificates %}
+    <div class="cert-item reveal-scale" data-type="{{ cert.cert_type }}" role="listitem">
+      <div class="cert-card"
+           onclick="openCertLightbox('{{ cert.image.url }}', '{{ cert.course_name|escapejs }}', '{{ cert.get_cert_type_display|escapejs }}', '{{ cert.description|escapejs }}')">
+
+        <!-- Certificate image with gold frame -->
+        <div class="cert-img-wrap">
+          <img src="{{ cert.image.url }}"
+               alt="Certificate — {{ cert.course_name }}"
+               loading="lazy">
+          <div class="cert-overlay">
+            <span style="font-size:28px">🏅</span>
+            <span style="font-size:13px;font-weight:600;color:#fff;margin-top:4px">View Certificate</span>
+          </div>
+        </div>
+
+        <!-- Card info -->
+        <div class="cert-info">
+          <!-- Type badge -->
+          <span class="cert-badge cert-badge--{{ cert.cert_type }}">
+            {% if cert.cert_type == 'course' %}📘{% elif cert.cert_type == 'internship' %}💼{% elif cert.cert_type == 'workshop' %}🎯{% else %}🔬{% endif %}
+            {{ cert.get_cert_type_display }}
+          </span>
+
+          <h3>{{ cert.course_name }}</h3>
+          {% if cert.description %}
+          <p>{{ cert.description }}</p>
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- No results message (shown by JS when filter has no matches) -->
+  <div id="cert-empty" style="display:none;text-align:center;padding:60px 20px">
+    <p style="color:var(--text-muted);font-size:16px">No certificates in this category yet.</p>
+  </div>
+
+  {% else %}
+  <!-- Empty state -->
+  <div style="text-align:center;padding:80px 20px;background:var(--bg-white);border:1px solid var(--border-light);border-radius:var(--radius-xl);max-width:520px;margin:0 auto">
+    <div style="font-size:56px;margin-bottom:16px">🏅</div>
+    <h3 style="font-family:var(--font-display);font-weight:700;color:var(--text-dark);margin-bottom:8px">Coming Soon</h3>
+    <p style="color:var(--text-muted)">Certificate samples will be uploaded here soon.</p>
+    <a href="{% url 'home' %}" class="btn btn-success mt-3 px-4">Back to Home</a>
+  </div>
+  {% endif %}
+
+</section>
+
+<!-- ── CTA STRIP ── -->
+<div style="background:linear-gradient(135deg,var(--e2e-green),#1B5E20);padding:60px 20px;text-align:center;margin-top:20px">
+  <p style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-bottom:10px;font-weight:700">EARN YOURS</p>
+  <h2 style="font-family:var(--font-display);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;color:#fff;margin-bottom:12px">
+    Ready to Earn Your Certificate?
+  </h2>
+  <p style="color:rgba(255,255,255,0.80);max-width:440px;margin:0 auto 28px;font-size:16px">
+    Complete any of our industry courses and receive a recognised certificate to boost your career.
+  </p>
+  <div class="d-flex flex-wrap justify-content-center gap-3">
+    <a href="{% url 'allcourse' %}" style="background:#fff;color:var(--e2e-green);border-radius:50px;padding:14px 36px;font-weight:700;font-size:15px;text-decoration:none;transition:0.3s"
+       onmouseenter="this.style.background='var(--e2e-green-bg)'"
+       onmouseleave="this.style.background='#fff'">
+      Browse Courses →
+    </a>
+    <button type="button" data-bs-toggle="modal" data-bs-target="#demoModal"
+            style="background:transparent;border:2px solid rgba(255,255,255,0.5);border-radius:50px;padding:14px 36px;font-weight:600;font-size:15px;color:#fff;cursor:pointer;transition:0.3s"
+            onmouseenter="this.style.borderColor='#fff';this.style.background='rgba(255,255,255,0.1)'"
+            onmouseleave="this.style.borderColor='rgba(255,255,255,0.5)';this.style.background='transparent'">
+      Book Free Demo
+    </button>
+  </div>
+</div>
+
+<!-- ── LIGHTBOX ── -->
+<div id="cert-lightbox"
+     role="dialog" aria-modal="true" aria-label="Certificate viewer"
+     style="display:none;position:fixed;inset:0;z-index:9999;
+            background:rgba(0,0,0,0.90);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+            align-items:center;justify-content:center;padding:24px">
+  <div style="position:relative;max-width:800px;width:100%;animation:lbFadeIn 0.28s ease">
+    <button onclick="closeCertLightbox()" aria-label="Close"
+            style="position:absolute;top:-48px;right:0;background:rgba(255,255,255,0.12);
+                   border:1px solid rgba(255,255,255,0.25);border-radius:50%;
+                   width:40px;height:40px;color:#fff;font-size:20px;cursor:pointer;
+                   display:flex;align-items:center;justify-content:center">×</button>
+    <div style="background:#fff;border-radius:20px;padding:8px;box-shadow:0 24px 80px rgba(0,0,0,0.5)">
+      <!-- Gold certificate frame border -->
+      <div style="border:3px solid var(--e2e-gold);border-radius:16px;padding:6px;background:var(--e2e-gold-bg)">
+        <img id="cl-img" src="" alt=""
+             style="width:100%;border-radius:12px;display:block;max-height:72vh;object-fit:contain">
+      </div>
+    </div>
+    <div style="margin-top:16px;text-align:center">
+      <span id="cl-type" style="display:inline-block;background:rgba(201,162,39,0.2);border:1px solid rgba(201,162,39,0.4);
+                                  border-radius:20px;padding:4px 14px;font-size:12px;color:var(--e2e-gold-light);
+                                  font-weight:600;margin-bottom:8px"></span>
+      <h3 id="cl-title" style="color:#fff;font-family:var(--font-display);font-size:20px;margin-bottom:4px"></h3>
+      <p  id="cl-desc"  style="color:rgba(255,255,255,0.60);font-size:14px;margin:0"></p>
+    </div>
+  </div>
+</div>
+
+<!-- ── STYLES ── -->
+<style>
+/* Filter tabs */
+.cert-tab {
+  background: var(--bg-white);
+  border: 1.5px solid var(--border-medium);
+  border-radius: 50px;
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+  font-family: var(--font-body);
+}
+.cert-tab:hover {
+  border-color: var(--e2e-green);
+  color: var(--e2e-green);
+  background: var(--e2e-green-bg);
+}
+.cert-tab.active {
+  background: var(--e2e-green);
+  border-color: var(--e2e-green);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(46,125,50,0.30);
+}
+
+/* Grid */
+.cert-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 28px;
+}
+
+/* Card */
+.cert-card {
+  background: var(--bg-white);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: all 0.35s var(--ease);
+}
+.cert-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-xl);
+  border-color: var(--e2e-gold);
+}
+
+/* Image wrapper — gold-tinted frame for certificates */
+.cert-img-wrap {
+  position: relative;
+  height: 210px;
+  overflow: hidden;
+  background: var(--e2e-gold-bg);
+  border-bottom: 3px solid var(--e2e-gold);
+}
+.cert-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s var(--ease);
+}
+.cert-card:hover .cert-img-wrap img { transform: scale(1.04); }
+
+.cert-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(201,162,39,0.80);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+}
+.cert-card:hover .cert-overlay { opacity: 1; }
+
+/* Info */
+.cert-info {
+  padding: 18px 20px 22px;
+}
+.cert-info h3 {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 8px 0 6px;
+  line-height: 1.35;
+}
+.cert-info p {
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Type badges */
+.cert-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 4px 12px;
+  letter-spacing: 0.3px;
+}
+.cert-badge--course     { background:rgba(46,125,50,0.10); color:var(--e2e-green); border:1px solid rgba(46,125,50,0.2); }
+.cert-badge--internship { background:rgba(183,28,28,0.08); color:var(--e2e-red);   border:1px solid rgba(183,28,28,0.2); }
+.cert-badge--workshop   { background:rgba(201,162,39,0.10); color:#a07c10;         border:1px solid rgba(201,162,39,0.25); }
+.cert-badge--project    { background:rgba(59,130,246,0.08); color:#1565C0;         border:1px solid rgba(59,130,246,0.2); }
+
+/* Hidden cert item when filtered */
+.cert-item.hidden { display: none; }
+
+@keyframes lbFadeIn {
+  from { opacity:0; transform:scale(0.94); }
+  to   { opacity:1; transform:scale(1); }
+}
+
+@media (max-width: 768px) {
+  .cert-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+  .cert-img-wrap { height: 180px; }
+}
+</style>
+
+<!-- ── SCRIPTS ── -->
+<script>
+/* ─ Filter tabs ─ */
+document.querySelectorAll('.cert-tab').forEach(function(tab){
+  tab.addEventListener('click', function(){
+    var filter = this.dataset.filter;
+    document.querySelectorAll('.cert-tab').forEach(function(t){
+      t.classList.remove('active');
+      t.setAttribute('aria-selected','false');
+    });
+    this.classList.add('active');
+    this.setAttribute('aria-selected','true');
+
+    var items = document.querySelectorAll('.cert-item');
+    var visible = 0;
+    items.forEach(function(item){
+      if (filter === 'all' || item.dataset.type === filter) {
+        item.classList.remove('hidden');
+        visible++;
+      } else {
+        item.classList.add('hidden');
+      }
+    });
+    document.getElementById('cert-empty').style.display = visible === 0 ? 'block' : 'none';
+  });
+});
+
+/* ─ Lightbox ─ */
+var certLb = document.getElementById('cert-lightbox');
+
+window.openCertLightbox = function(src, title, type, desc){
+  document.getElementById('cl-img').src           = src;
+  document.getElementById('cl-img').alt           = title;
+  document.getElementById('cl-title').textContent = title;
+  document.getElementById('cl-type').textContent  = type;
+  document.getElementById('cl-desc').textContent  = desc;
+  certLb.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+};
+
+window.closeCertLightbox = function(){
+  certLb.style.display = 'none';
+  document.body.style.overflow = '';
+};
+
+document.addEventListener('keydown', function(e){
+  if (certLb.style.display !== 'none' && e.key === 'Escape') closeCertLightbox();
+});
+certLb.addEventListener('click', function(e){ if(e.target === certLb) closeCertLightbox(); });
+</script>
+
+{% endblock %}

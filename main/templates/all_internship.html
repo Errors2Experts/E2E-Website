@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Internship Programs — Errors2Experts{% endblock %}
+{% block meta_desc %}Hands-on, mentor-led internship programs at Errors2Experts. Week-by-week roadmaps that turn beginners into job-ready professionals.{% endblock %}
+{% block content %}
+
+ 
+<!-- ── PAGE HEADER ── -->
+<div class="intern-page-header">
+  <p class="intern-eyebrow">CAREER LAUNCHPAD</p>
+  <h1 id="internship-heading">Our Internship Programs</h1>
+  <p class="intern-subtitle">
+    Hands-on, mentor-led internship tracks with a structured weekly roadmap —
+    designed to turn beginners into industry-ready professionals.
+  </p>
+  <div class="intern-rule"></div>
+</div>
+ 
+<!-- ── INTERNSHIP GRID ── -->
+<section class="intern-grid-section" aria-labelledby="internship-heading">
+  <div class="container">
+    <div class="intern-grid">
+      {% for internship in internships %}
+      <div class="intern-card">
+        <div class="intern-card-top">
+          {% if internship.image %}
+         <img src="{{ internship.image.url }}" alt="{{ internship.title }}">
+          {% else %}
+         <img src="{% static 'images/default-course.jpg' %}" alt="Default Image">
+          {% endif %}
+          <span class="intern-tag">Internship Program</span>
+          <h3>{{ internship.title }}</h3>
+          <p>{{ internship.description|truncatewords:22 }}</p>
+        </div>
+        <div class="intern-card-footer">
+          <div class="intern-price-block">
+            <span class="intern-price">₹{{ internship.price }}</span>
+            <span class="intern-duration">⏱ {{ internship.duration }}</span>
+          </div>
+          <a href="{% url 'internship_detail' internship.id %}" class="intern-explore-btn">
+            Explore <span>→</span>
+          </a>
+        </div>
+      </div>
+      {% empty %}
+      <div class="intern-empty">
+        <p>No internship programs are listed yet. Check back soon!</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+ 
+<!-- ── CTA STRIP ── -->
+<div class="intern-cta-strip">
+  <p class="intern-cta-eyebrow">NOT SURE WHERE TO START?</p>
+  <h2>Talk to Our Mentors First</h2>
+  <p>Book a free demo session and let our team help you pick the right internship track.</p>
+  <button type="button" class="intern-cta-btn" data-bs-toggle="modal" data-bs-target="#demoModal">
+    Book Free Demo →
+  </button>
+</div>
+ 
+
+{% endblock %}

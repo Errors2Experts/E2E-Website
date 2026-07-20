@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ internship.title }} — Internship Program | Errors2Experts{% endblock %}
+{% block meta_desc %}{{ internship.title }} internship at Errors2Experts — {{ internship.duration }} program, ₹{{ internship.price }}. View the full week-by-week roadmap.{% endblock %}
+{% block content %}
+ 
+<!-- ── HERO ── -->
+<div class="ih-hero mt-5">
+        <a href="{% url 'internship_list' %}" class="ih-back">← Back to All Internships</a>
+
+  <div class="ih-hero-inner">
+ 
+    <p class="ih-eyebrow">INTERNSHIP PROGRAM</p>
+    <h1>{{ internship.title }}</h1>
+    <p class="ih-desc">{{ internship.description }}</p>
+ 
+    <div class="ih-stats">
+      <div class="ih-stat">
+        <span class="ih-stat-icon">💰</span>
+        <div>
+          <span class="ih-stat-label">Program Fee</span>
+          <span class="ih-stat-value">₹{{ internship.price }}</span>
+        </div>
+      </div>
+      <div class="ih-stat">
+        <span class="ih-stat-icon">⏱</span>
+        <div>
+          <span class="ih-stat-label">Duration</span>
+          <span class="ih-stat-value">{{ internship.duration }}</span>
+        </div>
+      </div>
+      <div class="ih-stat">
+        <span class="ih-stat-icon">📅</span>
+        <div>
+          <span class="ih-stat-label">Roadmap</span>
+          <span class="ih-stat-value">{{ timeline_data|length }} Weeks</span>
+        </div>
+      </div>
+    </div>
+ 
+    <button type="button" class="ih-cta" data-bs-toggle="modal" data-bs-target="#demoModal">
+      Enroll Now / Book Free Demo →
+    </button>
+  </div>
+</div>
+ 
+<!-- ── ROADMAP ── -->
+<div class="ih-roadmap-wrap">
+  <div class="ih-roadmap-heading">
+    <span class="ih-eyebrow ih-eyebrow-left">WEEK-BY-WEEK PLAN</span>
+    <h2>Program Roadmap</h2>
+    <p>Tap a week to view its daily curriculum.</p>
+  </div>
+ 
+  <div class="ih-timeline" aria-label="Internship weekly curriculum">
+    {% for week_num, days in timeline_data.items %}
+    <div class="ih-week">
+      <div class="ih-node">{{ week_num }}</div>
+      <div class="ih-week-card">
+        <button class="ih-week-header"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#week{{ week_num }}"
+                aria-expanded="false"
+                aria-controls="week{{ week_num }}">
+          <span class="ih-week-title">
+            Week {{ week_num }} 
+            <span class="ih-week-count">{{ days|length }} days</span>
+          </span>
+          <span class="ih-chevron" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </span>
+        </button>
+        <div id="week{{ week_num }}" class="collapse">
+          <div class="ih-week-body">
+            {% for day in days %}
+            <div class="ih-day-chip">
+              <span class="ih-day-num">Day {{ day.day }}</span>
+              <span class="ih-day-topic">{{ day.topic }}</span>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p class="ih-empty">Curriculum will be published soon. Check back shortly!</p>
+    {% endfor %}
+  </div>
+ 
+  {% if timeline_data %}
+  <div class="ih-bottom-cta">
+    <button type="button" class="ih-cta" data-bs-toggle="modal" data-bs-target="#demoModal">
+      Reserve Your Seat →
+    </button>
+    <p>Limited seats per batch · MSME Registered Institute</p>
+  </div>
+  {% endif %}
+</div>
+ 
+
+{% endblock %}

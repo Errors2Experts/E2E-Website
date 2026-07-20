@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="container py-5">
+  <div style="max-width: 960px; margin: 0 auto;">
+    
+    <!-- Back Navigation Anchor Link -->
+    <a href="{% url 'careers' %}" class="btn-back">
+      ← Back to All Openings
+    </a>
+
+    <div class="career-container-card">
+      <div class="row g-5">
+        
+        <!-- Main Core Details Column -->
+        <div class="col-lg-8">
+          <span class="job-badge badge-time mb-3 d-inline-block">{{ career.employment_type }}</span>
+          <h1 style="font-family: var(--font-display); font-size: clamp(24px, 4vw, 36px); font-weight: 800; color: var(--text-primary); margin-bottom: 12px; letter-spacing: -0.5px;">{{ career.role }}</h1>
+          
+          <div style="display: flex; gap: 20px; font-size: 13.5px; color: var(--text-muted); margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border-light);">
+            <span>Posted: <strong>{{ career.posted_on|date:"d M Y" }}</strong></span>
+            <span>Location: <strong>Dindigul, Tamilnadu, India</strong></span>
+          </div>
+
+          <h2 style="font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 16px;">Detailed Job Description</h2>
+          <div style="color: var(--text-muted); line-height: 1.8; font-size: 15.5px; white-space: pre-line;">
+            {{ career.job_description }}
+          </div>
+        </div>
+
+        <!-- Sticky Floating Sidebar Sticky Callout Anchor -->
+        <div class="col-lg-4">
+          <div style="background-color: var(--bg-page); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 24px; position: sticky; top: 40px;">
+            <h3 style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 16px;">Position Parameters</h3>
+            
+            <ul style="list-style: none; padding: 0; margin: 0 0 24px 0; display: flex; flex-direction: column; gap: 12px; font-size: 14px;">
+              <li style="display: flex; justify-content: space-between; color: var(--text-muted);">
+                <span>Type:</span> <strong style="color: var(--text-primary)">{{ career.employment_type }}</strong>
+              </li>
+              {% if career.salary %}
+              <li style="display: flex; justify-content: space-between; color: var(--text-muted);">
+                <span>Comp Range:</span> <strong style="color: var(--e2e-green)">₹{{ career.salary }}</strong>
+              </li>
+              {% endif %}
+            </ul>
+
+            <a href="{% url 'apply_job' career.id %}" class="btn-career-action w-100 text-center py-3">
+              <span>Apply For This Role</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

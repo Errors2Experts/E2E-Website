@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Page header -->
+<div style="text-align:center;padding:60px 20px 40px;background:linear-gradient(180deg,rgba(16,185,129,0.06) 0%,transparent 100%)">
+  <p class="section-eyebrow mt-5">WHO WE ARE</p>
+  <h1 id="about-heading" class="section-title">About Errors2Experts</h1>
+  <div style="width:50px;height:3px;background:linear-gradient(90deg,var(--brand-green),var(--brand-teal));border-radius:3px;margin:16px auto 0"></div>
+</div>
+
+<section id="about" class="container py-4 ">
+
+  <!-- Row 1: About -->
+  <div class="row align-items-center mb-5 g-5 ">
+    <div class="col-md-6 reveal-left">
+      <h2>About Us</h2>
+      <p class="mt-3">
+        <strong style="color:var(--text-primary)">Errors2Experts</strong> is a professional IT training institute committed to delivering
+        high-quality, industry-focused courses. We provide career-oriented programs designed
+        to transform beginners into skilled professionals through structured learning
+        and practical exposure.
+      </p>
+      <p>
+        Our courses are handled by experienced corporate trainers who bring real-world
+        industry knowledge into the classroom. We focus not only on technical skills
+        but also on building confidence, problem-solving ability, and career growth
+        for every student.
+      </p>
+      <p>
+        We also provide internship opportunities to give students real-time project
+        experience and help them understand industry standards.
+      </p>
+    </div>
+    <div class="col-md-6 reveal-right">
+      <div style="position:relative">
+        <div style="position:absolute;inset:-16px;background:linear-gradient(135deg,rgba(16,185,129,0.10),rgba(59,130,246,0.08));border-radius:28px;"></div>
+        <img src="{% static 'images/about_2.jpeg' %}" class="img-fluid rounded shadow" style="border-radius:20px;position:relative;z-index:1" alt="About Us">
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 2: What You Gain -->
+  <div class="row align-items-center mb-5 g-5">
+    <div class="col-md-6 order-md-2 reveal-right">
+      <h3 style="font-family:var(--font-display);font-weight:700;color:var(--text-primary);margin-bottom:20px">What You Will Gain</h3>
+      <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px">
+        {%load custom_filters%}
+        {% for item in "Learn from experienced industry mentors,Hands-on practical training with real-time projects,Mock tests to strengthen technical knowledge,Mock interviews to boost confidence,Professional resume preparation guidance,Complete placement preparation support,Internship opportunities for practical exposure"|split:"," %}
+        <li style="display:flex;align-items:flex-start;gap:10px;color:var(--text-muted);font-size:15px">
+          <span style="color:var(--brand-green);font-weight:700;margin-top:1px;flex-shrink:0">✓</span>
+          {{ item }}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="col-md-6 order-md-1 reveal-left">
+      <div style="position:relative">
+        <div style="position:absolute;inset:-16px;background:linear-gradient(135deg,rgba(59,130,246,0.08),rgba(16,185,129,0.06));border-radius:28px;"></div>
+        <img src="{% static 'images/about_3.jpeg' %}" class="img-fluid rounded shadow" style="border-radius:20px;position:relative;z-index:1" alt="Students Learning">
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 3: Our Commitment -->
+  <div class="row align-items-center g-5">
+    <div class="col-md-6 reveal-left">
+      <h3 style="font-family:var(--font-display);font-weight:700;color:var(--text-primary);margin-bottom:16px">Our Commitment</h3>
+      <p>
+        We understand the financial challenges students may face. To ensure education
+        is accessible to everyone, we provide flexible and easy EMI options.
+      </p>
+      <p>
+        Our mission is to bridge the gap between education and industry by offering
+        structured guidance, career mentorship, and continuous support until students
+        achieve their professional goals.
+      </p>
+      <!-- Mini stat pills -->
+      <div class="about-mini-cards d-flex flex-wrap gap-3 mt-4">
+        <div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:12px;padding:12px 20px;text-align:center">
+          <div style="font-family:var(--font-display);font-size:24px;font-weight:800;color:var(--brand-green)">EMI</div>
+          <div style="font-size:12px;color:var(--text-muted)">Easy Installments</div>
+        </div>
+        <div style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:12px;padding:12px 20px;text-align:center">
+          <div style="font-family:var(--font-display);font-size:24px;font-weight:800;color:var(--brand-blue)">100%</div>
+          <div style="font-size:12px;color:var(--text-muted)">Placement Support</div>
+        </div>
+        <div style="background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:12px;padding:12px 20px;text-align:center">
+          <div style="font-family:var(--font-display);font-size:24px;font-weight:800;color:var(--accent-gold)">MSME</div>
+          <div style="font-size:12px;color:var(--text-muted)">Registered</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 reveal-right">
+      <div style="position:relative">
+        <div style="position:absolute;inset:-16px;background:linear-gradient(135deg,rgba(245,158,11,0.06),rgba(16,185,129,0.06));border-radius:28px;"></div>
+        <img src="{% static 'images/about_4.jpeg' %}" class="img-fluid rounded shadow" style="border-radius:20px;position:relative;z-index:1" alt="EMI Options">
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- CTA Banner -->
+<div style="margin:60px 5%;background:linear-gradient(135deg,rgba(16,185,129,0.10),rgba(59,130,246,0.08));border:1px solid rgba(16,185,129,0.15);border-radius:24px;padding:50px 40px;text-align:center" class="reveal">
+  <h3 style="font-family:var(--font-display);font-weight:700;margin-bottom:12px">Ready to Start Your Journey?</h3>
+  <p style="color:var(--text-muted);margin-bottom:28px;font-size:16px">Book a free demo session and see how we can transform your career.</p>
+  <div class="about-cta-buttons d-flex flex-wrap justify-content-center gap-3 mt-2"
+                 style="opacity:0;animation:fadeUp 0.7s ease 1s forwards;">
+    <a href="{% url 'allcourse' %}" class="btn btn-success px-5 py-2 " style="height:40px;">Explore Courses</a>
+   <a href="{% url 'careers' %}" class="btn btn-outline-light px-5 py-1" style="height:40px;">View Careers</a>
+
+  </div>
+  </div>
+
+{% endblock %}

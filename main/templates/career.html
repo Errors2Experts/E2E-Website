@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="modern-careers-section" aria-labelledby="careers-heading">
+  <div class="container">
+    
+    <!-- Section Title Block -->
+    <div class="text-center mb-5">
+      <span class="section-eyebrow">Join Our Core Team</span>
+      <h2 id="careers-heading" class="section-title">Current Career Openings</h2>
+      <p class="section-subtitle-muted">Grow with us. Build the future of premium IT education ecosystems.</p>
+      <div class="title-accent-line"></div>
+    </div>
+
+    <!-- Active Openings Container Frame -->
+    <div class="job-listings-wrapper">
+      {% for job in careers %}
+      <div class="job-listing-card" data-aos="fade-up">
+        <div class="row align-items-center g-4">
+          
+          <div class="col-lg-8">
+            <div class="job-details-content">
+              <div class="d-flex align-items-center flex-wrap gap-2 mb-3">
+                <span class="job-badge badge-time">{{ job.employment_type }}</span>
+                <span class="job-badge badge-dept">Academic Division</span>
+              </div>
+
+              <!-- Matched to job.role field -->
+              <h3 class="job-card-title">{{ job.role }}</h3>
+              
+              <!-- Clean truncation slice for the description text block -->
+              <p class="job-card-excerpt">
+                {{ job.job_description|truncatewords:28 }}
+              </p>
+
+              <div class="job-metadata-row mt-3">
+                {% if job.salary %}
+                <div class="meta-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  <span>₹{{ job.salary }}</span>
+                </div>
+                {% endif %}
+                <div class="meta-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                  <span>Dindigul, Tamilnadu, India</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic URL path matching career_detail view -->
+          <div class="col-lg-4 text-lg-end">
+            <a href="{% url 'career_detail' job.pk %}" class="btn-career-action">
+              <span>View Details</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
+          </div>
+
+        </div>
+      </div>
+      {% empty %}
+      <div class="text-center py-5 white-fallback-box">
+        <p class="text-muted mb-0">We don't have any active positions right now. Feel free to reach out to us with your details anytime!</p>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+{% endblock %}

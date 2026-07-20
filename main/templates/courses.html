@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="course-detail-wrapper py-5">
+  <div class="container py-5">
+    
+    <!-- Actionable Back Button -->
+    <div class="mb-4 animate-fade-in">
+       <!-- Back Navigation Anchor Link -->
+    <a href="{% url 'allcourse' %}" class="btn-back">
+      ← Back to All Courses
+    </a>
+    </div>
+    
+    <!-- Hero Course Meta Card -->
+    <div class="course-hero-banner mb-5 animate-fade-in">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+          <span class="section-eyebrow">Advanced Learning Track</span>
+          <h1 class="course-main-title">{{ course.title | title }}</h1>
+          <p class="course-main-desc">{{ course.description }}</p>
+          
+          <div class="course-meta-pills d-flex flex-wrap gap-3 my-4">
+            <span class="meta-pill"><i class="bi bi-clock"></i> {{ course.duration }}</span>
+            {% if course.discount %}
+              <span class="meta-pill discount-pill">₹{{ course.discount }}</span>
+            {% endif %}
+            <span class="meta-pill price-pill"><i class="bi bi-tags"></i>Save ₹{{ course.price }}</span>
+          </div>
+          <button type="button" class="btn btn-success px-4 py-2" data-bs-toggle="modal" data-bs-target="#courseBookingModal"> Book Next Batch Slot <i class="bi bi-arrow-right-short"></i></button>
+
+<!-- Course Booking Modal -->
+<div class="modal fade" id="courseBookingModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4>Book Your Batch</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                
+  <form method="POST" action="{% url 'book_course' course.id %}">
+    {% csrf_token %}
+
+    <input type="hidden" name="course_name" value="{{ course.title }}">
+
+    <input type="text" name="name" class="form-control mb-3" placeholder="Full Name" required>
+
+    <input type="email" name="email" class="form-control mb-3" placeholder="Email" required>
+
+    <input type="text" name="education" class="form-control mb-3" placeholder="Education" required>
+
+    <input type="text" name="mobile" class="form-control mb-3" placeholder="Mobile Number" required>
+
+    <input type="text" name="year_passed" class="form-control mb-3" placeholder="Passed Out Year" required>
+    
+    
+   
+        
+    </select>
+
+    <button type="submit" class="btn btn-success w-100">
+        Register Now
+    </button>
+
+</form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+        </div>
+        <div class="col-lg-5">
+          <div class="browser-mockup-container">
+            <div class="browser-header-bar">
+              <div class="browser-dots">
+                <span class="dot-red"></span>
+                <span class="dot-amber"></span>
+                <span class="dot-green"></span>
+              </div>
+              <div class="browser-address-field">errors2experts.com/course/{{ course.id }}</div>
+            </div>
+            <div class="browser-screen-view">
+              {% if course.image %}
+                <img src="{{ course.image.url }}" class="img-fluid project-display-img" alt="{{ course.title }}">
+              {% else %}
+                <img src="{% static 'main/images/no-image.png' %}" class="img-fluid project-display-img" alt="Default Image">
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-5" style="border-color: var(--border-light);">
+
+    <!-- Module Details Section Header -->
+    <div class="text-center mb-5">
+      <span class="section-eyebrow">Curriculum Architecture</span>
+      <h2 class="section-title">Program Modules</h2>
+      <p class="text-muted mt-2">Carefully mapped structured milestones guiding you from syntax errors to architecture expert.</p>
+    </div>
+
+    <!-- Mini Cards Architecture Grid -->
+    <div class="row g-4 justify-content-center">
+      {% if course.modules.all %}
+        {% for module in course.modules.all %}
+        <div class="col-md-6 col-lg-4">
+          <div class="module-mini-card">
+            <div class="card-accent-strip"></div>
+            <div class="module-card-body">
+              <div class="module-header-row">
+                <span class="module-step-badge">Module {{ forloop.counter }}</span>
+                <div class="module-status-dot"></div>
+              </div>
+              <h4 class="module-card-title">{{ module.module_name }}</h4>
+              <p class="module-card-desc">{{ module.description }}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      {% elif modules %}
+        {% for module in modules %}
+        <div class="col-md-6 col-lg-4">
+          <div class="module-mini-card">
+            <div class="card-accent-strip"></div>
+            <div class="module-card-body">
+              <div class="module-header-row">
+                <span class="module-step-badge">Module {{ forloop.counter }}</span>
+                <div class="module-status-dot"></div>
+              </div>
+              <h4 class="module-card-title">{{ module.module_name }}</h4>
+              <p class="module-card-desc">{{ module.description }}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="col-12 text-center py-5">
+          <div class="white-fallback-box" style="background: var(--bg-soft); border: 1px dashed var(--border-medium); padding: 40px; border-radius: var(--radius-lg);">
+            <i class="bi bi-inboxes text-muted fs-2 mb-2 d-block"></i>
+            <p class="text-muted mb-0">No modules linked to this course yet. Check your database admin configurations.</p>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+{% endblock %}

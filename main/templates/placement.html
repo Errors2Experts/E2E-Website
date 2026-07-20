@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- ══════════════════════════════════════════
+     PLACEMENT — HERO
+     ══════════════════════════════════════════ -->
+<section class="placement-hero">
+  <div class="container">
+    <div class="row align-items-center g-4">
+
+      <div class="col-lg-3 col-md-4 col-6 mx-auto text-center order-2 order-md-1">
+        <img src="{% static 'images/chair.jpeg' %}"
+             alt="Resume and office chair illustration"
+             class="img-fluid placement-hero-img"
+             loading="lazy">
+      </div>
+
+      <div class="col-lg-6 col-md-12 text-center order-1 order-md-2">
+        <p class="placement-eyebrow">→ WE ARE WITH YOU UNTIL YOU GET PLACED ←</p>
+        <h1 class="placement-title">
+          Placement <span class="placement-title-accent">Support</span>
+        </h1>
+        <div class="placement-underline mx-auto"></div>
+        <p class="placement-subtitle">
+          We provide end-to-end career assistance and placement support
+          to help you achieve your dream job.
+        </p>
+      </div>
+
+      <div class="col-lg-3 col-md-4 col-6 mx-auto text-center order-3">
+        <img src="{% static 'images/target.jpeg' %}"
+             alt="Target board with dart illustration"
+             class="img-fluid placement-hero-img"
+             loading="lazy">
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     PLACEMENT SERVICES GRID
+     ══════════════════════════════════════════ -->
+<section class="placement-services-section">
+  <div class="container">
+    <div class="placement-services-grid">
+
+      <div class="placement-card">
+        <div class="placement-icon green"><i class="bi bi-file-earmark-text"></i></div>
+        <h4>Resume Building</h4>
+        <p>ATS-friendly resume crafted by career experts.</p>
+        <!-- <a href="#" class="btn btn-success placement-learn-link">Learn More <span>→</span></a> -->
+      </div>
+
+      <div class="placement-card">
+        <div class="placement-icon gold"><i class="bi bi-person-badge"></i></div>
+        <h4>Career Guidance</h4>
+        <p>Personalized roadmap for your dream career.</p>
+        <!-- <a href="#" class="btn btn-success placement-learn-link">Learn More <span>→</span></a> -->
+      </div>
+
+      <div class="placement-card">
+        <div class="placement-icon red"><i class="bi bi-mic"></i></div>
+        <h4>Mock Interviews</h4>
+        <p>HR &amp; Technical mock interviews with feedback.</p>
+        <!-- <a href="#" class="btn btn-success placement-learn-link">Learn More <span>→</span></a> -->
+      </div>
+
+      <div class="placement-card">
+        <div class="placement-icon blue"><i class="bi bi-linkedin"></i></div>
+        <h4>LinkedIn Optimization</h4>
+        <p>Build a professional LinkedIn profile that stands out.</p>
+        <!-- <a href="#" class="btn btn-success placement-learn-link">Learn More <span>→</span></a> -->
+      </div>
+
+      <div class="placement-card">
+        <div class="placement-icon purple"><i class="bi bi-easel"></i></div>
+        <h4>Portfolio Building</h4>
+        <p>Create stunning portfolio that showcases your skills.</p>
+        <!-- <a href="#" class="btn btn-success placement-learn-link">Learn More <span>→</span></a> -->
+      </div>
+
+      <div class="placement-card">
+        <div class="placement-icon green"><i class="bi bi-code-slash"></i></div>
+        <h4>Aptitude &amp; Coding</h4>
+        <p>Aptitude tests, coding challenges &amp; DSA practice.</p>
+        <!-- <a href="#" class="btn btn-success placement-learn-link">Learn More <span>→</span></a> -->
+      </div>
+
+      <div class="placement-card">
+        <div class="placement-icon red"><i class="bi bi-people"></i></div>
+        <h4>Soft Skills Training</h4>
+        <p>Improve communication, GD, and interview skills.</p>
+        <!-- <a href="#" class="btn btn-success placement-learn-link">Learn More <span>→</span></a> -->
+      </div>
+
+      <div class="placement-card">
+        <div class="placement-icon blue"><i class="bi bi-folder2-open"></i></div>
+        <h4>Project Guidance</h4>
+        <p>End-to-end support for live &amp; academic projects.</p>
+        <!-- <a href="#" class="btn btn-success placement-learn-link">Learn More <span>→</span></a> -->
+      </div>
+
+      <div class="placement-card">
+        <div class="placement-icon gold"><i class="bi bi-briefcase"></i></div>
+        <h4>Job Assistance</h4>
+        <p>Access to job openings &amp; referral opportunities.</p>
+        <!-- <a href="#" class="btn btn-success placement-learn-link">Learn More <span>→</span></a> -->
+      </div>
+
+      <div class="placement-card">
+        <div class="placement-icon green"><i class="bi bi-patch-check"></i></div>
+        <h4>Certification Support</h4>
+        <p>Get industry-recognized certifications and letters.</p>
+        <!-- <a href="#" class="btn btn-success placement-learn-link">Learn More <span>→</span></a> -->
+      </div>
+
+      <div class="placement-card">
+        <div class="placement-icon purple"><i class="bi bi-rocket-takeoff"></i></div>
+        <h4>Placement Assistance</h4>
+        <p>Dedicated placement team until you get placed.</p>
+        <!-- <a href="#" class="btn btn-success placement-learn-link">Learn More <span>→</span></a> -->
+      </div>
+
+      <div class="placement-card">
+        <div class="placement-icon blue"><i class="bi bi-mortarboard"></i></div>
+        <h4>Internship Support</h4>
+        <p>Real-time internships with mentor support &amp; review.</p>
+        <!-- <a href="#" class="btn btn-success placement-learn-link">Learn More <span>→</span></a> -->
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     YOUR JOURNEY WITH E2E — TIMELINE
+     ══════════════════════════════════════════ -->
+<section class="placement-journey-section">
+  <div class="container">
+    <div class="placement-journey-box">
+
+      <h2 class="placement-journey-title">
+        <span class="deco">✦</span> Your Journey With E2E <span class="deco">✦</span>
+      </h2>
+      <div class="placement-underline mx-auto mb-5"></div>
+
+      <div class="placement-journey-track">
+
+        <div class="placement-step">
+          <div class="placement-step-icon green">
+            <span class="placement-step-num green">1</span>
+            <i class="bi bi-clipboard-check"></i>
+          </div>
+          <h5>Enroll</h5>
+          <p>Choose your course and enroll today.</p>
+        </div>
+
+        <div class="placement-step">
+          <div class="placement-step-icon red">
+            <span class="placement-step-num red">2</span>
+            <i class="bi bi-book"></i>
+          </div>
+          <h5>Learn</h5>
+          <p>Learn from experts &amp; gain in-demand skills.</p>
+        </div>
+
+        <div class="placement-step">
+          <div class="placement-step-icon gold">
+            <span class="placement-step-num gold">3</span>
+            <i class="bi bi-code-square"></i>
+          </div>
+          <h5>Live Projects</h5>
+          <p>Work on real-world live projects.</p>
+        </div>
+
+        <div class="placement-step">
+          <div class="placement-step-icon green">
+            <span class="placement-step-num green">4</span>
+            <i class="bi bi-person-circle"></i>
+          </div>
+          <h5>Build Profile</h5>
+          <p>Resume, Portfolio &amp; LinkedIn optimization.</p>
+        </div>
+
+        <div class="placement-step">
+          <div class="placement-step-icon red">
+            <span class="placement-step-num red">5</span>
+            <i class="bi bi-mic"></i>
+          </div>
+          <h5>Mock Interview</h5>
+          <p>Practice &amp; improve with expert feedback.</p>
+        </div>
+
+        <div class="placement-step">
+          <div class="placement-step-icon gold">
+            <span class="placement-step-num gold">6</span>
+            <i class="bi bi-person-badge"></i>
+          </div>
+          <h5>Career Guidance</h5>
+          <p>Get guidance &amp; plan your career path.</p>
+        </div>
+
+        <div class="placement-step">
+          <div class="placement-step-icon green">
+            <span class="placement-step-num green">7</span>
+            <i class="bi bi-briefcase"></i>
+          </div>
+          <h5>Placement</h5>
+          <p>Get placed in top companies.</p>
+        </div>
+
+      </div>
+
+      <div class="text-center mt-4">
+        <a href="{% url 'allcourse' %}" class="btn btn-success placement-cta-btn">
+          Start Your Journey Today →
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

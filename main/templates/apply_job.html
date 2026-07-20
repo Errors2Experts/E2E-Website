@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section class="container py-5">
+  <div style="max-width: 800px; margin: 0 auto;">
+    
+    <div class="text-center mb-5">
+      <span class="section-eyebrow">Application Entry Gateway</span>
+      <h2 class="section-title"><span style="color: var(--e2e-green);">Apply for </span>{{ career.role }}</h2>
+      <p class="section-subtitle-muted">Fill in your information fields below to initialize processing.</p>
+    </div>
+
+    <div class="career-container-card modern-form-wrapper"> 
+      <form method="POST" enctype="multipart/form-data" >
+        {% csrf_token %}
+
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <label for="id_full_name">Full Name *</label>
+            {{ form.full_name }}
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="id_email">Email Address *</label>
+            {{ form.email }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <label for="id_mobile">Mobile Contact Number *</label>
+            {{ form.mobile }}
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="id_education">Highest Educational Qualification *</label>
+            {{ form.education }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <label for="id_year_passed_out">Year of Graduation *</label>
+            {{ form.year_passed_out }}
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="id_resume">Upload Comprehensive CV (PDF) *</label>
+            {{ form.resume }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="id_cover_letter">Cover Letter Details *</label>
+          {{ form.cover_letter }}
+        </div>
+
+        <div class="text-center mt-4">
+          <button type="submit" class="btn-career-action" style="padding: 14px 48px; border: none; cursor: pointer;">
+            <span>Submit Application Securely</span>
+          </button>
+          <p style="color: var(--text-muted); font-size: 12px; margin-top: 14px; margin-bottom: 0;">We'll send a confirmation to your email after submission [source: 12].</p>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

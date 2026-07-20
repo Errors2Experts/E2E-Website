@@ -1,0 +1,127 @@
+/* ============================= */
+/*        PROJECT SLIDER        */
+/* ============================= */
+
+.project-slider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Card wrapper */
+.project-card-wrapper {
+  width: 600px; /* Desktop card width */
+  overflow: hidden;
+  position: relative;
+}
+
+/* Individual card */
+.project-card {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: all 0.5s ease-in-out;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border: 2px solid #e5e8f0;
+  border-radius: 8px;
+  text-align: center;
+}
+
+/* Active card (Desktop view) */
+.project-card.active {
+  opacity: 1;
+  position: relative;
+}
+
+/* Image inside card */
+.project-card img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border-radius: 5px;
+}
+
+/* ============================= */
+/*        ARROW BUTTONS         */
+/* ============================= */
+
+.arrow {
+  background: #041366;
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  padding: 10px 15px;
+  cursor: pointer;
+  margin: 0 10px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.arrow:hover {
+  background: #1c2bbd;
+  transform: scale(1.05);
+}
+
+/* ============================= */
+/*        SECTION TITLE         */
+/* ============================= */
+
+.section-title {
+  text-align: center;
+  margin-bottom: 60px;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+/* ============================= */
+/*        MOBILE VERSION        */
+/* ============================= */
+
+@media (max-width: 768px) {
+
+  .project-slider {
+    flex-direction: column;
+  }
+
+  /* Enable horizontal swipe */
+  .project-card-wrapper {
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .project-card {
+    position: relative;
+    min-width: 100%;
+    opacity: 1 !important;
+    scroll-snap-align: center;
+  }
+
+  /* Hide arrows in mobile */
+  .arrow {
+    display: none;
+  }
+
+  /* Hide scrollbar */
+  .project-card-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  .project-card-wrapper {
+    scrollbar-width: none;
+  }
+  
+}
+
+
+
+
+
+

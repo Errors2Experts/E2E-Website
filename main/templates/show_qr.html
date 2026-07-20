@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="payment-wrapper">
+
+    <div class="card-box">
+
+        <h2>🎉 Welcome to Errors2Experts!</h2>
+
+        <p class="course-text">
+            Thank you for booking <strong>{{ course_title }}</strong>
+        </p>
+
+        <h3 class="amount-highlight">Pay Now: ₹{{ amount }}</h3>
+
+        {% if payment_type == "emi" %}
+        <div class="emi-box">
+            <p><strong>Installment Selected</strong></p>
+            <p>Your First Payment: ₹{{ amount }}</p>
+            <p>Remaining Balance: ₹{{ balance }}</p>
+            <p>
+                Kindly complete the remaining balance on or before  
+                <strong>{{ due_date|date:"d M Y" }}</strong>
+            </p>
+        </div>
+        {% endif %}
+
+        <div class="important-box">
+            <p>
+                ⚠️ After sending the payment, you must share the payment screenshot
+                via Email and WhatsApp.
+            </p>
+            <p>
+                📄 Invoice is mandatory. Once we receive your screenshot,
+                we will generate and send your official invoice.
+            </p>
+            <p class="bold-text">
+                Please do not miss sending the screenshot.
+            </p>
+        </div>
+
+        <div class="qr-section">
+            <img src="{% static 'images/qr.jpeg' %}" class="qr-img">
+            <p>Scan & Pay using Google Pay</p>
+        </div>
+
+        <div class="quote">
+            “Education is not preparation for life; education is life itself.”
+            <br>
+            🚀 Let we learn and grow together.
+        </div>
+
+    </div>
+
+    <!-- TERMS AND CONDITIONS -->
+    <div class="terms-box">
+        <h3>Terms & Conditions</h3>
+        <ol>
+            <li>
+                Errors2Experts is an MSME registered training institute.
+                Students must maintain discipline during class hours
+                and behave professionally.
+            </li>
+            <li>
+                Once payment is made, the amount is strictly non-refundable.
+            </li>
+            <li>
+                If you take leave for one day, you must inform in your
+                course WhatsApp group.
+            </li>
+            <li>
+                If you take leave for more than 2–3 days,
+                you must submit valid proof and send an email.
+            </li>
+            <li>
+                Placement assistance will be provided but not guaranteed.
+                We will train you on resume building,
+                job application process,
+                and share job openings.
+                Attending interviews and securing the job
+                depends on your performance.
+            </li>
+        </ol>
+    </div>
+
+</div>
+
+<style>
+.payment-wrapper {
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-box {
+    background: #053142;
+    padding: 30px;
+    max-width: 700px;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.amount-highlight {
+    color: green;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+.emi-box {
+    background: #053142;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.important-box {
+    background: #053142;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.bold-text {
+    font-weight: bold;
+    color: red;
+}
+
+.qr-section {
+    margin-top: 20px;
+    animation: float 3s infinite ease-in-out;
+}
+
+.qr-img {
+    width: 250px;
+}
+
+.quote {
+    margin-top: 25px;
+    font-style: italic;
+    font-weight: 500;
+}
+
+.terms-box {
+    margin-top: 40px;
+    max-width: 700px;
+    background: #053142;
+    padding: 25px;
+    border-radius: 10px;
+}
+
+.terms-box h3 {
+    margin-bottom: 15px;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(15px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+@keyframes float {
+    0% {transform: translateY(0);}
+    50% {transform: translateY(-8px);}
+    100% {transform: translateY(0);}
+}
+</style>
+
+{% endblock %}

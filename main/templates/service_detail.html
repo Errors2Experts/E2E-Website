@@ -1,0 +1,505 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ service.title }} — Errors2Experts{% endblock %}
+{% block meta_desc %}{{ service.title }} by Errors2Experts. Explore the technologies we use and view live demo websites.{% endblock %}
+{% block content %} 
+<link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet">
+<div class="container mt-5">
+    <!-- Hero Course Meta Card -->
+          <!-- Actionable Back Button -->
+    <div class="animate-fade-in">
+       <!-- Back Navigation Anchor Link -->
+    <a href="{% url 'services' %}" class="btn-back mt-5">
+      ← Back to All Services </a>
+    </div>
+
+    <div class="course-hero-banner mb-5 animate-fade-in">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+          <span class="section-eyebrow">Our Services</span>
+          <h1 class="course-main-title">{{ service.title }}</h1>
+          <p class="course-main-desc">{{ service.description }}</p>
+
+          <div class="d-flex flex-wrap gap-3 mt-2">
+            <button type="button" class="btn btn-primary px-4 py-2" data-bs-toggle="modal" data-bs-target="#serviceDetailBookingModal">
+              Register For This Service →
+            </button>
+            <button type="button" class="btn btn-primary px-4 py-2" data-bs-toggle="modal" data-bs-target="#demoRequestModal">
+              Book for demo →
+            </button>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="browser-mockup-container">
+            <div class="browser-header-bar">
+              <div class="browser-dots">
+                <span class="dot-red"></span><span class="dot-amber"></span><span class="dot-green"></span>
+              </div>
+              <div class="browser-address-field">errors2experts.com/service/{{ service.id }}</div>
+            </div>
+            <div class="browser-screen-view">
+              {% if service.image %}
+                <img src="{{ service.image.url }}" class="img-fluid project-display-img" alt="{{ service.title }}">
+              {% else %}
+                <img src="{% static 'main/images/no-image.png' %}" class="img-fluid project-display-img" alt="Default Image"> 
+              {% endif %}
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% if features %}
+<section style="padding:60px 0" aria-labelledby="why-svc-heading">
+  <div class="container">
+    <div class="text-center mb-4 reveal">
+      <span class="section-eyebrow">Built The Right Way</span>
+      <h2 id="why-svc-heading" class="section-title">Why Choose This Service</h2>
+    </div>
+    <div class="svc-feature-grid stagger-children">
+      {% for f in features %}
+      <div class="svc-feature-tile reveal-scale" tabindex="0">
+        <div class="svc-feature-icon"><i class="bi {{ f.icon }}"></i></div>
+        <div class="svc-feature-overlay">
+          <h4>{{ f.title }}</h4>
+          <p>{{ f.description }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+ 
+<!-- ── TECHNOLOGIES USED ── -->
+{% if service.tech_list %}
+<section class="sd-demos-section" style="padding:50px 0" aria-labelledby="tech-svc-heading">
+  <div class="sd-section-inner">
+    <div class="sd-section-heading">
+      <span class="sd-eyebrow-left">Under The Hood</span>
+      <h2 id="tech-svc-heading">Technologies We Use</h2>
+    </div>
+    <div class="sd-tech-grid reveal">
+      {% for tech in service.tech_list %}
+        <span class="sd-tech-pill">{{ tech }}</span>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+ 
+<!-- ── LIVE DEMOS — now uses the same image-driven card as live_demo.html ── -->
+<section class="sd-section sd-demos-section">
+  <div class="sd-section-inner">
+    <div class="sd-section-heading">
+      <span class="sd-eyebrow-left">SEE IT IN ACTION</span>
+      <h2>Live Demo Websites</h2>
+      <p>Browse real websites we've built for this service — client reference only.</p>
+    </div>
+ 
+    {% if featured_demos %}
+    <div class="ld-scroll-wrap">
+      <button type="button" class="slider-arrow-btn ld-arrow" onclick="e2eScrollDemos(-1)" aria-label="Previous project">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+      </button>
+ 
+      <div class="ld-scroll-track" id="svcDemoScroll">
+        {% for demo in featured_demos %}
+        <div class="ld-mini-card">
+          <div class="ld-mini-img">
+            {% if demo.image %}
+              <img src="{{ demo.image.url }}" alt="{{ demo.title }}" loading="lazy">
+            {% else %}
+              <img src="{% static 'images/default-service.jpg' %}" alt="{{ demo.title }}" loading="lazy">
+            {% endif %}
+          </div>
+          <div class="ld-mini-body">
+            <h4>{{ demo.title }}</h4>
+            {% if demo.description %}<p>{{ demo.description }}</p>{% endif %}
+            {% if demo.url %}
+            <a href="{{ demo.url }}" target="_blank" rel="noopener noreferrer" class="ld-mini-cta">Visit Live Site →</a>
+            {% elif demo.image %}
+            <a href="{{ demo.image.url }}" target="_blank" class="ld-mini-cta">View Sample ↓</a>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+ 
+      <button type="button" class="slider-arrow-btn ld-arrow" onclick="e2eScrollDemos(1)" aria-label="Next project">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+    <script>
+      function e2eScrollDemos(dir){
+        var track = document.getElementById('svcDemoScroll');
+        if (track) track.scrollBy({ left: dir * 280, behavior: 'smooth' });
+      }
+    </script>
+    {% comment %} <div class="text-center mt-4">
+      <a href="{% url 'live_demo' %}{% if featured_demos.0.category %}?category={{ featured_demos.0.category|urlencode }}{% endif %}"
+         class="svc-btn-register" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center">
+        View All Projects →
+      </a>
+    </div> {% endcomment %}
+    <div class="text-center mt-4">
+      <a href="#" data-bs-toggle="modal" data-bs-target="#demoRequestModal"
+         class="svc-btn-register" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center">
+        Request for live demo →
+      </a>
+    </div>
+    {% else %}
+    <div class="sd-empty"><p>Demo links for this service will be added soon.</p></div>
+    {% endif %}
+  </div>
+</section>
+ 
+
+<!-- ── DEVELOPMENT PROCESS ── -->
+{% if process_steps %}
+<section style="background:var(--bg-page);padding:70px 20px" aria-labelledby="process-heading">
+  <div class="container">
+    <div class="text-center mb-5 reveal">
+      <span class="section-eyebrow">How We Work</span>
+      <h2 id="process-heading" class="section-title">Our Development Process</h2>
+    </div>
+    <div class="sd-process-track stagger-children">
+      {% for step in process_steps %}
+      <div class="sd-process-step reveal-scale">
+        <div class="sd-process-icon"><i class="bi {{ step.icon }}"></i></div>
+        <div class="sd-process-num">{{ forloop.counter }}</div>
+        <h4>{{ step.title }}</h4>
+        {% if step.description %}<p>{{ step.description }}</p>{% endif %}
+      </div>
+      {% if not forloop.last %}<div class="sd-process-connector" aria-hidden="true"></div>{% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+ 
+<!-- ── FAQ ── -->
+{% if faqs %}
+<section style="background:var(--bg-white);padding:70px 20px" aria-labelledby="faq-heading">
+  <div class="container" style="max-width:760px">
+    <div class="text-center mb-5 reveal">
+      <span class="section-eyebrow">Got Questions?</span>
+      <h2 id="faq-heading" class="section-title">Frequently Asked Questions</h2>
+    </div>
+    <div class="accordion sd-faq-accordion reveal" id="serviceFaqAccordion">
+      {% for faq in faqs %}
+      <div class="accordion-item">
+        <h3 class="accordion-header" id="faqHead{{ faq.id }}">
+          <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#faqBody{{ faq.id }}"
+                  aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="faqBody{{ faq.id }}">
+            {{ faq.question }}
+          </button>
+        </h3>
+        <div id="faqBody{{ faq.id }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}"
+             aria-labelledby="faqHead{{ faq.id }}" data-bs-parent="#serviceFaqAccordion">
+          <div class="accordion-body">{{ faq.answer }}</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+ 
+<!-- ── FINAL CTA ── -->
+<div class="sd-bottom-cta">
+  <p class="sd-eyebrow" style="color:rgba(255,255,255,0.65)">READY TO GET STARTED?</p>
+  <h2>Ready to Build Your {{ service.title }} Project?</h2>
+  <p>Reach out and our team will get back to you within 24 hours.</p>
+  <div class="d-flex flex-wrap justify-content-center gap-3">
+    <button type="button" class="sd-cta sd-cta-light" data-bs-toggle="modal" data-bs-target="#serviceDetailBookingModal">
+      Register Now →
+    </button>
+    <a href="{% url 'contact' %}" class="sd-cta sd-cta-light text-decoration-none">Request Quote</a>
+  </div>
+</div>
+ 
+<!-- ── BOOKING MODAL ── -->
+<div class="modal fade" id="serviceDetailBookingModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Service Registration</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form method="POST" action="{% url 'service_booking' %}">
+        {% csrf_token %}
+        <div class="modal-body">
+          <input type="hidden" name="service_name" value="{{ service.title }}">
+          <div class="mb-3"><input type="text" name="full_name" class="form-control" placeholder="Name of your organization" required></div>
+          <div class="mb-3"><input type="email" name="email" class="form-control" placeholder="Email Address" required></div>
+          <div class="mb-3"><input type="text" name="mobile" class="form-control" placeholder="Mobile Number" required></div>
+          <div class="mb-3"><textarea name="message" class="form-control" rows="3" placeholder="Your Requirement"></textarea></div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary px-4">Submit Request →</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% comment %} request demo modal {% endcomment %}
+<div class="modal fade" id="serviceDemoBookingModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Request Live Demo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form method="POST">
+        {% csrf_token %}
+        <div class="modal-body">
+          <input type="hidden" name="service_name" value="{{ service.title }}">
+          <div class="mb-3"><input type="text" name="full_name" class="form-control" placeholder="Name of your organization" required></div>
+          <div class="mb-3"><input type="email" name="email" class="form-control" placeholder="Email Address" required></div>
+          <div class="mb-3"><input type="text" name="mobile" class="form-control" placeholder="Mobile Number" required></div>
+          <div class="mb-3"><select name="category" id="category" class="form-control">
+            <option value="">Select Category</option>
+            <option value="Beauty">Beauty</option>
+            <option value="Health">Health</option>
+            <option value="Construction">Construction</option>
+            <option value="Education">Education</option>
+            <option value="E-commerce">E-commerce</option>
+            <option value="Food">Food</option>
+            <option value="Travel">Travel</option>  
+            <option value="Others">others</option>            
+          </select>
+          
+        </div>
+        <div class="mb-3" id="otherCategoryDiv" style="display:none;">
+        <input type="text" name="other_category" id="otherCategory" class="form-control" placeholder="Please specify">
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary px-4">Submit Request →</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="demoRequestModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Book Demo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form method="POST" action="{% url 'demo_request' %}">
+                {% csrf_token %}
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <input type="text" name="organization_name" class="form-control" placeholder="Organization Name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="email" name="email" class="form-control" placeholder="Email" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="text" name="mobile" class="form-control" placeholder="Mobile Number" required>
+                    </div>
+                    
+                   
+
+                    <div class="mb-3">
+                        <select name="category"  id="categorySelect"  class="form-select"  onchange="toggleRequirement()">
+
+                            <option value="">-- Select Demo Category --</option>
+
+                            {% for category in demo_categories %}
+                                <option value="{{ category.id }}">
+                                    {{ category.name }}
+                                </option>
+                            {% endfor %}
+
+                            <option value="other">Other</option>
+
+                        </select>
+                    </div>
+
+                    <div class="mb-3 d-none" id="otherRequirement">
+                        <textarea name="custom_requirement"  class="form-control"  rows="4"  placeholder="Please specify your requirement"></textarea>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary">  Submit Request → </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+<style>
+  /* ----------Book Demo Button*/
+
+.demo-book-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    margin-left:15px;
+    padding:13px 28px;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(90deg,rgba(28, 97, 23, 0.978),rgb(14, 173, 14));
+    color:#fff;
+    font-size:15px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.demo-book-btn:hover{
+    background:#3b820c;
+    color:#fff;
+    transform:translateY(-2px);
+}
+</style>
+<script>
+
+function toggleRequirement() {
+
+    let value = document.getElementById("categorySelect").value;
+    let other = document.getElementById("otherRequirement");
+
+    if (value == "other") {
+        other.classList.remove("d-none");
+    } else {
+        other.classList.add("d-none");
+    }
+}
+
+function filterCategory() {
+
+    let input = document.getElementById("categorySearch").value.toLowerCase();
+
+    let select = document.getElementById("categorySelect");
+
+    let options = select.options;
+
+    for (let i = 0; i < options.length; i++) {
+
+        let txt = options[i].text.toLowerCase();
+
+        if (txt.includes(input)) {
+            options[i].style.display = "";
+        } else {
+            options[i].style.display = "none";
+        }
+    }
+}
+
+</script>
+ 
+<!-- Page-specific styles: feature-tile hover reveal + process timeline + FAQ theming (all new, nothing duplicated) -->
+<style>
+/* ── WHY CHOOSE — icon reveal-on-hover tiles ── */
+.svc-feature-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:18px;
+}
+.svc-feature-tile{
+  position:relative;
+  height:170px;
+  border-radius:var(--radius-lg);
+  background:var(--bg-white);
+  border:1px solid var(--border-light);
+  overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:var(--shadow-sm);
+  cursor:default;
+  transition:transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s;
+}
+.svc-feature-tile:hover,
+.svc-feature-tile:focus-visible{
+  transform:translateY(-6px);
+  box-shadow:var(--shadow-lg);
+  border-color:rgba(46,125,50,0.3);
+}
+.svc-feature-icon{
+  width:60px;height:60px;border-radius:50%;
+  background:var(--e2e-green-tint);color:var(--e2e-green);
+  display:flex;align-items:center;justify-content:center;font-size:24px;
+  transition:transform .35s var(--ease), opacity .3s ease;
+  z-index:1;
+}
+.svc-feature-tile:hover .svc-feature-icon,
+.svc-feature-tile:focus-visible .svc-feature-icon{
+  transform:translateY(-14px) scale(0.8);
+  opacity:0.18;
+}
+.svc-feature-overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(160deg,var(--e2e-green) 0%,var(--e2e-green-dark) 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:18px;
+  transform:translateY(100%);
+  transition:transform .4s var(--ease);
+  color:#fff;
+}
+.svc-feature-tile:hover .svc-feature-overlay,
+.svc-feature-tile:focus-visible .svc-feature-overlay{
+  transform:translateY(0);
+}
+.svc-feature-overlay h4{ font-size:14px;font-weight:700;margin-bottom:6px; }
+.svc-feature-overlay p{ font-size:12px;line-height:1.5;opacity:0.92;margin:0; }
+ 
+/* ── DEVELOPMENT PROCESS ── */
+.sd-process-track{ display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:center;gap:0; }
+.sd-process-step{
+  background:var(--bg-white);border:1px solid var(--border-light);border-radius:var(--radius-lg);
+  padding:26px 20px;text-align:center;width:190px;box-shadow:var(--shadow-sm);
+  transition:transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  position:relative;
+}
+.sd-process-step:hover{ transform:translateY(-6px);box-shadow:var(--shadow-md);border-color:rgba(46,125,50,0.25); }
+.sd-process-icon{
+  width:52px;height:52px;border-radius:50%;margin:0 auto 14px;
+  background:var(--e2e-green-tint);color:var(--e2e-green);
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+}
+.sd-process-num{
+  position:absolute;top:-10px;right:-10px;width:26px;height:26px;border-radius:50%;
+  background:var(--e2e-gold);color:#fff;font-size:12px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);
+}
+.sd-process-step h4{ font-size:14.5px;font-weight:700;color:var(--text-primary);margin-bottom:6px; }
+.sd-process-step p{ font-size:12.5px;color:var(--text-muted);line-height:1.5;margin:0; }
+.sd-process-connector{ width:40px;height:2px;background:var(--border-medium);align-self:center;margin-top:26px; }
+ 
+/* ── FAQ ── */
+.sd-faq-accordion .accordion-item{
+  border:1px solid var(--border-light);border-radius:var(--radius-md)!important;
+  overflow:hidden;margin-bottom:14px;
+}
+.sd-faq-accordion .accordion-button{ font-weight:700;font-size:15px;color:var(--text-primary);background:var(--bg-white);padding:18px 20px; }
+.sd-faq-accordion .accordion-button:not(.collapsed){ background:var(--e2e-green-tint);color:var(--e2e-green-dark);box-shadow:none; }
+.sd-faq-accordion .accordion-button:focus{ box-shadow:0 0 0 3px rgba(46,125,50,0.15);border-color:var(--e2e-green); }
+.sd-faq-accordion .accordion-body{ font-size:14px;line-height:1.7;color:var(--text-muted);padding:4px 20px 20px; }
+ 
+@media (max-width:768px){
+  .sd-process-track{ flex-direction:column;align-items:center; }
+  .sd-process-connector{ width:2px;height:24px;margin:0; }
+  .sd-process-step{ width:100%;max-width:280px; }
+  .svc-feature-grid{ grid-template-columns:repeat(2,1fr); }
+}
+</style>
+ 
+
+{% endblock %}

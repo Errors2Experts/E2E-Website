@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section class="reviews-section">
+    
+    <div>
+    <div class="text-center mb-5">
+      <span class="section-eyebrow">Testimonials</span>
+      <h2 id="reviews-heading" class="section-title">What Students Say</h2>
+    </div>
+
+     <div class="reviews-marquee p-4" role="region" aria-label="Student reviews marquee">
+    <div class="reviews-track">
+      {% for r in reviews %}
+<article class="review-card">
+  <div class="review-img">
+    {% if r.image %}
+      <img src="{{ r.image.url }}" alt="{{ r.student_name }}" loading="lazy">
+    {% else %}
+      {% if r.gender == 'F' %}
+        <img src="{% static 'images/girl_placeholder.jpeg' %}" alt="{{ r.student_name }}" loading="lazy">
+      {% else %}
+        <img src="{% static 'images/boy_placeholder.jpeg' %}" alt="{{ r.student_name }}" loading="lazy">
+      {% endif %}
+    {% endif %}
+  </div>
+  <h4>{{ r.student_name }}</h4>
+  <p class="role">{{ r.course_name }}</p>
+  <div class="stars" aria-label="{{ r.rating }} out of 5 stars">
+    {% for i in "12345" %}{% if forloop.counter <= r.rating %}★{% else %}☆{% endif %}{% endfor %}
+  </div>
+  <p class="review-text">"{{ r.review_text|truncatewords:25 }}"</p>
+</article>
+{% endfor %}
+
+{% for r in reviews %}
+<article class="review-card" aria-hidden="true">
+  <div class="review-img">
+    {% if r.image %}
+      <img src="{{ r.image.url }}" alt="" loading="lazy">
+    {% else %}
+      {% if r.gender == 'F' %}
+        <img src="{% static 'images/girl_placeholder.jpeg' %}" alt="" loading="lazy">
+      {% else %}
+        <img src="{% static 'images/boy_placeholder.jpeg' %}" alt="" loading="lazy">
+      {% endif %}
+    {% endif %}
+  </div>
+  <h4>{{ r.student_name }}</h4>
+  <p class="role">{{ r.course_name }}</p>
+  <div class="stars">
+    {% for i in "12345" %}{% if forloop.counter <= r.rating %}★{% else %}☆{% endif %}{% endfor %}
+  </div>
+  <p class="review-text">{{ r.review_text|truncatewords:25 }}</p>
+</article>
+{% endfor %}
+    </div>
+  </div>
+  </div>
+</section>
+{%endblock%}

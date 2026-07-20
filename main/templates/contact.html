@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Page header -->
+<div style="text-align:center;padding:60px 20px 40px;background:linear-gradient(180deg,var(--e2e-green-tint) 0%,var(--bg-white) 100%);border-bottom:1px solid var(--border-light)">
+  <span style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--e2e-red);font-weight:700;display:block;margin-bottom:10px">GET IN TOUCH</span>
+  <h1 style="font-family:var(--font-display);font-size:clamp(2rem,5vw,2.8rem);font-weight:700;color:var(--text-primary);margin-bottom:0">Contact Us</h1>
+  <p style="color:var(--text-muted);margin-top:12px;font-size:16px;max-width:480px;margin-left:auto;margin-right:auto">
+    Have a question? We'd love to hear from you. Send us a message and we'll respond within 24 hours.
+  </p>
+  <div style="width:50px;height:3px;background:linear-gradient(90deg,var(--e2e-red),var(--e2e-gold),var(--e2e-green));border-radius:3px;margin:16px auto 0"></div>
+</div>
+
+<div class="container py-5">
+  <div class="row g-5 justify-content-center">
+
+    <!-- Contact info col -->
+    <div class="col-md-4 reveal-left">
+
+      <div style="background:linear-gradient(155deg, var(--e2e-green) 0%, #0d2b22 100%);border-radius:var(--radius-xl);padding:40px 34px;color:#fff;height:100%;position:relative;overflow:hidden;box-shadow:0 20px 50px -12px rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.08)">
+
+  <!-- decorative glow -->
+  <div style="position:absolute;top:-60px;right:-60px;width:180px;height:180px;background:radial-gradient(circle, rgba(255,255,255,0.10) 0%, transparent 70%);border-radius:50%;pointer-events:none"></div>
+
+  <h3 style="font-family:var(--font-display);font-weight:700;font-size:1.5rem;margin-bottom:28px;position:relative;letter-spacing:0.3px">
+    Contact Information
+  </h3>
+
+  <div style="display:flex;flex-direction:column;gap:22px;position:relative">
+
+    <div style="display:flex;align-items:flex-start;gap:16px;background:rgba(255,255,255,0.05);padding:14px 16px;border-radius:14px;border:1px solid rgba(255,255,255,0.08);transition:background .2s">
+      <span style="font-size:19px;flex-shrink:0;width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:rgba(255, 255, 255, 0.1);border-radius:10px" aria-hidden="true">📍</span>
+      <div>
+        <div style="font-weight:600;font-size:13px;margin-bottom:3px;color:var(--e2e-gold-light);text-transform:uppercase;letter-spacing:0.6px">Address</div>
+        <div style="color:rgba(255,255,255,0.90);font-size:14.5px;line-height:1.6">NGO Colony, Dindigul, Tamil Nadu, India</div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:flex-start;gap:16px;background:rgba(255,255,255,0.05);padding:14px 16px;border-radius:14px;border:1px solid rgba(255,255,255,0.08)">
+      <span style="font-size:19px;flex-shrink:0;width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.10);border-radius:10px" aria-hidden="true">✉️</span>
+      <div>
+          <div style="font-weight:600;font-size:13px;margin-bottom:3px;color:var(--e2e-gold-light);text-transform:uppercase;letter-spacing:0.6px">Email</div>
+          <a href="mailto:errors2experts.official@gmail.com"
+             style="color:rgba(255,255,255,0.90);font-size:14.5px;word-break:break-all;text-decoration:none">
+            errors2experts.official@gmail.com
+          </a>
+        </div>
+      </div>
+  
+      <div style="display:flex;align-items:flex-start;gap:16px;background:rgba(255,255,255,0.05);padding:14px 16px;border-radius:14px;border:1px solid rgba(255,255,255,0.08)">
+        <span style="font-size:19px;flex-shrink:0;width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.10);border-radius:10px" aria-hidden="true">📞</span>
+        <div>
+          <div style="font-weight:600;font-size:13px;margin-bottom:3px;color:var(--e2e-gold-light);text-transform:uppercase;letter-spacing:0.6px">Phone</div>
+          <a href="tel:+919363342646" style="color:rgba(255,255,255,0.90);font-size:14.5px;text-decoration:none">
+            +91 9363342646
+          </a>
+        </div>
+      </div>
+  
+    </div>
+  
+    <div style="border-top:1px solid rgba(255,255,255,0.14);margin:30px 0 24px;position:relative"></div>
+  
+    <div style="position:relative">
+      <div style="font-weight:700;font-size:12.5px;margin-bottom:14px;color:var(--e2e-gold-light);letter-spacing:1.2px;text-transform:uppercase;display:flex;align-items:center;gap:8px">
+        <span style="width:16px;height:1px;background:var(--e2e-gold-light);display:inline-block"></span>
+        Business Hours
+      </div>
+      <p style="color:rgba(255,255,255,0.85);font-size:14.5px;line-height:2;margin:0">
+        Mon – Sat: 9:00 AM – 6:00 PM<br>
+        Sunday: By Appointment
+      </p>
+    </div>
+  
+  </div>
+
+    </div>
+
+    <!-- Form col -->
+    <div class="col-md-6 reveal-right">
+      <div style="background:var(--bg-white);border:1px solid var(--border-light);border-radius:var(--radius-xl);padding:40px;box-shadow:var(--shadow-md)">
+        <h3 style="font-family:var(--font-display);font-weight:700;color:var(--text-primary);margin-bottom:6px">Send a Message</h3>
+        <p style="color:var(--text-muted);font-size:14px;margin-bottom:28px">We'll get back to you within 24 hours.</p>
+
+        <form method="POST" novalidate>
+          {% csrf_token %}
+          <div class="mb-4">
+            <label for="c_name" style="display:block;font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:6px">
+              Full Name <span style="color:var(--e2e-red)" aria-hidden="true">*</span>
+            </label>
+            <input type="text" id="c_name" name="name"
+                   class="form-control"
+                   placeholder="Your full name"
+                   required
+                   style="background:var(--bg-soft);border:1.5px solid var(--border-medium);border-radius:var(--radius-md);padding:12px 16px;font-size:14px;color:var(--text-primary);transition:var(--transition)">
+          </div>
+          <div class="mb-4">
+            <label for="c_email" style="display:block;font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:6px">
+              Email Address <span style="color:var(--e2e-red)" aria-hidden="true">*</span>
+            </label>
+            <input type="email" id="c_email" name="email"
+                   class="form-control"
+                   placeholder="you@email.com"
+                   required
+                   style="background:var(--bg-soft);border:1.5px solid var(--border-medium);border-radius:var(--radius-md);padding:12px 16px;font-size:14px;color:var(--text-primary);transition:var(--transition)">
+          </div>
+          <div class="mb-4">
+            <label for="c_msg" style="display:block;font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:6px">
+              Message
+            </label>
+            <textarea id="c_msg" name="message"
+                      class="form-control"
+                      rows="5"
+                      placeholder="How can we help you?"
+                      style="background:var(--bg-soft);border:1.5px solid var(--border-medium);border-radius:var(--radius-md);padding:12px 16px;font-size:14px;color:var(--text-primary);transition:var(--transition);resize:vertical"></textarea>
+          </div>
+          <button type="submit" class="btn btn-success w-100 py-3" style="font-size:15px;font-weight:700">
+            Send Message →
+          </button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,106 @@
+[
+{
+  "model": "main.internship",
+  "pk": 1,
+  "fields": {
+    "title": "python Full Stack Development",
+    "description": "this internship cover the basic understanding of web development in python",
+    "price": "1999.00",
+    "duration": "15 Days",
+    "syllabus": [
+      "Python Environment Setup, IDLE, VS Code, Anaconda Install",
+      "Python Basics û Variables, Data Types, Input/Output",
+      "Control Flow û if/elif/else, Nested Conditions",
+      "Loops û for, while, break, continue, range()",
+      "Functions û def, return, *args, **kwargs",
+      "Lists, Tuples, Sets, Dictionaries",
+      "String Manipulation & File Handling (read/write/append)",
+      "Modules, pip, Standard Libraries (os, sys, math, datetime)",
+      "OOP û Classes, Objects, Constructor, self",
+      "OOP û Inheritance, Encapsulation, Polymorphism",
+      "Exception Handling, try/except/finally",
+      "HTML & CSS, JS Basics û Structure, Tags, Styling",
+      "Django Intro û Install, Project/App Setup, Views, URLs",
+      "Django Templates, Forms, Models & Database (SQLite)",
+      "Mini Project: Personal Portfolio Website (Django)"
+    ],
+    "image": "internships/internship..basic.img.jpeg"
+  }
+},
+{
+  "model": "main.internship",
+  "pk": 2,
+  "fields": {
+    "title": "python Full Stack Development",
+    "description": "this internship cover the intermediate understnading of the webdevelopin in the python language.",
+    "price": "2499.00",
+    "duration": "20 Days",
+    "syllabus": [
+      "Python Setup, IDE Config, First Program",
+      "Variables, Data Types, Type Casting, Operators",
+      "Conditionals, Loops, Iterators, Comprehensions",
+      "Functions, Lambda, *args, **kwargs, Recursion",
+      "Data Structures û Lists, Tuples, Sets, Dicts",
+      "String Operations, Regular Expressions",
+      "File Handling, JSON Read/Write, CSV Parsing",
+      "OOP û Classes, Objects, Constructor, Methods",
+      "Inheritance, Polymorphism, Encapsulation",
+      "Modules, Packages, pip, Virtual Environment",
+      "HTML5 û Semantic Tags, Forms, Tables, Media",
+      "CSS3 û Flexbox, Grid, Responsive Design, Bootstrap",
+      "JavaScript Basics",
+      "Django Install, MVC, URL Routing, Views, Templates",
+      "Django Models, ORM, SQLite, Admin Panel",
+      "Django Forms, CRUD Operations, User Input",
+      "User Authentication û Login, Register, Logout",
+      "Git & Github Commands",
+      "Frontend + Backend Integration, Git & GitHub",
+      "Full Project: Blog/Task Manager Web App (Django)"
+    ],
+    "image": "internships/internship.internnative.img.jpeg"
+  }
+},
+{
+  "model": "main.internship",
+  "pk": 3,
+  "fields": {
+    "title": "python Full Stack Development",
+    "description": "this internship coverd thee advanced webdevelopment concepts and then assigned to be a full stack project.",
+    "price": "2999.00",
+    "duration": "30 Days",
+    "syllabus": [
+      "Python Environment Setup, VS Code, Anaconda",
+      "Variables, Data Types, Operators, Input/Output",
+      "if/elif/else, Nested Conditions, Switch-like patterns",
+      "Loops û for, while, nested, break, continue",
+      "Functions, Return, *args, **kwargs, Scope",
+      "Lambda, Map, Filter, Reduce, List Comprehension",
+      "Data Structures û Lists, Tuples, Sets, Dicts",
+      "String Manipulation, Slicing, Formatting, f-strings",
+      "File Handling û read/write/append, JSON, CSV",
+      "Exception Handling û try/except/finally/raise",
+      "OOP û Classes, Objects, __init__, self, Methods",
+      "OOP û Inheritance, Polymorphism, Encapsulation",
+      "Modules, Packages, pip, virtualenv, PyPI",
+      "API Integration û requests, JSON, REST APIs",
+      "Revision + Mini Python Project (CLI App)",
+      "HTML5 û Structure, Semantic Tags, Forms, Tables",
+      "CSS3 û Box Model, Flexbox, Grid, Media Queries",
+      "Bootstrap 5 û Grid, Components, Utilities",
+      "JavaScript ES6 û Variables, Functions, DOM, Events",
+      "JavaScript û Fetch API, Promises, async/await",
+      "Django Intro û Install, Project Setup, MVC Pattern",
+      "Django URLs, Views, Templates, Context Variables",
+      "Django Models, ORM, SQLite, Admin Panel",
+      "Django Forms, CSRF, Validations, CRUD",
+      "Django User Auth û Register, Login, Logout, Sessions",
+      "Django Rest API Basics",
+      "React.js Basics û JSX, Components, Props, State",
+      "React Hooks basics",
+      "Git, GitHub, Deployment û Render / Pythonanywhere",
+      "Capstone Project: Full Stack App (Django + React)"
+    ],
+    "image": "internships/internship.advance.img.jpeg"
+  }
+}
+]

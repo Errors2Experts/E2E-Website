@@ -1,0 +1,496 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Basic Meta -->
+    <title>Errors2Experts | Professional IT Training Institute in Tamil Nadu</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="title" content="Errors2Experts | Professional IT Training Institute">
+    <meta name="description" content="Errors2Experts is an MSME Registered Professional IT Training Institute offering Python, Java, Full Stack Development, Digital Marketing, Internship Programs, Live Projects, Certifications, and 100% Placement Assistance in Tamil Nadu.">
+
+    <meta name="keywords" content="Errors2Experts, IT Training Institute, Python Training, Java Training, Full Stack Development, Web Development, Digital Marketing, Internship, Live Projects, Placement Training, Software Courses, Coding Institute, Professional Training, Tamil Nadu, MSME Registered">
+
+    <meta name="author" content="Errors2Experts">
+    <meta name="publisher" content="Errors2Experts">
+    <meta name="copyright" content="Errors2Experts">
+    <meta name="language" content="English">
+    <meta name="robots" content="index, follow">
+    <meta name="revisit-after" content="7 days">
+    <meta name="distribution" content="global">
+    <meta name="rating" content="general">
+    <meta name="theme-color" content="#d32f2f">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Errors2Experts | Professional IT Training Institute">
+    <meta property="og:description" content="MSME Registered IT Training Institute offering Industry-Focused Courses, Live Projects, Internship Programs, Certifications & Placement Assistance.">
+
+    <meta property="og:type" content="website">
+
+    <meta property="og:url" content="https://www.errors2experts.com/">
+
+    <meta property="og:site_name" content="Errors2Experts">
+
+    <meta property="og:image" content="https://www.errors2experts.com/static/images/logo.jpeg">
+
+    <meta property="og:image:width" content="1200">
+
+    <meta property="og:image:height" content="630">
+
+    <meta property="og:locale" content="en_IN">
+
+    <!-- Google -->
+    <meta name="google" content="notranslate">
+
+    <meta name="google-site-verification" content="1Z_XqnrKFpAdMjTqqCj9c9120eyrkBLa5EeMd-BPsHI">
+
+    <!-- Mobile -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://www.errors2experts.com/">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Errors2Experts – MSME Registered IT Training Institute. Industry-focused courses, internship programs, and 100% placement support in Tamil Nadu.">
+  <meta name="keywords" content="IT training, software courses, internship, placement, Tamil Nadu, MSME registered">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Errors2Experts — Professional IT Training Institute">
+  <meta property="og:description" content="MSME Registered IT Training. Industry courses, real projects, placement support.">
+  <meta property="og:type" content="website">
+  <meta name="google-site-verification" content="lZ_XqnrKFpAdMjTqqCj9c9120eyrkBLa5EeMd-BPsHI" />
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="{% static 'images/logo.jpeg' %}">
+
+  <!-- Preconnect for fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <!-- Swiper -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
+   <!-- Bootstrap ICONS-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="{% static 'css/swipe.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/brand_new.css' %}">
+  <link rel="stylesheet" href="{% static 'css/e2e_redesign.css' %}">
+  <link rel="stylesheet" href="{% static 'css/modal-fix.css' %}">
+  <link rel="stylesheet" href="{% static 'css/placement.css' %}">
+  <link rel="stylesheet" href="{% static 'css/motivation.css' %}">
+
+  
+</head>
+
+<body>
+  <!-- ── ACCESSIBILITY: Skip link ── -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- ══════════ NAVBAR ══════════ -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" role="navigation" aria-label="Main navigation">
+    <div class="container">
+
+      <!-- Brand -->
+      <div class="d-flex align-items-center gap-2">
+        <img src="{% static 'images/logo.jpeg' %}"
+             class="navbar-logo-img"
+             alt="Errors2Experts logo"
+             width="40" height="40">
+        <a class="navbar-brand logo-animate" href="{% url 'home' %}" aria-label="Errors2Experts home">
+          <span class="error-part">Errors</span><span class="two-part">2</span><span class="expert-part">Experts</span>
+        </a>
+      </div>
+
+      <!-- Toggler -->
+      <button class="navbar-toggler" type="button"
+              data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Links -->
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav gap-1 align-items-lg-center">
+        <li class="nav-item">
+           <a id="navOfferLink" class="nav-link blink-text" href="#" onclick="showPopup()" style="display: none;">
+        🔥 View Offer
+          </a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'allcourse' %}">Courses</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'placement' %}">Placement</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'services' %}">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'careers' %}">Careers</a></li>       
+     
+          <!-- Explore Dropdown Navigation -->
+          <li class="nav-item dropdown">
+            <a href="#" class="nav-link" id="exploreDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             Explore 
+             <span class="dropdown-arrow"></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="exploreDropdown">
+              <li class="nav-item-drop"><a class="nav-link" href="{% url 'workshops' %}">Workshops</a></li>
+              <li class="nav-item-drop"><a class="nav-link" href="{% url 'internship_list' %}">Internships</a></li>
+              <li class="nav-item-drop"><a class="nav-link" href="{% url 'certificates' %}">Certificates</a></li>
+              <li class="nav-item-drop"><a class="nav-link" href="{% url 'reviews' %}">Reviews</a></li>
+              <li class="nav-item-drop"><a class="nav-link" href="{% url 'home' %}#projects">Our Clients</a></li>
+              {% comment %} <li class="nav-item-drop"><a class="nav-link" href="{% url 'live_demo' %}">Live Demo</a></li> {% endcomment %}
+            </ul>
+          </li>
+           <li class="nav-item"> <a class="nav-link" href="{% url 'home' %}#contact"> Contact</a></li>
+        </ul>
+       
+      </div>
+    </div>
+  </nav>
+{% if active_offer or careers %}
+<div class="modal fade e2e-offer-modal" id="e2eOfferModal" tabindex="-1"
+     aria-labelledby="e2eOfferModalLabel" aria-hidden="true"
+     data-offer-id="{% if active_offer %}offer-{{ active_offer.id }}{% else %}openings{% endif %}">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content e2e-offer-content">
+ 
+      <button type="button" class="btn-close e2e-offer-close" data-bs-dismiss="modal" aria-label="Close"></button>
+ 
+      {% if active_offer %}
+        <!-- ══════════ ACTIVE OFFER STATE ══════════ -->
+        <div class="e2e-offer-banner {% if not active_offer.image %}e2e-offer-banner--noimg{% endif %}">
+          {% if active_offer.image %}
+            <img src="{{ active_offer.image.url }}" alt="{{ active_offer.title }}" class="e2e-offer-img">
+            <div class="e2e-offer-img-fade"></div>
+          {% endif %}
+          <span class="e2e-offer-ribbon">🔥 Limited-Time Offer</span>
+        </div>
+ 
+        <div class="e2e-offer-body">
+          <h2 id="e2eOfferModalLabel" class="e2e-offer-title">{{ active_offer.title }}</h2>
+          <div class="e2e-offer-desc">{{ active_offer.description| linebreaks}}</div>
+ 
+          <div class="e2e-offer-actions">
+            <a href="{{ active_offer.link_url }}" class="e2e-offer-btn e2e-offer-btn-primary">
+              Claim This Offer →
+            </a>
+            <button type="button" class="e2e-offer-btn e2e-offer-btn-ghost" data-bs-dismiss="modal">
+              Maybe Later
+            </button>
+          </div>
+        </div>
+ 
+      {% else %}
+        <!-- ══════════ FALLBACK: CURRENT OPENINGS STATE ══════════ -->
+        <div class="e2e-offer-body e2e-openings-body">
+          <span class="e2e-offer-eyebrow">We're Hiring</span>
+          <h2 id="e2eOfferModalLabel" class="e2e-offer-title">Current Career Openings</h2>
+          <p class="e2e-offer-sub">
+            No active offers right now — but we're actively growing the team.
+            Take a look at what's open at Errors2Experts.
+          </p>
+ 
+          <div class="e2e-openings-list">
+            {% for job in careers|slice:":4" %}
+            <a href="{% url 'career_detail' job.pk %}" class="e2e-opening-card">
+              <div class="e2e-opening-info">
+                <span class="e2e-opening-badge">{{ job.employment_type }}</span>
+                <h4>{{ job.role }}</h4>
+                {% if job.salary %}<span class="e2e-opening-salary">₹{{ job.salary }}</span>{% endif %}
+              </div>
+              <span class="e2e-opening-arrow" aria-hidden="true">→</span>
+            </a>
+            {% endfor %}
+          </div>
+ 
+          <div class="e2e-offer-actions">
+            <a href="{% url 'careers' %}" class="e2e-offer-btn e2e-offer-btn-primary">
+              View All Openings →
+            </a>
+            <button type="button" class="e2e-offer-btn e2e-offer-btn-ghost" data-bs-dismiss="modal">
+              Maybe Later
+            </button>
+          </div>
+        </div>
+      {% endif %}
+ 
+    </div>
+  </div>
+</div>
+{% endif %}
+ 
+
+  <!-- ══════════ PAGE CONTENT ══════════ -->
+  <main id="main-content" class="page-content">
+    {% block content %}
+    
+    
+    
+    
+    {% endblock %}
+  </main>
+ 
+  <!-- ══════════ FOOTER ══════════ -->
+  <footer class="footer bg-dark text-light pt-5 pb-4 mt-5" role="contentinfo">
+    <div class="container">
+      <div class="row g-4">
+
+        <!-- Brand col -->
+        <div class="col-md-4">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <img src="{% static 'images/logo.jpeg' %}" height="35px" width="35px" alt="Errors2Experts logo">
+            <span class='f-bold'>Errors2Experts</span>
+          </div>
+          <p style="font-size:14px;line-height:1.85;color:rgba(255,255,255,0.72)">
+            Professional IT training institute with industry-oriented courses,
+            internship and placement support. MSME Udyam Registered.
+          </p>
+          <!-- Trust badges -->
+          <div class="d-flex flex-wrap gap-2 mt-3">
+            <span style="background:rgba(201,162,39,0.12);border:1px solid rgba(201,162,39,0.25);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;color:#E4B93A">MSME Registered</span>
+            <span style="background:rgba(46,125,50,0.12);border:1px solid rgba(46,125,50,0.25);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;color:#43A047">Placement Support</span>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="col-md-2">
+          <h5>Quick Links</h5>
+          <ul class="list-unstyled" style="display:flex;flex-direction:column;gap:8px">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'allcourse' %}">Courses</a></li>
+            <li><a href="{% url 'careers' %}">Careers</a></li>
+            <li><a href="{% url 'services' %}">Services</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div class="col-md-3">
+          <h5>Contact Us</h5>
+          <address style="font-style:normal">
+            <p style="font-size:14px;line-height:2.1;margin:0">
+              <span aria-label="Location">📍</span>NGO Colony, Dindigul, Tamil Nadu, India<br>
+              <a href="mailto:errors2experts.official@gmail.com" aria-label="Email us">
+                ✉️ errors2experts.official@gmail.com
+              </a><br>
+              <a href="tel:+919363342646" aria-label="Call us">
+                📞 9363342646
+              </a>
+            </p>
+          </address>
+        </div>
+
+        <!-- Social -->
+        <div class="col-md-3">
+          <h5>Follow Us</h5>
+          <ul class="social-links">
+            <li>
+                <a href="https://www.linkedin.com/company/errors2experts/" target="_blank">
+                    <i class="bi bi-linkedin"></i>
+                    <span>LinkedIn</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="https://www.instagram.com/errors2experts/" target="_blank">
+                    <i class="bi bi-instagram"></i>
+                    <span>Instagram</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="https://chat.whatsapp.com/your-community-link" target="_blank">
+                    <i class="bi bi-whatsapp"></i>
+                    <span>WhatsApp Community</span>
+                </a>
+            </li>
+        </ul>
+                  
+        </div>
+
+      </div>
+
+      <hr style="border-color:rgba(255,255,255,0.10);margin-top:36px">
+      <div class="text-center">
+        <p class="mb-0" style="font-size:13px">
+          &copy; 2026 Errors2Experts | All Rights Reserved | MSME Udyam Registered
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ══════════ SCRIPTS ══════════ -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>AOS.init({ duration: 800, once: true, offset: 60 });</script>
+
+  <!-- Project slider -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function(){
+    var cards = document.querySelectorAll('.project-card');
+    var prev  = document.querySelector('.arrow.prev');
+    var next  = document.querySelector('.arrow.next');
+    if (!cards.length || !prev || !next) return;
+    var cur = 0;
+    function show(i){ cards.forEach(function(c,idx){ c.classList.toggle('active',idx===i); }); }
+    prev.addEventListener('click',function(){ cur=(cur-1+cards.length)%cards.length; show(cur); });
+    next.addEventListener('click',function(){ cur=(cur+1)%cards.length; show(cur); });
+    show(cur);
+  });
+  </script>
+
+  <!-- Demo form AJAX -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function(){
+    var form = document.getElementById('demoForm');
+    if (!form) return;
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var btn = form.querySelector('[type=submit]');
+      if(btn){ btn.disabled = true; btn.textContent = 'Submitting…'; }
+      fetch("{% url 'demo_booking' %}", {
+        method:'POST',
+        headers:{'X-CSRFToken':'{{ csrf_token }}'},
+        body: new FormData(form)
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        if(d.status==='success'){
+          var modal = bootstrap.Modal.getInstance(document.getElementById('demoModal'));
+          if(modal) modal.hide();
+          // Show thank-you toast
+          showToast('🎉 Demo booked! We\'ll contact you soon.', 'success');
+          form.reset();
+        }
+      })
+      .catch(function(){
+        showToast('Something went wrong. Please try again.', 'error');
+      })
+      .finally(function(){
+        if(btn){ btn.disabled = false; btn.textContent = 'Submit'; }
+      });
+    });
+  });
+
+  function showToast(msg, type){
+    var t = document.createElement('div');
+    t.setAttribute('role','alert');
+    t.setAttribute('aria-live','polite');
+    t.style.cssText = [
+      'position:fixed;bottom:24px;left:50%;transform:translateX(-50%)',
+      'background:' + (type==='success' ? 'var(--e2e-green)' : 'var(--e2e-red)'),
+      'color:#fff;padding:14px 28px;border-radius:50px',
+      'font-weight:600;font-size:14px;z-index:99999',
+      'box-shadow:0 8px 24px rgba(0,0,0,0.2)',
+      'animation:fadeUp 0.4s ease'
+    ].join(';');
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(function(){ t.remove(); }, 4000);
+  }
+  </script>
+
+  <!-- Navbar scroll + active link -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function(){
+    var nav = document.querySelector('.navbar');
+    window.addEventListener('scroll', function(){
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, {passive:true});
+    var path = window.location.pathname;
+    document.querySelectorAll('.navbar .nav-link').forEach(function(a){
+      var href = a.getAttribute('href');
+      if(href && (path===href || (href!=='/' && path.startsWith(href))))
+        a.classList.add('active');
+    });
+  });
+  </script>
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+    const popup = document.getElementById('offerPopup');
+    const navLink = document.getElementById('navOfferLink');
+    
+    // Only run the logic if both required elements exist on the page
+    if (popup && navLink) {
+        const hasSeenToday = localStorage.getItem('popupLastShown') === new Date().toDateString();
+
+        if (!hasSeenToday) {
+            // Show popup on page load
+            popup.style.display = 'block';
+            navLink.style.display = 'none'; // Hide navbar link while popup is active
+        } else {
+            // Show only the blinking link if already seen
+            navLink.style.display = 'block';
+            popup.style.display = 'none';
+        }
+    }
+});
+
+
+function closeOffer() {
+    document.getElementById('offerPopup').style.display = 'none';
+    document.getElementById('navOfferLink').style.display = 'block'; // Make it appear
+    localStorage.setItem('popupLastShown', new Date().toDateString()); // Mark as seen
+}
+function showPopup() {
+    document.getElementById('offerPopup').style.display = 'block';
+    document.getElementById('navOfferLink').style.display = 'none';
+}
+
+
+</script>
+<script>
+(function () {
+  'use strict';
+ 
+  var modalEl = document.getElementById('e2eOfferModal');
+  if (!modalEl || typeof bootstrap === 'undefined') return;
+ 
+  var offerId = modalEl.getAttribute('data-offer-id'); // e.g. "offer-12" or "openings"
+  var storageKey = 'e2ePopupDismissed_' + offerId;
+ 
+  var alreadyDismissed = false;
+  try { alreadyDismissed = sessionStorage.getItem(storageKey) === '1'; } catch (e) {}
+ 
+  if (!alreadyDismissed) {
+    var modal = new bootstrap.Modal(modalEl);
+    setTimeout(function () { modal.show(); }, 1500);
+  }
+ 
+  modalEl.addEventListener('hidden.bs.modal', function () {
+    try { sessionStorage.setItem(storageKey, '1'); } catch (e) {}
+  });
+})();
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const category = document.getElementById("category");
+    const otherDiv = document.getElementById("otherCategoryDiv");
+    const otherInput = document.getElementById("otherCategory");
+
+    // Only add the event listener if all required elements are found
+    if (category && otherDiv && otherInput) {
+        category.addEventListener("change", function () {
+            if (this.value === "Others") {
+                otherDiv.style.display = "block";
+                otherInput.required = true;
+            } else {
+                otherDiv.style.display = "none";
+                otherInput.required = false;
+                otherInput.value = "";
+            }
+        });
+    }
+});
+</script>
+  <!-- Interactions: scroll progress, back-to-top, reveal -->
+  <script src="{% static 'js/modern-interaction.js' %}"></script>
+</body>
+</html>

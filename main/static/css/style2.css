@@ -1,0 +1,226 @@
+/* ===== RESET ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ===== BODY & BACKGROUND ===== */
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
+    background-size: 300% 300%;
+    animation: bgMove 12s ease infinite;
+    color: white;
+    position: relative;
+}
+
+@keyframes bgMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ===== BUTTONS ===== */
+.btn-success {
+    transition: 0.3s ease;
+    margin-bottom: 15px;
+}
+
+.btn-success:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+#demoForm button {
+    transition: 0.3s ease;
+}
+
+#demoForm button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* ===== GLASS NAVBAR ===== */
+.navbar {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    transition: 0.3s ease;
+}
+
+.navbar .nav-link {
+    color: #ffffff;
+    font-weight: 500;
+    transition: 0.3s ease;
+}
+
+.navbar .nav-link:hover {
+    color: #198754;
+}
+
+/* ===== LOGO STYLING ===== */
+.logo-animate {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.error-part,
+.two-part,
+.expert-part {
+    color: #ffffff;
+    transition: 0.5s ease;
+}
+
+/* Error turns Red */
+.error-part { animation: errorColor 5s infinite; }
+@keyframes errorColor { 0%, 70%,100% { color: #fff; } 20% { color: #dc3545; } }
+
+/* 2 rotates Yellow */
+.two-part { display: inline-block; animation: twoRotate 5s infinite; }
+@keyframes twoRotate { 0%,70%,100%{transform:rotate(0deg);color:#fff;}30%{transform:rotate(360deg);color:#ffc107;} }
+
+/* Experts turns Green */
+.expert-part { animation: expertColor 5s infinite; }
+@keyframes expertColor { 0%,70%,100%{color:#fff;}40%{color:#198754;} }
+
+/* ===== HERO SECTION ===== */
+.hero-slide {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.hero-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.4);
+    max-width: 100%;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    animation: fadeUp 1.5s ease;
+    margin-bottom: 50px;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.hero-content .btn {
+    margin: 10px 5px;
+    padding: 10px 25px;
+    font-size: 1rem;
+    max-width: 90%;
+}
+
+/* Fade animation */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.carousel-item {
+    margin-bottom: 50px;
+    overflow: hidden;
+}
+
+.carousel-caption {
+    bottom: 10%;
+}
+
+/* Brand Highlight */
+.brand-highlight {
+    color: #a1ceb9;
+}
+
+/* ===== CARDS HOVER ===== */
+/* .card {
+    transition: 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+} */
+
+/* ===== FOOTER ===== */
+.footer {
+    background: rgba(0,0,0,0.6);
+    padding: 15px 0;
+}
+
+
+
+
+/* ===== RESPONSIVE HERO + QUOTE ===== */
+@media (max-width: 1200px) {
+    .hero-content { font-size: 1.1rem; }
+    
+   
+    .hero-content .btn { font-size: 0.95rem; padding: 8px 20px; }
+    .quote-container { font-size: 1.5rem; margin: 40px 15px; }
+}
+
+@media (max-width: 992px) {
+    .hero-content { font-size: 1rem; }
+    .hero-content .btn { font-size: 0.9rem; padding: 8px 18px; }
+    /* .quote-container { font-size: 1.3rem; margin: 35px 10px; } */
+}
+
+@media (max-width: 768px) {
+    .hero-slide { height: 70vh;  }
+    .hero-content { font-size: 0.95rem; margin-top: 10px; }
+    .hero-content .btn { width: 80%; margin: 8px 0; }
+    .hero-bg{
+        display: none;
+    }
+    
+  
+    
+    /* .quote-container { font-size: 1.2rem; margin: 30px 10px; }
+    .quote-text { border-right: 2px solid white; } */
+    
+}
+
+@media (max-width: 480px) {
+    .hero-bg {
+    position: absolute;
+    width: 500%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.20);
+    max-width: 80%;
+}
+    .hero-content { font-size: 0.9rem; margin-top: 30px; }
+    .hero-content .btn { width: 90%; font-size: 0.85rem; padding: 6px 15px; }
+    /* .quote-container { font-size: 1rem; margin: 25px 5px; }
+    .quote-text { border-right: 2px solid white; } */
+
+}
+/* Hide hero background on mobile */
+
+
+.modal-title{
+    color:#198754;
+}
+
+
+.navbar-brand img {
+    object-fit: contain;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    font-size: 20px;
+}
+
+
+
+
+
+
+

@@ -1,0 +1,74 @@
+
+/* ===== H1 Main Animation ===== */
+.e2e {
+    font-size: 48px;
+    letter-spacing: 1px;
+    overflow: hidden;
+}
+
+/* Welcome Text Slide Animation */
+.welcome-text {
+    display: inline-block;
+    opacity: 0;
+    animation: slideInLeft 1s ease forwards;
+
+}
+
+/* Brand Highlight Style */
+/* Brand Highlight Base */
+
+/* Brand Animated Effect */
+.animate-brand {
+    display: inline-block;
+    animation: 
+        revealText 2s ease forwards,
+        blinkText 1.5s infinite 2s;
+}
+
+/* Reveal From Left to Right */
+@keyframes revealText {
+    0% {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Blink Effect */
+@keyframes blinkText {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+/* Slide From Left */
+@keyframes slideInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-60px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ===== 2nd Line Animation ===== */
+.tagline {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 1.5s ease forwards;
+    animation-delay: 1s;
+}
+
+/* Fade + Slide Up */
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+

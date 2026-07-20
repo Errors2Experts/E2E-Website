@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% if messages %}
+  {% for message in messages %}
+  <div class="svc-success-box">
+    <h3>🎉 Thank You for Registering!</h3>
+    <p>We have received your service request successfully.</p>
+    <p>Our team will contact you very soon.</p>
+    <blockquote>"Success begins with the right decision — and you just made one."</blockquote>
+  </div>
+  {% endfor %}
+{% endif %}
+ 
+<!-- Page header -->
+<div class="svc-page-header">
+  <p class="svc-eyebrow mt-5">WHAT WE OFFER</p>
+  <h1 id="service-heading">Our Services</h1>
+  <p class="svc-subtitle">Professional IT services tailored to your organization's needs.</p>
+  <div class="svc-rule"></div>
+</div>
+ 
+<section class="svc-grid-section">
+  <div class="container">
+    <div class="svc-grid">
+      {% for service in services %}
+      <div class="svc-card">
+        <div class="svc-img">
+          {% if service.image %}
+            <img src="{{ service.image.url }}" alt="{{ service.title }}">
+          {% else %}
+            <img src="{% static 'images/default-service.jpg' %}" alt="Service">
+          {% endif %}
+        </div>
+        <div class="svc-content">
+          <h4>{{ service.title }}</h4>
+          <p>{{ service.description|truncatewords:20 }}</p>
+ 
+          {% if service.tech_list %}
+          <div class="svc-tech-preview">
+            {% for tech in service.tech_list|slice:":4" %}
+              <span class="svc-tech-chip">{{ tech }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+ 
+          <div class="svc-btn-row d-flex justify-content-center text-align-center align-items-center mt-auto">
+            <a href="{% url 'service_detail' service.id %}" class="btn btn-primary px-4 py-2">
+              View Details <span>→</span>
+            </a>
+            {% comment %} <button class="svc-btn-register"
+                data-bs-toggle="modal"
+                data-bs-target="#serviceBookingModal"
+                onclick="setServiceName('{{ service.title }}')">
+              Register Now
+            </button> {% endcomment %}
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="svc-empty">
+        <p>Our services will be listed here soon.</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+ 
+<!-- Service Booking Modal -->
+<div class="modal fade" id="serviceBookingModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Service Registration</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form method="POST" action="{% url 'service_booking' %}">
+        {% csrf_token %}
+        <div class="modal-body">
+          <input type="hidden" name="service_name" id="serviceNameInput">
+          <div class="mb-3">
+            <input type="text" name="full_name" class="form-control" placeholder="Name of your organization" required>
+          </div>
+          <div class="mb-3">
+            <input type="email" name="email" class="form-control" placeholder="Email Address" required>
+          </div>
+          <div class="mb-3">
+            <input type="text" name="mobile" class="form-control" placeholder="Mobile Number" required>
+          </div>
+          <div class="mb-3">
+            <textarea name="message" class="form-control" rows="3" placeholder="Your Requirement"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary px-4">Submit Request →</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+ 
+<script>
+function setServiceName(serviceName) {
+  document.getElementById("serviceNameInput").value = serviceName;
+}
+</script>
+ 
+
+{% endblock %}

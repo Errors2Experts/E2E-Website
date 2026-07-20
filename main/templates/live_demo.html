@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Live Demo Websites — Errors2Experts{% endblock %}
+{% block meta_desc %}Browse real, live websites and applications built by Errors2Experts — students and professionals. Filter by category and technology.{% endblock %}
+{% block content %}
+
+<!-- ── PAGE HEADER ── -->
+<div class="svc-page-header">
+  <p class="svc-eyebrow">SEE IT IN ACTION</p>
+  <h1 id="ld-heading">Live Demo Websites</h1>
+  <p class="svc-subtitle">Browse real websites and apps we've built — client &amp; student reference only.</p>
+  <div class="svc-rule"></div>
+</div>
+
+<!-- ── SEARCH + FILTERS ── -->
+<section class="container" style="padding-bottom:8px">
+  <form method="GET" action="{% url 'live_demo' %}" class="ld-toolbar reveal" role="search" aria-label="Filter live demo projects">
+
+    <div class="ld-search-box">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"/>
+      </svg>
+      <input type="text" name="q" value="{{ query }}" placeholder="Search for websites…" aria-label="Search projects">
+    </div>
+
+    <div class=" ld-scroll-track" role="tablist" aria-label="Filter by category">
+      <a href="?category=all{% if query %}&q={{ query|urlencode }}{% endif %}"
+         class="ld-tab {% if active_category == 'all' %}active{% endif %}" role="tab">All Categories</a>
+      {% for cat in categories %}
+      <a href="?category={{ cat|urlencode }}{% if query %}&q={{ query|urlencode }}{% endif %}"
+         class="ld-tab {% if active_category|lower == cat|lower %}active{% endif %}" role="tab">{{ cat }}</a>
+      {% endfor %}
+    </div>
+
+    <button type="submit" class="ld-search-btn" aria-label="Search">Search</button>
+    {% if query or active_category != 'all' %}
+    <a href="{% url 'live_demo' %}" class="ld-clear-btn">Clear Filters</a>
+    {% endif %}
+  </form>
+</section>
+
+<!-- ── PROJECT GRID (AJAX target — swapped in-place on search/filter/page, no full reload) ── -->
+<section class="container pb-5" style="padding-top:12px">
+  <div id="ld-results-wrapper">
+    {% include 'partials/live_demo_results.html' %}
+  </div>
+</section>
+
+<!-- ── BOTTOM CTA ── -->
+<div class="sd-bottom-cta">
+  <p class="sd-eyebrow" style="color:rgba(255,255,255,0.65)">WANT A WEBSITE LIKE THESE?</p>
+  <h2>Join our courses and build your own portfolio projects</h2>
+  <p>Get real-time, hands-on experience building projects just like the ones above.</p>
+  <div class="d-flex flex-wrap justify-content-center gap-3">
+    <a href="{% url 'allcourse' %}" class="sd-cta sd-cta-light" style="text-decoration:none">Explore Courses →</a>
+    <button type="button" data-bs-toggle="modal" data-bs-target="#demoModal" class="sd-cta" style="border:none">Enroll Now →</button>
+  </div>
+</div>
+
+<!-- ── PAGE-SPECIFIC STYLES (reuses brand tokens; only new layout rules here) ── -->
+<style>
+/* Toolbar */
+.ld-toolbar{
+  display:flex;flex-wrap:wrap;align-items:center;gap:14px;
+  background:var(--bg-white);border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);padding:16px 20px;box-shadow:var(--shadow-sm);
+  margin-bottom:30px;
+}
+.ld-search-box{
+  display:flex;align-items:center;gap:8px;
+  background:var(--bg-soft);border:1.5px solid var(--border-medium);
+  border-radius:var(--radius-pill);padding:9px 16px;flex:1;min-width:220px;
+}
+.ld-search-box svg{ color:var(--text-muted);flex-shrink:0; }
+.ld-search-box input{
+  border:none;background:transparent;outline:none;font-size:14px;
+  color:var(--text-primary);width:100%;font-family:var(--font-body);
+}
+.ld-filter-tabs{ display:flex;flex-wrap:wrap;gap:8px; }
+.ld-tab{
+  font-size:13px;font-weight:600;color:var(--text-secondary);
+  background:var(--bg-soft);border:1px solid var(--border-light);
+  border-radius:var(--radius-pill);padding:8px 16px;text-decoration:none;
+  transition:var(--transition);white-space:nowrap;
+}
+.ld-tab:hover{ border-color:var(--e2e-green);color:var(--e2e-green); }
+.ld-tab.active{
+  background:var(--e2e-green);border-color:var(--e2e-green);color:#fff;
+  box-shadow:var(--shadow-green);
+}
+.ld-search-btn{
+  background:var(--grad-green);color:#fff;border:none;border-radius:var(--radius-pill);
+  padding:9px 22px;font-weight:700;font-size:13.5px;cursor:pointer;transition:var(--transition);
+}
+.ld-search-btn:hover{ transform:translateY(-2px);box-shadow:var(--shadow-green); }
+.ld-clear-btn{
+  font-size:12.5px;font-weight:600;color:var(--text-muted);text-decoration:none;
+  padding:9px 6px;transition:color .2s;
+}
+.ld-clear-btn:hover{ color:var(--e2e-red); }
+
+/* Grid + Card + Pagination styles now live in static/css/demo-cards.css (shared with service_detail.html) */
+
+/* Pagination */
+.ld-pagination{
+  display:flex;justify-content:center;gap:8px;margin-top:44px;flex-wrap:wrap;
+}
+.ld-pagination a{
+  min-width:38px;height:38px;display:inline-flex;align-items:center;justify-content:center;
+  border:1px solid var(--border-light);border-radius:10px;
+  font-size:13.5px;font-weight:600;color:var(--text-secondary);text-decoration:none;
+  transition:var(--transition);
+}
+.ld-pagination a:hover{ border-color:var(--e2e-green);color:var(--e2e-green); }
+.ld-pagination a.active{
+  background:var(--e2e-green);border-color:var(--e2e-green);color:#fff;
+}
+
+@media (max-width:768px){
+  .ld-toolbar{ flex-direction:column;align-items:stretch; }
+  .ld-search-btn, .ld-clear-btn{ align-self:flex-start; }
+}
+.ld-loading{ opacity:0.5;pointer-events:none;transition:opacity .2s ease; }
+</style>
+
+<!-- ── AJAX: search / filter / paginate without a full page reload ── -->
+<script>
+(function () {
+  var form        = document.querySelector('.ld-toolbar');
+  var searchInput = form.querySelector('input[name="q"]');
+  var resultsWrap = document.getElementById('ld-results-wrapper');
+  var LIVE_DEMO_URL = "{% url 'live_demo' %}";
+  var debounceTimer;
+
+  function currentParams(overrides) {
+    var params = new URLSearchParams(window.location.search);
+    if (overrides) {
+      Object.keys(overrides).forEach(function (k) { params.set(k, overrides[k]); });
+    }
+    if (!overrides || !('page' in overrides)) params.delete('page');
+    return params;
+  }
+
+  function loadResults(url, pushState) {
+    resultsWrap.classList.add('ld-loading');
+    fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+      .then(function (r) { return r.text(); })
+      .then(function (html) {
+        resultsWrap.innerHTML = html;
+        resultsWrap.classList.remove('ld-loading');
+        if (pushState !== false) history.pushState({}, '', url);
+      })
+      .catch(function () { window.location.href = url; }); // graceful fallback
+  }
+
+  // Debounced live search-as-you-type
+  if (searchInput) {
+    searchInput.addEventListener('input', function () {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(function () {
+        var params = currentParams({ q: searchInput.value });
+        loadResults(LIVE_DEMO_URL + '?' + params.toString());
+      }, 400);
+    });
+  }
+
+  // Prevent full submit on Enter / Search button — still works without JS via normal form action
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    clearTimeout(debounceTimer);
+    var params = currentParams({ q: searchInput.value });
+    loadResults(LIVE_DEMO_URL + '?' + params.toString());
+  });
+
+  // Category tabs — instant filter, no reload
+  form.querySelectorAll('.ld-tab').forEach(function (tab) {
+    tab.addEventListener('click', function (e) {
+      e.preventDefault();
+      var url = new URL(this.href, window.location.origin);
+      form.querySelectorAll('.ld-tab').forEach(function (t) { t.classList.remove('active'); });
+      this.classList.add('active');
+      loadResults(url.pathname + url.search);
+    });
+  });
+
+  // Clear filters
+  var clearBtn = form.querySelector('.ld-clear-btn');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      searchInput.value = '';
+      form.querySelectorAll('.ld-tab').forEach(function (t, i) { t.classList.toggle('active', i === 0); });
+      loadResults(LIVE_DEMO_URL);
+    });
+  }
+
+  // Pagination — results are re-rendered each time, so use event delegation
+  resultsWrap.addEventListener('click', function (e) {
+    var link = e.target.closest('.ld-pagination a');
+    if (!link) return;
+    e.preventDefault();
+    var url = new URL(link.href, window.location.origin);
+    loadResults(url.pathname + url.search);
+    resultsWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  // Back/forward browser buttons
+  window.addEventListener('popstate', function () {
+    loadResults(window.location.pathname + window.location.search, false);
+  });
+})();
+</script>
+
+{% endblock %}

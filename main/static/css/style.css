@@ -1,0 +1,58 @@
+/* Add to existing course card styles: */
+
+.auto-course-section {
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.auto-course-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -10%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(88, 171, 47, 0.08), transparent);
+    border-radius: 50%;
+    animation: float 12s ease-in-out infinite;
+}
+
+.section-title {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 60px;
+    letter-spacing: -1px;
+    position: relative;
+    z-index: 1;
+}
+
+.scroll-container {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    cursor: grab;
+    position: relative;
+    z-index: 1;
+}
+
+.scroll-container:active {
+    cursor: grabbing;
+}
+
+.scroll-track {
+    display: flex;
+    gap: 24px;
+    padding: 20px 5%;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

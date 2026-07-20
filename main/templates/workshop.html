@@ -1,0 +1,652 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Workshop Gallery — Errors2Experts{% endblock %}
+{% block meta_desc %}Photos from workshops, bootcamps and training events conducted by Errors2Experts IT Training Institute.{% endblock %}
+{% block content %}
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<!-- ── PAGE HEADER ── -->
+<div style="text-align:center;padding:64px 20px 44px;background:linear-gradient(180deg,var(--e2e-green-bg) 0%,transparent 100%)">
+  <p style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--e2e-green);margin-bottom:10px;font-weight:700;margin-top:15px;">OUR EVENTS</p>
+  <h1 style="font-family:var(--font-display);font-size:clamp(2rem,5vw,3rem);font-weight:700;color:var(--text-dark);margin-bottom:0">Workshop </h1>
+  <p style="color:var(--text-muted);margin-top:12px;font-size:16px;max-width:500px;margin-left:auto;margin-right:auto">
+    Real moments from our hands-on training sessions, bootcamps and student events.
+  </p>
+  <div style="width:50px;height:4px;background:linear-gradient(90deg,var(--e2e-red),var(--e2e-gold),var(--e2e-green));border-radius:4px;margin:16px auto 0"></div>
+</div>
+{% if upcoming_workshop %} 
+<section class="container mb-5">
+
+    <div class="upcoming-workshop">
+
+        <div class="upcoming-image">
+            <img src="{{ upcoming_workshop.image.url }}" alt="{{ upcoming_workshop.title }}">
+        </div>
+        
+        <div class="upcoming-content">
+
+            <span class="badge bg-success mb-2"> <i class="fas fa-bullhorn me-1"></i> Upcoming Workshop</span>
+
+            <h2>{{ upcoming_workshop.title }}</h2>
+
+            <p>{{ upcoming_workshop.description }}</p>
+
+            <ul class="workshop-details">
+                <li>📅 {{ upcoming_workshop.event_date|date:"d M Y" }}</li>
+                <li>🕒 {{ upcoming_workshop.event_time }}</li>
+                <li>💻 {{ upcoming_workshop.location }}</li>
+                <li>🎓 {{ upcoming_workshop.registration_info }}</li>
+            </ul>
+
+            <button class="btn btn-success px-4" data-bs-toggle="modal" data-bs-target="#workshopRegisterModal"> Register Now </button>
+
+        </div>
+     
+    </div>
+   
+</section>
+{% endif %}
+<!-- ── GALLERY GRID ── -->
+<section class="container pb-5" style="padding-top:20px">
+
+  {% if workshops %}
+
+  <!-- Masonry-style responsive grid -->
+  <div class="workshop-grid stagger-children" role="list" aria-label="Workshop photos">
+    {% for photo in workshops %}
+    <div class="workshop-item reveal-scale" role="listitem">
+      <div class="workshop-card">
+        <div class="workshop-img-wrap" onclick="openLightbox('{{ photo.image.url }}', '{{ photo.title|escapejs }}', '{{ photo.description|escapejs }}')">
+          <img src="{{ photo.image.url }}"
+               alt="{{ photo.title }}"
+               loading="lazy">
+          <!-- Hover overlay -->
+          <div class="workshop-overlay">
+            <span class="zoom-icon" aria-hidden="true">🔍</span>
+            <span class="zoom-label">View Photo</span>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% else %}
+  <!-- Empty state -->
+  <div style="text-align:center;padding:80px 20px;background:var(--bg-white);border:1px solid var(--border-light);border-radius:var(--radius-xl);max-width:520px;margin:0 auto">
+    <div style="font-size:56px;margin-bottom:16px">🎓</div>
+    <h3 style="font-family:var(--font-display);font-weight:700;color:var(--text-dark);margin-bottom:8px">Coming Soon</h3>
+    <p style="color:var(--text-muted)">Workshop photos will be uploaded here soon. Stay tuned!</p>
+    <a href="{% url 'home' %}" class="btn btn-success mt-3 px-4">Back to Home</a>
+  </div>
+  {% endif %}
+</section>
+
+<!-- ── LIGHTBOX ── -->
+<div id="ws-lightbox"
+     role="dialog"
+     aria-modal="true"
+     aria-label="Workshop photo viewer"
+     style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.88);
+            backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+            align-items:center;justify-content:center;padding:24px">
+  <div style="position:relative;max-width:900px;width:100%;animation:lbFadeIn 0.28s ease">
+    <!-- Close -->
+    <button id="lb-close" onclick="closeLightbox()"
+            aria-label="Close lightbox"
+            style="position:absolute;top:-48px;right:0;background:rgba(255,255,255,0.15);
+                   border:1px solid rgba(255,255,255,0.25);border-radius:50%;
+                   width:40px;height:40px;color:#fff;font-size:20px;cursor:pointer;
+                   display:flex;align-items:center;justify-content:center;
+                   transition:background 0.2s">×</button>
+    <!-- Navigation -->
+    <button id="lb-prev" onclick="lbNav(-1)"
+            aria-label="Previous photo"
+            style="position:absolute;left:-56px;top:50%;transform:translateY(-50%);
+                   background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);
+                   border-radius:50%;width:44px;height:44px;color:#fff;font-size:20px;
+                   cursor:pointer;display:flex;align-items:center;justify-content:center">‹</button>
+    <button id="lb-next" onclick="lbNav(1)"
+            aria-label="Next photo"
+            style="position:absolute;right:-56px;top:50%;transform:translateY(-50%);
+                   background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);
+                   border-radius:50%;width:44px;height:44px;color:#fff;font-size:20px;
+                   cursor:pointer;display:flex;align-items:center;justify-content:center">›</button>
+    <!-- Image -->
+    <img id="lb-img" src="" alt=""
+         style="width:100%;max-height:78vh;object-fit:contain;border-radius:16px;display:block">
+    <!-- Caption -->
+    <div style="margin-top:16px;text-align:center">
+      <h3 id="lb-title" style="color:#fff;font-family:var(--font-display);font-size:18px;margin-bottom:4px"></h3>
+      <p  id="lb-desc"  style="color:rgba(255,255,255,0.65);font-size:14px;margin:0"></p>
+    </div>
+    <!-- Counter -->
+    <div id="lb-counter" style="position:absolute;top:-48px;left:0;color:rgba(255,255,255,0.55);font-size:13px;line-height:40px"></div>
+  </div>
+</div>
+<!-- Workshop Registration Modal -->
+<div class="modal fade" id="workshopRegisterModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content workshop-modal">
+
+            <div class="modal-header border-0">
+                <h3 class="modal-title">Workshop Registration</h3>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal"> </button>
+            </div>
+
+            <div class="modal-body">
+
+ <form method="POST" action="{% url 'workshop_registration' %}">
+    {% csrf_token %}
+
+    <!-- Full Name -->
+    <div class="mb-3">
+        <label class="form-label">Full Name <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" name="full_name" required>
+    </div>
+
+    <!-- Mobile -->
+    <div class="mb-3">
+        <label class="form-label">Mobile Number <span class="text-danger">*</span></label>
+        <input type="tel" class="form-control" name="mobile"
+               pattern="[0-9]{10}" maxlength="10" required>
+    </div>
+    <div class="mb-3">
+     <label>Email Address *</label> <input type="email"name="email" class="form-control" required>
+
+    </div>
+    <!-- Gender -->
+    <div class="mb-3">
+        <label class="form-label">Gender <span class="text-danger">*</span></label><br>
+
+        <input type="radio" name="gender" value="Male" required> Male
+        &nbsp;&nbsp;
+
+        <input type="radio" name="gender" value="Female"> Female
+        &nbsp;&nbsp;
+
+        <input type="radio" name="gender" value="Prefer not to say">
+        Prefer not to say
+    </div>
+
+    <!-- Current Location -->
+    <div class="mb-3">
+        <label class="form-label">Current Location <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" name="location" required>
+    </div>
+
+    <!-- Education -->
+    <div class="mb-3">
+        <label class="form-label">Education Qualification <span class="text-danger">*</span></label>
+        <input type="text" class="form-control"  name="education" required>
+    </div>
+
+    <!-- Passed Out -->
+    <div class="mb-3">
+        <label class="form-label">Passed Out Year <span class="text-danger">*</span></label>
+
+        <select class="form-select" name="passed_out" required>
+
+            <option value="">Select</option>
+
+            <option>2026</option>
+            <option>2025</option>
+            <option>2024</option>
+            <option>2023</option>
+            <option>2022</option>
+            <option>2021</option>
+
+        </select>
+
+    </div>
+
+    <!-- Current Status -->
+    <div class="mb-3">
+        <label class="form-label">Current Status <span class="text-danger">*</span></label>
+
+        <select class="form-select" name="current_status" required>
+
+            <option value="">Select</option>
+
+            <option>Student</option>
+            <option>Final Year Student</option>
+            <option>Graduate</option>
+            <option>Working Professional</option>
+            <option>Job Seeker</option>
+
+        </select>
+    </div>
+
+    <!-- Workshop -->
+    <div class="mb-3">
+        <label class="form-label">Workshop</label>
+
+        <div class="alert alert-success mb-0">
+
+           <strong>{{ upcoming_workshop.title }}</strong><br>
+
+          📅 {{ upcoming_workshop.event_date|date:"l, d F Y" }}<br>
+
+          🕒 {{ upcoming_workshop.event_time|time:"h:i A" }}<br>
+
+          💻 {{ upcoming_workshop.location }}
+
+        </div>
+
+        <input type="hidden"
+               name="workshop"
+               value="{{ upcoming_workshop.title }}">
+
+    </div>
+
+    <!-- Queries -->
+    <div class="mb-3">
+
+        <label class="form-label">
+            Any Queries?
+        </label>
+
+        <textarea
+            class="form-control"
+            rows="4"
+            name="queries"></textarea>
+
+    </div>
+
+    <!-- Consent -->
+    <div class="form-check mb-4">
+
+        <input
+            class="form-check-input"
+            type="checkbox"
+            required>
+
+        <label class="form-check-label">
+
+            I agree to be contacted by Errors2Experts
+            regarding Workshops and Training Programs.
+
+        </label>
+
+    </div>
+
+    <!-- Buttons -->
+
+    <div class="d-flex justify-content-end gap-2">
+
+        <button
+            type="reset"
+            class="btn btn-outline-secondary">
+
+            Clear Form
+
+        </button>
+
+        <button
+            type="submit"
+            class="btn btn-success">
+
+            Register Now
+
+        </button>
+
+    </div>
+
+</form>
+        </div>
+    </div>
+</div>
+<!-- ── STYLES ── -->
+<style>
+/* Google Fonts already loaded via e2e-brand.css */
+.workshop-item{
+    display:flex;
+}
+/* Grid */
+.workshop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 8px;
+  align-items: stretch !important;
+}
+
+/* Card */
+.workshop-card {
+  background: var(--bg-white);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: all 0.35s var(--ease);
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+}
+.workshop-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-xl);
+  border-color: var(--e2e-green);
+}
+.workshop-card:focus {
+  outline: 3px solid var(--e2e-green);
+  outline-offset: 3px;
+}
+
+/* Image wrapper */
+.workshop-img-wrap {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+}
+.workshop-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s var(--ease);
+}
+.workshop-card:hover .workshop-img-wrap img {
+  transform: scale(1.06);
+}
+
+/* Hover overlay */
+.workshop-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(46,125,50,0.75);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+}
+.workshop-card:hover .workshop-overlay { opacity: 1; }
+.zoom-icon  { font-size: 32px; }
+.zoom-label { color: #fff; font-weight: 600; font-size: 14px; letter-spacing: 0.5px; }
+
+/* Info block */
+.workshop-info {
+  padding: 18px 20px 20px;
+   flex:1;
+  display: flex !important;
+  flex-direction: column !important;
+}
+.workshop-info h3 {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.ws-date {
+  display: inline-block;
+  font-size: 12px;
+  color: var(--e2e-green);
+  font-weight: 600;
+  background: var(--e2e-green-bg);
+  border-radius: 20px;
+  padding: 3px 10px;
+  margin-bottom: 8px;
+}
+.workshop-info p {
+  color: var(--text-muted);
+  font-size: 13.5px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Lightbox animation */
+@keyframes lbFadeIn {
+  from { opacity:0; transform:scale(0.94); }
+  to   { opacity:1; transform:scale(1); }
+}
+
+/* Mobile nav arrows */
+@media (max-width: 768px) {
+  #lb-prev { left: -16px; }
+  #lb-next { right: -16px; }
+  .workshop-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+  .workshop-img-wrap { height: 185px; }
+}
+/* ==========================Upcoming Workshop====================== */
+
+.upcoming-workshop{
+   position:relative;
+    display:flex;
+    align-items:center;
+    gap:30px;
+    background:#fff;
+    border-radius:20px;
+    padding:25px;
+    overflow:hidden;
+
+    border:1px solid #ececec;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+    transition:all .35s ease;
+}
+.upcoming-workshop::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:6px;
+    background:linear-gradient( 130deg, #e53935 , #e0e40e ,#2e7d32,#e53935 , #fff316 ,#2e7d32,#e53935 , #fbe924 ,#2e7d32 );
+}
+
+.upcoming-workshop:hover{
+  background:linear-gradient( 130deg, #e5383534 , #e0e40e44 ,#2e7d3228);
+    transform:translateY(-12px);
+    box-shadow:0 22px 45px rgba(0,0,0,.18);
+}
+.upcoming-image{
+  overflow:hidden;
+    border-radius:15px;
+    flex:0 0 320px;
+}
+
+.upcoming-image img{
+    width:100%;
+    height:250px;
+    object-fit:cover;
+    border-radius:15px;
+    display:block;
+       transition:transform .5s ease;
+}
+.upcoming-workshop:hover .upcoming-image img{
+    transform:scale(1.08);
+}
+.upcoming-content{
+    flex:1;
+}
+
+.upcoming-content .badge{
+    font-size:13px;
+    padding:7px 14px;
+    border-radius:30px;
+    
+    
+}
+
+.upcoming-content h2{
+    font-size:20px;
+    font-weight:700;
+    margin:15px 0;
+    color:#1b9615;
+}
+
+.upcoming-content p{
+    font-size:14px;
+    color:#666;
+    line-height:1.8;
+    margin-bottom:20px;
+}
+
+.workshop-details{
+    list-style:none;
+    padding:0;
+    margin:0 0 25px;
+}
+
+.workshop-details li{
+    margin-bottom:10px;
+    font-size:14px;
+    color:#444;
+}
+
+.upcoming-content .btn{
+    padding:12px 30px;
+    border-radius:30px;
+    font-weight:600;
+}
+
+
+/* ==========================Tablet======================= */
+
+@media(max-width:992px){
+
+.upcoming-workshop{
+    gap:20px;
+    padding:20px;
+}
+
+.upcoming-image{
+    flex:0 0 260px;
+}
+
+.upcoming-image img{
+    height:200px;
+}
+
+.upcoming-content h2{
+    font-size:24px;
+}
+
+}
+
+
+/* ==========================Mobile======================= */
+
+@media(max-width:768px){
+
+.upcoming-workshop{
+    flex-direction:column;
+    text-align:center;
+    padding:20px;
+}
+
+.upcoming-image{
+    width:100%;
+}
+
+.upcoming-image img{
+    width:100%;
+    height:220px;
+}
+
+.upcoming-content h2{
+    font-size:22px;
+}
+
+.upcoming-content p{
+    font-size:14px;
+}
+
+.workshop-details{
+    text-align:left;
+    display:inline-block;
+}
+
+.upcoming-content .btn{
+    width:100%;
+}
+
+}
+
+
+/* ==========================Mobile================= */
+
+@media(max-width:480px){
+
+.upcoming-workshop{
+    padding:15px;
+}
+
+.upcoming-image img{
+    height:180px;
+}
+
+.upcoming-content h2{
+    font-size:20px;
+}
+
+.workshop-details li{
+    font-size:14px;
+}
+
+}
+</style>
+
+<!-- ── LIGHTBOX SCRIPT ── -->
+<script>
+(function(){
+  var photos = [
+    {% for photo in workshops %}
+    { src: "{{ photo.image.url }}", title: "{{ photo.title|escapejs }}", desc: "{{ photo.description|escapejs }}" }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ];
+  var lb      = document.getElementById('ws-lightbox');
+  var lbImg   = document.getElementById('lb-img');
+  var lbTitle = document.getElementById('lb-title');
+  var lbDesc  = document.getElementById('lb-desc');
+  var lbCtr   = document.getElementById('lb-counter');
+  var cur     = 0;
+
+  function show(idx) {
+    cur = (idx + photos.length) % photos.length;
+    var p = photos[cur];
+    lbImg.src        = p.src;
+    lbImg.alt        = p.title;
+    lbTitle.textContent = p.title;
+    lbDesc.textContent  = p.desc;
+    lbCtr.textContent   = (cur + 1) + ' / ' + photos.length;
+  }
+
+  window.openLightbox = function(src, title, desc) {
+    var idx = photos.findIndex(function(p){ return p.src === src; });
+    lb.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    show(idx >= 0 ? idx : 0);
+    document.getElementById('lb-close').focus();
+  };
+
+  window.closeLightbox = function() {
+    lb.style.display = 'none';
+    document.body.style.overflow = '';
+  };
+
+  window.lbNav = function(dir) { show(cur + dir); };
+
+  /* Keyboard navigation */
+  document.addEventListener('keydown', function(e){
+    if (lb.style.display === 'none') return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft')  lbNav(-1);
+    if (e.key === 'ArrowRight') lbNav(1);
+  });
+
+  /* Click outside image to close */
+  lb.addEventListener('click', function(e){ if (e.target === lb) closeLightbox(); });
+})();
+
+
+</script>
+{% endblock %}

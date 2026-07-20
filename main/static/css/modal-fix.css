@@ -1,0 +1,110 @@
+/* ============================================================
+   ERRORS2EXPERTS — MODAL TOUCH / CLICK FIX  (v2 — complete)
+
+   ROOT CAUSES fixed here:
+   1. .hero-slide::after  — invisible full-screen pseudo-element
+      at z-index:1 with no pointer-events:none. Blocked EVERY
+      click on every page because this CSS loads globally.
+   2. .hero-slider had a position:fixed block before position:relative
+      causing stacking context confusion in some browsers.
+   3. Various fixed-position UI elements needed explicit z-index
+      ordering relative to Bootstrap modals.
+
+   This file is the LAST stylesheet loaded in base.html so its
+   rules win any specificity tie.
+   ============================================================ */
+
+
+/* ── 1. KILL ALL POINTER-BLOCKING PSEUDO-ELEMENTS ───────────
+   hero-slide ::after / ::before, hero-parallax-bg, any other
+   decorative overlay must NEVER intercept pointer events.
+   ─────────────────────────────────────────────────────────── */
+.hero-parallax-bg,
+.hero-parallax-bg::before,
+.hero-parallax-bg::after,
+.hero-slide::after,
+.hero-slide::before,
+.hero-slider::after,
+.hero-slider::before {
+  pointer-events: none !important;
+}
+
+
+/* ── 2. Z-INDEX TOWER ────────────────────────────────────────
+   Layer     Element                    z-index
+   ───────────────────────────────────────────────
+   Top       Bootstrap modal            1075
+             Bootstrap modal backdrop   1070
+             Navbar                     1055   ← fixed-top
+             Scroll-progress bar        9999   (thin bar, fine)
+             Back-to-top button         8000   (fine)
+             Hero glass card            2      (local stacking)
+   ─────────────────────────────────────────────────────────── */
+.navbar {
+  z-index: 1055 !important;
+  pointer-events: auto !important;
+}
+
+.modal-backdrop {
+  z-index: 1070 !important;
+}
+
+.modal {
+  z-index: 1075 !important;
+}
+
+#scroll-progress {
+  z-index: 9999 !important;
+  pointer-events: none !important;   /* thin bar must never block clicks */
+}
+
+#back-to-top {
+  z-index: 8000 !important;
+  pointer-events: auto !important;
+}
+
+
+/* ── 3. EVERYTHING INSIDE A MODAL IS ALWAYS TAPPABLE ────────
+   Belt-and-suspenders: explicitly restore pointer-events for
+   every interactive element inside .modal-content.
+   ─────────────────────────────────────────────────────────── */
+.modal-content,
+.modal-body,
+.modal-header,
+.modal-footer,
+.modal-content *,
+.modal-dialog,
+.modal-dialog * {
+  pointer-events: auto !important;
+}
+
+
+/* ── 4. INTERACTIVE PAGE ELEMENTS ───────────────────────────
+   Buttons, links, inputs on every page must be clickable
+   regardless of what decorative layers sit around them.
+   ─────────────────────────────────────────────────────────── */
+.register-btn,
+.explore-btn,
+.book-btn,
+.submit-btn,
+.btn,
+a,
+button,
+input,
+select,
+textarea,
+label,
+.hero-glass-card,
+.hero-glass-card * {
+  pointer-events: auto !important;
+}
+
+
+/* ── 5. HERO GLASS CARD STACKING ────────────────────────────
+   The card content sits at z-index 2 (above the ::after layer
+   at z-index 1) so it receives all pointer events normally.
+   ─────────────────────────────────────────────────────────── */
+.hero-glass-card {
+  position: relative !important;
+  z-index: 2 !important;
+}

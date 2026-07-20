@@ -1,0 +1,18 @@
+<form method="POST" action="{% url 'create_order' %}">
+    {% csrf_token %}
+
+    <input type="text" name="name" placeholder="Full Name" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="text" name="education" placeholder="Education" required>
+    <input type="tel" name="mobile" placeholder="Mobile Number" required>
+    <input type="text" name="year" placeholder="Year of Passed Out" required>
+
+    <input type="hidden" name="course_name" value="{{ course.title }}">
+    
+    <select name="payment_type" required>
+        <option value="full">Full Amount</option>
+        <option value="emi">Installment / EMI</option>
+    </select>
+
+    <button type="submit">Proceed to Payment</button>
+</form>

@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+{%load custom_filters%}
+{% load static %}
+
+<!-- Page header -->
+<div style="text-align:center;padding:60px 20px 40px;background:linear-gradient(180deg,rgba(59,130,246,0.06) 0%,transparent 100%)">
+  <p class="section-eyebrow mt-5">WHAT WE TEACH</p>
+  <h1 id="course-heading" class="section-title">Our Courses</h1>
+  <p class="section-subtitle-muted"> Industry-oriented programs designed to make you job-ready.</p>
+  <div style="width:50px;height:3px;background:linear-gradient(90deg,var(--brand-green),var(--brand-teal));border-radius:3px;margin:16px auto 0"></div>
+</div>
+
+<section class="">
+  <div class="course-grid">
+
+  {% for course in allcourse %}
+
+  <div class="course-item">
+
+    <article class="course-card">
+
+      {% if course.image %}
+        <img src="{{ course.image.url }}" alt="{{ course.title }}">
+      {% else %}
+        <img src="{% static 'main/images/no-image.png' %}" alt="No Image">
+      {% endif %}
+
+      <div class="course-content">
+
+        <h4>{{ course.title | title}}</h4>
+
+        <p>{{ course.description|truncatewords:15 }}</p>
+
+        <div class="course-price">
+          ₹{{ course.price }}
+
+          {% if course.discount %}
+          <span class="old-price">₹{{ course.discount }}</span>
+          {% endif %}
+        </div>
+
+        {% if course.duration %}
+        <p class="course-duration mb-0">
+          ⏱ {{ course.duration }}
+        </p>
+        {% endif %}
+
+        <a href="{% url 'course_detail' course.id %}" class="btn btn-primary course-learn-link py-2 mb-4">
+          Explore Course →
+        </a>
+
+      </div>
+
+    </article>
+
+  </div>
+
+  {% endfor %}
+
+</div>
+</section>
+
+<!-- Why choose us strip -->
+<div style="margin:0 5% 60px;display:flex;flex-wrap:wrap;gap:20px;justify-content:center" class="stagger-children">
+  {% for badge in "MSME Registered|Experienced Trainers|Real-time Projects|EMI Available|Placement Support"|split:"|" %}
+  <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:50px;padding:10px 20px;font-size:14px;color:var(--text-muted)">
+    <span style="color:var(--brand-green);font-weight:700">✓</span> {{ badge }}
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,122 @@
+[
+{
+  "model": "main.course",
+  "pk": 5,
+  "fields": {
+    "title": "PYTHON FULL STACK DEVELOPMENT",
+    "description": "Master both frontend and backend web development using HTML, CSS, JavaScript, Python, Django, and databases. Build complete, real-world web applications while gaining the skills needed for full-stack developer roles.",
+    "duration": "4 Months",
+    "price": 10000,
+    "discount": "20000",
+    "image": "course_images/Fullstackdevlop.img.jpeg"
+  }
+},
+{
+  "model": "main.course",
+  "pk": 7,
+  "fields": {
+    "title": "FRONTEND DEVELOPMENT COURSE",
+    "description": "Learn to build modern, responsive, and user-friendly websites using HTML, CSS, JavaScript, and Bootstrap. Gain hands-on experience in creating interactive web interfaces and real-world projects while mastering industry-standard frontend development skills.",
+    "duration": "2û3 Months",
+    "price": 8000,
+    "discount": "16000",
+    "image": "course_images/frontenddecelop.img.jpeg"
+  }
+},
+{
+  "model": "main.course",
+  "pk": 8,
+  "fields": {
+    "title": "PYTHON + SQL COURSE",
+    "description": "Learn Python programming and SQL database management from beginner to advanced level. Build strong coding and database skills by working with real-world projects, data handling, queries, and application development.",
+    "duration": "2Months",
+    "price": 7000,
+    "discount": "14000",
+    "image": "course_images/pySQL.img.jpeg"
+  }
+},
+{
+  "model": "main.course",
+  "pk": 9,
+  "fields": {
+    "title": "PYTHON(Basic To Advanced)",
+    "description": "Learn Python from fundamentals to advanced concepts through practical coding exercises and real-world projects. Master programming logic, OOP, file handling, databases, and application development to build a strong foundation for software development careers",
+    "duration": "2 months",
+    "price": 5000,
+    "discount": "10000",
+    "image": "course_images/pythondevelop.img.jpeg"
+  }
+},
+{
+  "model": "main.course",
+  "pk": 10,
+  "fields": {
+    "title": "JAVA",
+    "description": "Learn Java from basic to advanced concepts, including object-oriented programming, collections, exception handling, and database connectivity. Develop strong programming skills through hands-on coding exercises and real-world projects.",
+    "duration": "2 months",
+    "price": 5000,
+    "discount": "10000",
+    "image": "course_images/javacourese.img.jpeg"
+  }
+},
+{
+  "model": "main.course",
+  "pk": 11,
+  "fields": {
+    "title": "JAVA FULL STACK DEVELOPMENT",
+    "description": "Learn to build complete web applications using Java, Spring Boot, HTML, CSS, JavaScript, and databases. Gain hands-on experience in frontend and backend development through real-world projects and industry-focused training.",
+    "duration": "4 months",
+    "price": 10000,
+    "discount": "20000",
+    "image": "course_images/javadevelop.img.jpeg"
+  }
+},
+{
+  "model": "main.course",
+  "pk": 12,
+  "fields": {
+    "title": "MERN STACK",
+    "description": "Learn full-stack web development using MongoDB, Express.js, React, and Node.js. Build dynamic, scalable web applications with hands-on projects while mastering both frontend and backend development.",
+    "duration": "4 months",
+    "price": 10000,
+    "discount": "20000",
+    "image": "course_images/meran.img.jpeg"
+  }
+},
+{
+  "model": "main.course",
+  "pk": 13,
+  "fields": {
+    "title": "NETWORKING",
+    "description": "Learn the fundamentals of computer networking, including network architecture, protocols, IP addressing, routing, switching, and network security. Gain practical knowledge to design, manage, and troubleshoot modern network infrastructures.",
+    "duration": "3 months",
+    "price": 5000,
+    "discount": "10000",
+    "image": "course_images/networking.img.jpeg"
+  }
+},
+{
+  "model": "main.course",
+  "pk": 14,
+  "fields": {
+    "title": "MS OFFICE",
+    "description": "Learn essential productivity tools including Microsoft Word, Excel, PowerPoint, and Outlook to create documents, analyze data, and deliver professional presentations. Develop practical office and computer skills required for academic, administrative, and business environments.",
+    "duration": "2 months",
+    "price": 3000,
+    "discount": "6000",
+    "image": "course_images/MSoffice.img.jpeg"
+  }
+},
+{
+  "model": "main.course",
+  "pk": 15,
+  "fields": {
+    "title": "BACKEND DEVELOPMENT",
+    "description": "Learn to build powerful server-side applications using Python, Django, APIs, and databases. Gain hands-on experience in backend development, database management, and web application deployment through real-world projects.",
+    "duration": "2.5 Months",
+    "price": 8000,
+    "discount": "16000",
+    "image": "course_images/backenddev.img.jpeg"
+  }
+}
+]
