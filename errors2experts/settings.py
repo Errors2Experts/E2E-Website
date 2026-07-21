@@ -68,29 +68,39 @@ WSGI_APPLICATION = 'errors2experts.wsgi.application'
 print("DEBUG DATABASE_URL VALUE:", os.environ.get('DATABASE_URL'))
 
 # Safe database configuration mapping
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default=os.environ.get('DATABASE_PUBLIC_URL'),
+#         conn_max_age=600,
+#         ssl_require=True
+#     )
+# }
+
+
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_PUBLIC_URL'),
+    'default': dj_database_url.parse(
+        os.environ.get('DATABASE_URL'),
         conn_max_age=600,
         ssl_require=True
     )
 }
 
-# If it's still failing, explicitly parse or fallback to Railway's internal components
-if not DATABASES.get('default') or not DATABASES['default'].get('ENGINE'):
-    db_url = os.environ.get('DATABASE_URL')
-    if db_url:
-        DATABASES['default'] = dj_database_url.parse(db_url, conn_max_age=600, ssl_require=True)
-    else:
-        # Fallback directly to the internal hostname if variables aren't loading in the shell
-        DATABASES['default'] = {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get('PGDATABASE', 'railway'),
-            'USER': os.environ.get('PGUSER', 'postgres'),
-            'PASSWORD': os.environ.get('PGPASSWORD', ''),
-            'HOST': os.environ.get('PGHOST', 'postgres.railway.internal'),
-            'PORT': os.environ.get('PGPORT', '5432'),
-        }
+# # If it's still failing, explicitly parse or fallback to Railway's internal components
+# if not DATABASES.get('default') or not DATABASES['default'].get('ENGINE'):
+#     db_url = os.environ.get('DATABASE_URL')
+#     if db_url:
+#         DATABASES['default'] = dj_database_url.parse(db_url, conn_max_age=600, ssl_require=True)
+#     else:
+#         # Fallback directly to the internal hostname if variables aren't loading in the shell
+#         DATABASES['default'] = {
+#             'ENGINE': 'django.db.backends.postgresql',
+#             'NAME': os.environ.get('PGDATABASE', 'railway'),
+#             'USER': os.environ.get('PGUSER', 'postgres'),
+#             'PASSWORD': os.environ.get('PGPASSWORD', ''),
+#             'HOST': os.environ.get('PGHOST', 'postgres.railway.internal'),
+#             'PORT': os.environ.get('PGPORT', '5432'),
+#         }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -119,7 +129,8 @@ ADMIN_NOTIFICATION_EMAIL = 'errors2experts.official@gmail.com'
 # 1. Define them using os.getenv pointing to your environment variables correctly
 CLOUDINARY_CLOUD_NAME = os.getenv("CLOUDINARY_CLOUD_NAME", "wnuppjlk")
 CLOUDINARY_API_KEY = os.getenv("CLOUDINARY_API_KEY", "241645673172952")
-CLOUDINARY_API_SECRET = os.getenv("CLOUDINARY_API_SECRET", "NFGPUy3ZxDbQYEOwOpA5IYMf8AQ")
+CLOUDINARY_API_SECRET = os.getenv(
+    "CLOUDINARY_API_SECRET", "NFGPUy3ZxDbQYEOwOpA5IYMf8AQ")
 
 CLOUDINARY_STORAGE = {
     "CLOUD_NAME": CLOUDINARY_CLOUD_NAME,
@@ -144,7 +155,7 @@ STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.StaticFilesStorage",
     },
-}    
+}
 
 # Fix for compatibility
 STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
