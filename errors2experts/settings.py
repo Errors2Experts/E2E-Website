@@ -65,6 +65,9 @@ WSGI_APPLICATION = 'errors2experts.wsgi.application'
 #     }
 # }
 
+print("DEBUG DATABASE_URL VALUE:", os.environ.get('DATABASE_URL'))
+
+# Safe database configuration mapping
 DATABASES = {
     'default': dj_database_url.config(
         default=os.environ.get('DATABASE_URL'),
@@ -73,19 +76,19 @@ DATABASES = {
     )
 }
 
-# Absolute safety net: If dj_database_url returns an empty engine, explicitly parse the variables
+# If it's still failing, explicitly parse or fallback to Railway's internal components
 if not DATABASES.get('default') or not DATABASES['default'].get('ENGINE'):
-    DATABASE_URL = os.environ.get('DATABASE_URL')
-    if DATABASE_URL:
-        DATABASES['default'] = dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=True)
+    db_url = os.environ.get('DATABASE_URL')
+    if db_url:
+        DATABASES['default'] = dj_database_url.parse(db_url, conn_max_age=600, ssl_require=True)
     else:
-        # Fallback to individual Railway PG components if the URL string is missing
+        # Fallback directly to the internal hostname if variables aren't loading in the shell
         DATABASES['default'] = {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': os.environ.get('PGDATABASE', 'railway'),
             'USER': os.environ.get('PGUSER', 'postgres'),
             'PASSWORD': os.environ.get('PGPASSWORD', ''),
-            'HOST': os.environ.get('PGHOST', 'localhost'),
+            'HOST': os.environ.get('PGHOST', 'postgres.railway.internal'),
             'PORT': os.environ.get('PGPORT', '5432'),
         }
 
