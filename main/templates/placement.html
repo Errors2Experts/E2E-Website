@@ -222,5 +222,58 @@
     </div>
   </div>
 </section>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+          observer.unobserve(entry.target); // Animate only once
+        }
+      });
+    }, observerOptions);
+
+    // Target all cards and timeline steps
+    const animatedElements = document.querySelectorAll('.placement-card, .placement-step');
+    animatedElements.forEach(el => observer.observe(el));
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.05
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    // Add staggered delay to cards so they animate sequentially
+    const cards = document.querySelectorAll('.placement-card');
+    cards.forEach((card, index) => {
+      card.style.animationDelay = `${index * 0.08}s`;
+      observer.observe(card);
+    });
+
+    const steps = document.querySelectorAll('.placement-step');
+    steps.forEach((step, index) => {
+      step.style.animationDelay = `${index * 0.1}s`;
+      observer.observe(step);
+    });
+  });
+</script>
 
 {% endblock %}
