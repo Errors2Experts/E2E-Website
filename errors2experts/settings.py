@@ -77,13 +77,20 @@ print("DEBUG DATABASE_URL VALUE:", os.environ.get('DATABASE_URL'))
 # }
 
 
-DATABASES = {
-    'default': dj_database_url.parse(
-        os.environ.get('DATABASE_URL'),
-        conn_max_age=600,
-        ssl_require=True
-    )
-}
+database_url = os.environ.get('DATABASE_URL')
+
+if database_url:
+    DATABASES = {
+        'default': dj_database_url.parse(database_url, conn_max_age=600, ssl_require=True)
+    }
+else:
+    # Safe temporary fallback if variable isn't loaded yet
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
 # # If it's still failing, explicitly parse or fallback to Railway's internal components
 # if not DATABASES.get('default') or not DATABASES['default'].get('ENGINE'):
