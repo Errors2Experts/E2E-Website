@@ -122,5 +122,5 @@ STORAGES = {
 STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://e2e-website.up.railway.app',
+    'https://errors2experts.up.railway.app',
 ]
