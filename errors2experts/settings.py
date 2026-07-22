@@ -131,7 +131,23 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_HOST_USER = 'errors2experts.official@gmail.com'
-EMAIL_HOST_PASSWORD = 'otli vhwd qvdv kmwt '
+EMAIL_HOST_PASSWORD = 'otlivhwdqvdvkmwt'
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_TIMEOUT = 20
+
+EMAIL_BACKEND = os.getenv(
+    "EMAIL_BACKEND",
+    "django.core.mail.backends.smtp.EmailBackend"
+)
+
+# EMAIL_HOST = os.getenv("EMAIL_HOST")
+# EMAIL_PORT = int(os.getenv("EMAIL_PORT", 587))
+# EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS") == "True"
+# EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL") == "True"
+
+# EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+# EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 ADMIN_NOTIFICATION_EMAIL = 'errors2experts.official@gmail.com'
 
 # 1. Define them using os.getenv pointing to your environment variables correctly
