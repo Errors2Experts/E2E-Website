@@ -136,10 +136,10 @@ EMAIL_HOST_PASSWORD = 'otlivhwdqvdvkmwt'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_TIMEOUT = 20
 
-EMAIL_BACKEND = os.getenv(
-    "EMAIL_BACKEND",
-    "django.core.mail.backends.smtp.EmailBackend"
-)
+# EMAIL_BACKEND = os.getenv(
+#     "EMAIL_BACKEND",
+#     "django.core.mail.backends.smtp.EmailBackend"
+# )
 
 # EMAIL_HOST = os.getenv("EMAIL_HOST")
 # EMAIL_PORT = int(os.getenv("EMAIL_PORT", 587))
