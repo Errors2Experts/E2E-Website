@@ -22,5 +22,3 @@ EXPOSE 8000
 
 # Run Gunicorn server
 CMD python manage.py collectstatic --noinput && python manage.py migrate && gunicorn errors2experts.wsgi:application --bind 0.0.0.0:8000
-# CMD python manage.py migrate && gunicorn errors2experts.wsgi:application --bind 0.0.0.0:8000
-# CMD ["gunicorn", "--bind", "0.0.0.0:8000", "errors2experts.wsgi:application"]
