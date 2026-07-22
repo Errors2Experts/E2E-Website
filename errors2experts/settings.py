@@ -129,6 +129,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 EMAIL_HOST_USER = 'errors2experts.official@gmail.com'
 EMAIL_HOST_PASSWORD = 'otli vhwd qvdv kmwt '
 ADMIN_NOTIFICATION_EMAIL = 'errors2experts.official@gmail.com'
