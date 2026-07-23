@@ -1,156 +1,159 @@
-from django.shortcuts import render
-
-# Create your views here.
-from django.shortcuts import render, redirect
-from .models import Course,Placement, Service,CourseBooking, Contact,ClientProject,StudentReview
-from .models import WorkshopPhoto, Certificate
-from .models import Internship, ProcessStep
-from .models import Internship
-from .models import WorkshopRegistration
-from django.core.mail import EmailMessage, EmailMultiAlternatives
+# Django Imports
 from django.conf import settings
-from openpyxl import Workbook, load_workbook
-from datetime import datetime, timezone
-from .models import UpcomingWorkshop
+from django.contrib import messages
+from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
 
+# Python Imports
+import os
+from collections import defaultdict
+from datetime import datetime, timedelta
+
+# Excel
+from openpyxl import Workbook, load_workbook
+
+# Forms
+from .forms import JobApplicationForm
+
+# Models
+from .models import (
+    Career,
+    Certificate,
+    ClientProject,
+    Contact,
+    Course,
+    CourseBooking,
+    DemoCategory,
+    DemoRequest,
+    Internship,
+    Placement,
+    ProcessStep,
+    Service,
+    ServiceBooking,
+    StudentReview,
+    UpcomingWorkshop,
+    WorkshopPhoto,
+    WorkshopRegistration,
+)
+
+# Brevo Email Helper
 from .brevo_mail import send_brevo_email
 
-import os
+
 def home(request):
-    courses = Course.objects.all()
-    services = Service.objects.all()
-    projects=ClientProject.objects.all()
-    reviews=StudentReview.objects.all()
-    total_bookings = CourseBooking.objects.count()
-    workshops       = WorkshopPhoto.objects.all()    
-    certificates    = Certificate.objects.all()
-    internships = Internship.objects.all()
-    upcoming_workshop = UpcomingWorkshop.objects.first()
-   
     if request.method == "POST":
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        message = request.POST.get('message')
-        Contact.objects.create(name=name, email=email, message=message)
-        return redirect('home')
+        Contact.objects.create(
+            name=request.POST.get("name"),
+            email=request.POST.get("email"),
+            message=request.POST.get("message"),
+        )
+        return redirect("home")
 
-    return render(request, 'index.html', {
-        'courses': courses,
-        'services': services,
-        'projects':projects,
-        'reviews':reviews,
-        "total_bookings": total_bookings,
-        'workshops': workshops,  
-        'certificates':  certificates,
-        'internships': internships,
-        'upcoming_workshop': upcoming_workshop,
-        
+    context = {
+        "courses": Course.objects.all(),
+        "services": Service.objects.all(),
+        "projects": ClientProject.objects.all(),
+        "reviews": StudentReview.objects.all(),
+        "total_bookings": CourseBooking.objects.count(),
+        "workshops": WorkshopPhoto.objects.all(),
+        "certificates": Certificate.objects.all(),
+        "internships": Internship.objects.all(),
+        "upcoming_workshop": UpcomingWorkshop.objects.first(),
+    }
 
-    })
-    
-from django.shortcuts import render, get_object_or_404
-from .models import Course
-
+    return render(request, "index.html", context)
 
 
 def review_page(request):
-    reviews = StudentReview.objects.all().order_by('-created_at')
-    return render(request, 'reviews.html', {'reviews': reviews})
+    reviews = StudentReview.objects.all().order_by("-created_at")
+    return render(request, "reviews.html", {"reviews": reviews})
+
+
 def course_detail(request, id):
     course = get_object_or_404(Course, id=id)
 
-    description_lines = course.description.splitlines()
+    context = {
+        "course": course,
+        "description_lines": course.description.splitlines(),
+    }
 
-    return render(
-        request,
-        'courses.html',
-        {
-            'course': course,
-            'description_lines': description_lines
-        }
-    )
+    return render(request, "courses.html", context)
+
+
 def allcourse(request):
-    allcourse = Course.objects.all()
-    return render(request,'allcourse.html',{'allcourse':allcourse})
+    context = {
+        "allcourse": Course.objects.all(),
+    }
+    return render(request, "allcourse.html", context)
+
 
 def about(request):
-    return render(request, 'about.html')
+    return render(request, "about.html")
+
 
 def courses(request):
-    courses = Course.objects.all()
-    return render(request, 'courses.html', {'courses': courses})
+    context = {
+        "courses": Course.objects.all(),
+    }
+    return render(request, "courses.html", context)
+
 
 def services(request):
-    services = Service.objects.all()
-    
-    return render(request, 'services.html', {'services': services})
+    context = {
+        "services": Service.objects.all(),
+    }
+    return render(request, "services.html", context)
 
-# views.py — replace service_detail
-from .models import ProcessStep
-
-def service_detail(request, pk):
-    service = get_object_or_404(Service, pk=pk)
-    return render(request, 'service_detail.html', {
-        'service': service,
-        'featured_demos': service.demo_links.filter(is_featured=True),
-        'features': service.features.all(),
-        'faqs': service.faqs.all(),
-        'process_steps': ProcessStep.objects.all(),
-    })
-from .models import DemoCategory
 
 def service_detail(request, pk):
     service = get_object_or_404(Service, pk=pk)
-    demo_categories = DemoCategory.objects.filter(is_active=True)
 
-    return render(request, 'service_detail.html', {
-        'service': service,
-        'demo_categories': demo_categories,
-    })
+    context = {
+        "service": service,
+        "featured_demos": service.demo_links.filter(is_featured=True),
+        "features": service.features.all(),
+        "faqs": service.faqs.all(),
+        "process_steps": ProcessStep.objects.all(),
+        "demo_categories": DemoCategory.objects.filter(is_active=True),
+    }
+
+    return render(request, "service_detail.html", context)
+
 
 def contact(request):
     if request.method == "POST":
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        message = request.POST.get('message')
-        Contact.objects.create(name=name, email=email, message=message)
-        return redirect('contact')
-    return render(request, 'contact.html')
+        Contact.objects.create(
+            name=request.POST.get("name"),
+            email=request.POST.get("email"),
+            message=request.POST.get("message"),
+        )
+        return redirect("contact")
+
+    return render(request, "contact.html")
 
 
 def placement(request):
-    placements = Placement.objects.all()
-    return render(request, 'placement.html', {
-        'placements': placements
-    })
+    context = {
+        "placements": Placement.objects.all(),
+    }
 
-from django.shortcuts import render
-from .models import Career
+    return render(request, "placement.html", context)
+
 
 def career_list(request):
-    careers = Career.objects.all().order_by('-posted_on')
-    return render(request, 'career.html', {'careers': careers})
+    careers = Career.objects.all().order_by("-posted_on")
+    return render(request, "career.html", {"careers": careers})
+
 
 def career_detail(request, pk):
     career = get_object_or_404(Career, pk=pk)
-    return render(request, 'career_detail.html', {'career': career})
-
-
-from django.shortcuts import render, get_object_or_404, redirect
-from django.core.mail import send_mail
-from django.conf import settings
-from .models import Career
-from .forms import JobApplicationForm
-from openpyxl import Workbook, load_workbook
-import os
-from datetime import datetime
-from django.core.mail import EmailMessage
+    return render(request, "career_detail.html", {"career": career})
 
 
 def apply_job(request, pk):
     career = get_object_or_404(Career, pk=pk)
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = JobApplicationForm(request.POST, request.FILES)
 
         if form.is_valid():
@@ -158,11 +161,10 @@ def apply_job(request, pk):
             application.career = career
             application.save()
 
-            # ---------------- SAVE TO EXCEL ----------------
-            job_folder = os.path.join(settings.MEDIA_ROOT, "job_applications")
+            # ================= SAVE TO EXCEL =================
 
-            if not os.path.exists(job_folder):
-                os.makedirs(job_folder)
+            job_folder = os.path.join(settings.MEDIA_ROOT, "job_applications")
+            os.makedirs(job_folder, exist_ok=True)
 
             file_path = os.path.join(job_folder, "job_applications.xlsx")
 
@@ -179,7 +181,7 @@ def apply_job(request, pk):
                     "Role Applied",
                     "Cover Letter",
                     "Resume File Name",
-                    "Applied Date"
+                    "Applied Date",
                 ])
 
             sheet.append([
@@ -189,79 +191,101 @@ def apply_job(request, pk):
                 career.role,
                 application.cover_letter,
                 application.resume.name,
-                datetime.now().strftime('%d-%m-%Y %H:%M')
+                datetime.now().strftime("%d-%m-%Y %H:%M"),
             ])
 
             workbook.save(file_path)
 
-            # ---------------- EMAIL TO CANDIDATE ----------------
-            send_mail(
-                subject="Application Received - Errors2Experts",
-                message=f"""
-Hi {application.full_name},
+            # ================= EMAIL TO CANDIDATE =================
 
-Greetings from Errors2Experts!
+            candidate_html = f"""
+            <p>Hi {application.full_name},</p>
 
-We have received your application for the role of {career.role}.
-Our HR team will review your profile and contact you soon.
+            <p>Greetings from Errors2Experts!</p>
 
-Thank you for your interest.
+            <p>
+            We have received your application for the role of
+            <b>{career.role}</b>.
+            </p>
 
-Regards,
-Errors2Experts Team
-""",
-                from_email=settings.EMAIL_HOST_USER,
-                recipient_list=[application.email],
+            <p>
+            Our HR team will review your profile and contact you soon.
+            </p>
+
+            <p>Thank you for your interest.</p>
+
+            <br>
+
+            <p>
+            Regards,<br>
+            Errors2Experts Team
+            </p>
+            """
+
+            send_brevo_email(
+                application.email,
+                "Application Received - Errors2Experts",
+                candidate_html,
             )
 
-            # ---------------- EMAIL TO ADMIN (YOU) ----------------
+            # ================= EMAIL TO ADMIN =================
+
             admin_subject = f"🚀 New Job Application - {career.role}"
 
-            admin_message = f"""
-New Job Application Received!
+            admin_html = f"""
+            <h2>New Job Application Received!</h2>
 
-Candidate Details:
+            <p><b>Candidate Details</b></p>
 
-Name: {application.full_name}
-Email: {application.email}
-Phone: {application.mobile}
+            <p><b>Name:</b> {application.full_name}</p>
 
-Role Applied: {career.role}
+            <p><b>Email:</b> {application.email}</p>
 
-Cover Letter:
-{application.cover_letter}
+            <p><b>Phone:</b> {application.mobile}</p>
 
-Applied On: {datetime.now().strftime('%d-%m-%Y %H:%M')}
+            <p><b>Role Applied:</b> {career.role}</p>
 
-Please review the attached resume.
+            <p><b>Cover Letter:</b></p>
 
-Errors2Experts System
-"""
+            <p>{application.cover_letter}</p>
 
-            admin_email = EmailMessage(
-                subject=admin_subject,
-                body=admin_message,
-                from_email=settings.EMAIL_HOST_USER,
-                to=[settings.ADMIN_NOTIFICATION_EMAIL],
+            <p>
+            <b>Applied On:</b>
+            {datetime.now().strftime("%d-%m-%Y %H:%M")}
+            </p>
+
+            <p>Please review the attached resume.</p>
+
+            <br>
+
+            <b>Errors2Experts System</b>
+            """
+
+            attachments = []
+
+            if application.resume:
+                attachments.append(application.resume.path)
+
+            send_brevo_email(
+                settings.ADMIN_NOTIFICATION_EMAIL,
+                admin_subject,
+                admin_html,
+                attachments=attachments,
             )
 
-            # Attach Resume File
-            if application.resume:
-                admin_email.attach_file(application.resume.path)
-
-            admin_email.send()
-
-            return render(request, 'application_success.html')
+            return render(request, "application_success.html")
 
     else:
         form = JobApplicationForm()
 
-    return render(request, 'apply_job.html', {'form': form, 'career': career})
-import os
-from openpyxl import Workbook, load_workbook
-from django.conf import settings
-from django.core.mail import EmailMessage
-from django.http import JsonResponse
+    return render(
+        request,
+        "apply_job.html",
+        {
+            "form": form,
+            "career": career,
+        },
+    )
 
 
 def demo_booking(request):
@@ -273,16 +297,18 @@ def demo_booking(request):
         source = request.POST.get("source")
 
         # ===============================
-        # ✅ 1️⃣ STORE DATA IN EXCEL
+        # SAVE TO EXCEL
         # ===============================
 
         file_path = os.path.join(settings.BASE_DIR, "demo_booking1.xlsx")
 
-        if not os.path.exists(file_path):
+        if os.path.exists(file_path):
+            wb = load_workbook(file_path)
+            ws = wb.active
+        else:
             wb = Workbook()
             ws = wb.active
             ws.title = "Demo Bookings"
-
             ws.append([
                 "Name",
                 "Email",
@@ -290,10 +316,6 @@ def demo_booking(request):
                 "Education",
                 "Source"
             ])
-            wb.save(file_path)
-
-        wb = load_workbook(file_path)
-        ws = wb.active
 
         ws.append([
             name,
@@ -306,87 +328,81 @@ def demo_booking(request):
         wb.save(file_path)
 
         # ===============================
-        # ✅ 2️⃣ SEND EMAIL TO ADMIN
+        # EMAIL TO ADMIN
         # ===============================
 
         admin_subject = "New Demo Booking - Errors2Experts"
 
-        admin_message = f"""
-New Demo Booking Received
+        admin_html = f"""
+        <h2>📩 New Demo Booking Received</h2>
 
-Name: {name}
-Email: {email}
-Mobile: {mobile}
-Education: {education}
-Source: {source}
-"""
+        <p><strong>Name:</strong> {name}</p>
+        <p><strong>Email:</strong> {email}</p>
+        <p><strong>Mobile:</strong> {mobile}</p>
+        <p><strong>Education:</strong> {education}</p>
+        <p><strong>Source:</strong> {source}</p>
+        """
 
-        EmailMessage(
+        send_brevo_email(
+            settings.ADMIN_NOTIFICATION_EMAIL,
             admin_subject,
-            admin_message,
-            settings.EMAIL_HOST_USER,
-            [settings.EMAIL_HOST_USER],
-        ).send()
+            admin_html,
+        )
 
         # ===============================
-        # ✅ 3️⃣ SEND WELCOME EMAIL TO USER
+        # EMAIL TO USER
         # ===============================
 
         user_subject = "Welcome to Errors2Experts 🚀"
 
-        user_message = f"""
-Hi {name},
+        user_html = f"""
+        <h2>Hello {name},</h2>
 
-Greetings from Errors2Experts!
+        <p>Greetings from <strong>Errors2Experts!</strong></p>
 
-Thank you for showing interest in learning with us.
-We have received your demo booking successfully.
+        <p>
+        Thank you for showing interest in learning with us.
+        We have received your demo booking successfully.
+        </p>
 
-Our team will contact you soon and guide you through the next steps.
+        <p>
+        Our team will contact you soon and guide you through the next steps.
+        </p>
 
-At Errors2Experts, we believe:
-"Learn from errors, grow with knowledge, and become an expert."
+        <p>
+        At Errors2Experts, we believe:<br>
+        <i>"Learn from errors, grow with knowledge, and become an expert."</i>
+        </p>
 
-Stay connected with us:
+        <h3>Stay Connected</h3>
 
-🌐 Website: https://yourwebsite.com
-📸 Instagram: https://www.instagram.com/errors2experts_2026/
+        <p>
+        🌐 Website: https://yourwebsite.com<br>
+        📸 Instagram:
+        https://www.instagram.com/errors2experts_2026/
+        </p>
 
-Let’s learn, grow, and build your future together!
+        <p>
+        Let's learn, grow, and build your future together!
+        </p>
 
-Best Regards,
-Team Errors2Experts
-"""
+        <br>
 
-        EmailMessage(
+        <p>
+        Best Regards,<br>
+        <strong>Team Errors2Experts</strong>
+        </p>
+        """
+
+        send_brevo_email(
+            email,
             user_subject,
-            user_message,
-            settings.EMAIL_HOST_USER,
-            [email],
-        ).send()
+            user_html,
+        )
 
         return JsonResponse({"status": "success"})
 
     return JsonResponse({"status": "failed"})
-
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Course, CourseBooking
-from django.core.mail import send_mail
-from django.conf import settings
-from datetime import datetime, timedelta
-
-def course_detail(request, id):
-    course = get_object_or_404(Course, id=id)
-    return render(request, "courses.html", {"course": course})
-
-
-from django.shortcuts import render, redirect, get_object_or_404
-from django.conf import settings
-from django.core.mail import EmailMessage
-from .models import Course, CourseBooking
-from datetime import datetime, timedelta
-from openpyxl import Workbook, load_workbook
-import os
 
 
 def book_course(request, id):
@@ -404,6 +420,7 @@ def book_course(request, id):
         price = int(course.price)
 
         # ---------------- PAYMENT CALCULATION ----------------
+
         if payment_type == "emi":
             amount = price // 2
             balance = price - amount
@@ -414,6 +431,7 @@ def book_course(request, id):
             due_date = None
 
         # ---------------- SAVE TO DATABASE ----------------
+
         CourseBooking.objects.create(
             name=name,
             email=email,
@@ -422,13 +440,14 @@ def book_course(request, id):
             year_passed=year_passed,
             course=course.title,
             amount=amount,
-            
         )
 
         # ---------------- SAVE TO EXCEL ----------------
+
         booking_folder = os.path.join(settings.BASE_DIR, "media", "bookings")
+
         if not os.path.exists(booking_folder):
-         os.makedirs(booking_folder)
+            os.makedirs(booking_folder)
 
         file_path = os.path.join(booking_folder, "course_bookings.xlsx")
 
@@ -462,116 +481,128 @@ def book_course(request, id):
             payment_type,
             amount,
             balance,
-            due_date.strftime('%d-%m-%Y') if due_date else "N/A",
-            datetime.now().strftime('%d-%m-%Y %H:%M')
+            due_date.strftime("%d-%m-%Y") if due_date else "N/A",
+            datetime.now().strftime("%d-%m-%Y %H:%M")
         ])
 
         workbook.save(file_path)
 
         # ---------------- STUDENT EMAIL CONTENT ----------------
+
         if payment_type == "emi":
             payment_message = f"""
-Your First Payment: ₹{amount}
-Remaining Balance: ₹{balance}
-Next Payment Due Date: {due_date.strftime('%d-%m-%Y')}
+            <p><strong>Your First Payment:</strong> ₹{amount}</p>
+            <p><strong>Remaining Balance:</strong> ₹{balance}</p>
+            <p><strong>Next Payment Due Date:</strong> {due_date.strftime('%d-%m-%Y')}</p>
 
-Kindly complete your first payment and send the screenshot via:
+            <p>
+            Kindly complete your first payment and send the screenshot via:
+            </p>
 
-WhatsApp: +919363342646
-Email: errors2experts.official@gmail.com
+            <p>
+            WhatsApp: +91 9363342646<br>
+            Email: errors2experts.official@gmail.com
+            </p>
 
-
-Invoice is mandatory.
-"""
+            <p><strong>Invoice is mandatory.</strong></p>
+            """
         else:
             payment_message = f"""
-Total Amount: ₹{amount}
+            <p><strong>Total Amount:</strong> ₹{amount}</p>
 
-Kindly complete your payment and send the screenshot via:
+            <p>
+            Kindly complete your payment and send the screenshot via:
+            </p>
 
-WhatsApp: +919363342646
-Email: errors2experts.official@gmail.com
+            <p>
+            WhatsApp: +91 9363342646<br>
+            Email: errors2experts.official@gmail.com
+            </p>
 
+            <p><strong>Invoice is mandatory.</strong></p>
+            """
 
-Invoice is mandatory.
-"""
+        student_html = f"""
+        <h2>Welcome to Errors2Experts!</h2>
 
-        student_message = f"""
-Hi {name},
+        <p>Hi <strong>{name}</strong>,</p>
 
-Welcome to Errors2Experts!
+        <p>Thank you for booking your course with us.</p>
 
-Course: {course.title}
+        <p><strong>Course:</strong> {course.title}</p>
 
-{payment_message}
+        {payment_message}
 
-Terms & Conditions:
+        <hr>
 
-1. Errors2Experts is a MSME registered training institute.
-2. Amount once paid is non-refundable.
-3. Maintain discipline and behave professionally.
-4. If taking leave, inform in course WhatsApp group.
-5. More than 2 days leave requires proof + email.
-6. Placement assistance provided (not guarantee).
+        <h3>Terms & Conditions</h3>
 
-Let's Learn & Grow Together 🚀
+        <ol>
+            <li>Errors2Experts is a MSME registered training institute.</li>
+            <li>Amount once paid is non-refundable.</li>
+            <li>Maintain discipline and behave professionally.</li>
+            <li>If taking leave, inform in course WhatsApp group.</li>
+            <li>More than 2 days leave requires proof + email.</li>
+            <li>Placement assistance provided (not guarantee).</li>
+        </ol>
 
-Thank you,
-Errors2Experts Team
-"""
+        <p>Let's Learn & Grow Together 🚀</p>
 
-        # ---------------- SEND EMAIL TO STUDENT ----------------
-        student_email = EmailMessage(
-            subject="Course Booking Confirmation - Errors2Experts",
-            body=student_message,
-            from_email=settings.EMAIL_HOST_USER,
-            to=[email],
+        <br>
+
+        <strong>Errors2Experts Team</strong>
+        """
+
+        qr_path = os.path.join(
+            settings.BASE_DIR,
+            "static",
+            "images",
+            "qr.jpeg"
         )
 
-        # Attach QR
-        qr_path = os.path.join(settings.BASE_DIR, "static/images/qr.jpeg")
-        if os.path.exists(qr_path):
-            student_email.attach_file(qr_path)
+        send_brevo_email(
+            email,
+            "Course Booking Confirmation - Errors2Experts",
+            student_html,
+            attachment_path=qr_path,
+        )
 
-        student_email.send()
+        # ---------------- ADMIN EMAIL ----------------
 
-        # ---------------- SEND EMAIL TO ADMIN ----------------
         admin_subject = "🚀 New Course Booking Received"
 
-        admin_message = f"""
-New Booking Alert!
+        admin_html = f"""
+        <h2>New Course Booking</h2>
 
-Student Details:
+        <p><strong>Name:</strong> {name}</p>
+        <p><strong>Email:</strong> {email}</p>
+        <p><strong>Mobile:</strong> {mobile}</p>
+        <p><strong>Education:</strong> {education}</p>
+        <p><strong>Year Passed:</strong> {year_passed}</p>
 
-Name: {name}
-Email: {email}
-Mobile: {mobile}
-Education: {education}
-Year Passed: {year_passed}
+        <hr>
 
-Course: {course.title}
-Payment Type: {payment_type}
-First Payment: ₹{amount}
-Balance: ₹{balance}
-Due Date: {due_date.strftime('%d-%m-%Y') if due_date else 'N/A'}
+        <p><strong>Course:</strong> {course.title}</p>
+        <p><strong>Payment Type:</strong> {payment_type}</p>
+        <p><strong>First Payment:</strong> ₹{amount}</p>
+        <p><strong>Balance:</strong> ₹{balance}</p>
+        <p><strong>Due Date:</strong> {due_date.strftime('%d-%m-%Y') if due_date else 'N/A'}</p>
 
-Booking Time: {datetime.now().strftime('%d-%m-%Y %H:%M')}
+        <hr>
 
-Please follow up with the student.
+        <p><strong>Booking Time:</strong> {datetime.now().strftime('%d-%m-%Y %H:%M')}</p>
 
-Errors2Experts System
-"""
+        <p>Please follow up with the student.</p>
+        """
 
-        admin_email = EmailMessage(
-            subject=admin_subject,
-            body=admin_message,
-            from_email=settings.EMAIL_HOST_USER,
-            to=[settings.ADMIN_NOTIFICATION_EMAIL],  # add in settings.py
+        send_brevo_email(
+            settings.ADMIN_NOTIFICATION_EMAIL,
+            admin_subject,
+            admin_html,
         )
 
-        admin_email.send()
-
         # ---------------- SHOW QR PAGE ----------------
+
         return render(request, "show_qr.html", {
             "amount": amount,
             "balance": balance,
@@ -581,14 +612,6 @@ Errors2Experts System
         })
 
     return redirect("course_detail", id=id)
-
-import os
-from django.conf import settings
-from django.shortcuts import redirect
-from django.core.mail import send_mail
-from openpyxl import Workbook, load_workbook
-from .models import ServiceBooking
-from django.contrib import messages
 
 
 def service_booking(request):
@@ -601,17 +624,19 @@ def service_booking(request):
         message = request.POST.get("message")
         preferred_date = request.POST.get("preferred_date")
 
-        # Save to database
-        booking = ServiceBooking.objects.create(
+        # ---------------- SAVE TO DATABASE ----------------
+
+        ServiceBooking.objects.create(
             full_name=full_name,
             email=email,
             mobile=mobile,
             service_name=service_name,
             message=message,
-            preferred_date=preferred_date
+            preferred_date=preferred_date,
         )
 
-        # Save to Excel
+        # ---------------- SAVE TO EXCEL ----------------
+
         file_path = os.path.join(settings.BASE_DIR, "service_bookings.xlsx")
 
         if os.path.exists(file_path):
@@ -620,350 +645,614 @@ def service_booking(request):
         else:
             wb = Workbook()
             ws = wb.active
-            ws.append(["Full Name", "Email", "Mobile", "Service", "Preferred Date", "Message"])
+            ws.append([
+                "Full Name",
+                "Email",
+                "Mobile",
+                "Service",
+                "Preferred Date",
+                "Message",
+            ])
 
-        ws.append([full_name, email, mobile, service_name, preferred_date, message])
+        ws.append([
+            full_name,
+            email,
+            mobile,
+            service_name,
+            preferred_date,
+            message,
+        ])
+
         wb.save(file_path)
 
-        # Email to Admin
-        admin_subject = "New Service Booking"
-        admin_message = f"""
-New Service Booking Received
+        # ---------------- EMAIL TO ADMIN ----------------
 
-Name: {full_name}
-Email: {email}
-Mobile: {mobile}
-Service: {service_name}
-Preferred Date: {preferred_date}
-Message: {message}
-"""
+        admin_subject = "🚀 New Service Booking - Errors2Experts"
 
-        # send_mail(
-        #     admin_subject,
-        #     admin_message,
-        #     settings.EMAIL_HOST_USER,
-        #     [settings.EMAIL_HOST_USER],
-        #     fail_silently=False,
-        # )
+        admin_html = f"""
+        <h2>New Service Booking Received</h2>
+
+        <table cellpadding="6">
+            <tr>
+                <td><strong>Name</strong></td>
+                <td>{full_name}</td>
+            </tr>
+            <tr>
+                <td><strong>Email</strong></td>
+                <td>{email}</td>
+            </tr>
+            <tr>
+                <td><strong>Mobile</strong></td>
+                <td>{mobile}</td>
+            </tr>
+            <tr>
+                <td><strong>Service</strong></td>
+                <td>{service_name}</td>
+            </tr>
+            <tr>
+                <td><strong>Preferred Date</strong></td>
+                <td>{preferred_date}</td>
+            </tr>
+        </table>
+
+        <hr>
+
+        <h4>Customer Message</h4>
+
+        <p>{message}</p>
+        """
 
         send_brevo_email(
             settings.ADMIN_NOTIFICATION_EMAIL,
             admin_subject,
-            f"""
-            <h2>🚀 New Service Booking</h2>
-            <p><b>Name:</b> {full_name}</p>
-            <p><b>Email:</b> {email}</p>
-            <p><b>Mobile:</b> {mobile}</p>
-            <p><b>Service:</b> {service_name}</p>
-            <p><b>Preferred Date:</b> {preferred_date}</p>
-            
-            <p><b>Message:</b></p>
-            <p>{message}</p>
-            """
+            admin_html,
         )
 
-        # Email to Client
+        # ---------------- EMAIL TO CLIENT ----------------
+
         client_subject = "Thank You for Registering"
-        client_message = f"""
-Hi {full_name},
 
-Thank you for registering for our {service_name} service.
+        client_html = f"""
+        <h2>Hello {full_name},</h2>
 
-Our team will contact you as soon as possible.
+        <p>
+        Thank you for registering for our
+        <strong>{service_name}</strong> service.
+        </p>
 
-Stay connected with us:
+        <p>
+        We have successfully received your request.
+        </p>
 
-🌐 Website: https://yourwebsite.com
-📸 Instagram: https://www.instagram.com/errors2experts_2026/
+        <p>
+        Our team will contact you as soon as possible.
+        </p>
 
-Let’s learn, grow, and build your future together!
+        <hr>
 
-Best Regards,
-Errors2Experts Team
-"""
+        <h3>Stay Connected</h3>
 
-        # send_mail(
-        #     client_subject,
-        #     client_message,
-        #     settings.EMAIL_HOST_USER,
-        #     [email],
-        #     fail_silently=False,
-        # )
+        <p>
+        🌐 Website: https://yourwebsite.com
+        </p>
+
+        <p>
+        📸 Instagram:<br>
+        https://www.instagram.com/errors2experts_2026/
+        </p>
+
+        <br>
+
+        <p>
+        Let's learn, grow, and build your future together!
+        </p>
+
+        <br>
+
+        <strong>Best Regards,</strong><br>
+        <strong>Errors2Experts Team</strong>
+        """
+
         send_brevo_email(
             email,
             client_subject,
-            f"""
-            <h2>Hello {full_name}</h2>
-            <p>{client_message}</p>
-            <br>
-            <b>Errors2Experts Team</b>
-            """
-            )
-        
+            client_html,
+        )
+
         messages.success(request, "Service Registered Successfully")
-        return redirect("services")  # change if needed
-    
-from .models import WorkshopPhoto, UpcomingWorkshop
+        return redirect("services")
+
+    return redirect("services")
+
+# ---------------- WORKSHOP GALLERY ----------------
+
 
 def workshop_gallery(request):
     workshops = WorkshopPhoto.objects.all()
-
     upcoming_workshop = UpcomingWorkshop.objects.order_by("event_date").first()
 
     return render(request, "workshop.html", {
         "workshops": workshops,
         "upcoming_workshop": upcoming_workshop,
     })
- 
-def certificate_gallery(request):
-    """Dedicated full-page certificate gallery."""
-    certificates = Certificate.objects.all()
-    return render(request, 'certificate.html', {'certificates': certificates})
-from django.shortcuts import render, get_object_or_404
-from collections import defaultdict
-from .models import Internship
 
-# View for the landing page (Cards)
+
+# ---------------- CERTIFICATE GALLERY ----------------
+
+def certificate_gallery(request):
+    certificates = Certificate.objects.all()
+
+    return render(request, "certificate.html", {
+        "certificates": certificates,
+    })
+
+
+# ---------------- INTERNSHIP LIST ----------------
+
 def internship_list(request):
     internships = Internship.objects.all()
-    return render(request, 'all_internship.html', {'internships': internships})
 
-# View for the roadmap detail page
+    return render(request, "all_internship.html", {
+        "internships": internships,
+    })
+
+
+# ---------------- INTERNSHIP DETAIL ----------------
+
 def internship_detail(request, pk):
     internship = get_object_or_404(Internship, pk=pk)
-    
-    # Logic to group days into weekly timeline blocks
+
     timeline_data = defaultdict(list)
+
     for index, topic in enumerate(internship.syllabus):
-        week = (index // 5) + 1  
-        timeline_data[week].append({'day': index + 1, 'topic': topic})
-        
-    return render(request, 'internship_detail.html', {
-        'internship': internship, 
-        'timeline_data': dict(timeline_data)
+        week = (index // 5) + 1
+        timeline_data[week].append({
+            "day": index + 1,
+            "topic": topic,
+        })
+
+    return render(request, "internship_detail.html", {
+        "internship": internship,
+        "timeline_data": dict(timeline_data),
     })
-    
-# from django.core.paginator import Paginator
-# from django.db.models import Q
-# from .models import ServiceDemoLink
 
-# def live_demo(request):
-#     demos = (ServiceDemoLink.objects
-#              .select_related('service')
-#              .exclude(url__isnull=True).exclude(url='')
-#              .order_by('order', 'service__title'))
-
-#     query = request.GET.get('q', '').strip()
-#     category = request.GET.get('category', 'all').strip()
-
-#     if query:
-#         demos = demos.filter(
-#             Q(title__icontains=query) |
-#             Q(description__icontains=query) |
-#             Q(technologies__icontains=query)
-#         )
-#     if category and category.lower() != 'all':
-#         demos = demos.filter(category__iexact=category)
-
-#     categories = (ServiceDemoLink.objects
-#                   .exclude(category='')
-#                   .values_list('category', flat=True)
-#                   .distinct().order_by('category'))
-
-#     paginator = Paginator(demos, 9)
-#     page_obj = paginator.get_page(request.GET.get('page'))
-
-#     context = {
-#         'page_obj': page_obj,
-#         'categories': categories,
-#         'query': query,
-#         'active_category': category or 'all',
-#     }
-
-#     # AJAX request → return only the results fragment, no full-page render
-#     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-#         return render(request, 'partials/live_demo_results.html', context)
-
-#     return render(request, 'live_demo.html', context)
- 
 
 def workshop_registration(request):
 
     if request.method == "POST":
 
-        name = request.POST.get("full_name")
+        # ================= GET FORM DATA =================
+
+        full_name = request.POST.get("full_name")
         email = request.POST.get("email")
         mobile = request.POST.get("mobile")
-        education = request.POST.get("education")
-        workshop = request.POST.get("workshop")
+        gender = request.POST.get("gender")
+
+        participation_mode = request.POST.get("participation_mode")
+        present_address = request.POST.get("present_address")
+        year_of_study = request.POST.get("year_of_study")
+        college_name = request.POST.get("college_name")
+        degree = request.POST.get("degree")
+        department = request.POST.get("department")
+        passed_out_year = request.POST.get("passed_out_year")
+
+        interested_domains = ", ".join(
+            request.POST.getlist("interested_domains")
+        )
+
+        technical_skill = request.POST.get("technical_skill")
+        technical_skill_other = request.POST.get("technical_skill_other")
+
+        demo_interest = request.POST.get("demo_interest")
+        demo_interest_other = request.POST.get("demo_interest_other")
+
+        demo_mode = request.POST.get("demo_mode")
+
+        preferred_demo_time = ", ".join(
+            request.POST.getlist("preferred_demo_time")
+        )
+
+        consent = request.POST.get("consent") == "True"
+
+        queries = request.POST.get("queries")
+        referred_by = request.POST.get("referred_by")
 
         # ================= DATABASE =================
 
         WorkshopRegistration.objects.create(
-            full_name=name,
+            full_name=full_name,
             email=email,
             mobile=mobile,
-            education=education,
-            workshop=workshop
+            gender=gender,
+            participation_mode=participation_mode,
+            present_address=present_address,
+            year_of_study=year_of_study,
+            college_name=college_name,
+            degree=degree,
+            department=department,
+            passed_out_year=passed_out_year,
+            interested_domains=interested_domains,
+            technical_skill=technical_skill,
+            technical_skill_other=technical_skill_other,
+            demo_interest=demo_interest,
+            demo_interest_other=demo_interest_other,
+            demo_mode=demo_mode,
+            preferred_demo_time=preferred_demo_time,
+            consent=consent,
+            queries=queries,
+            referred_by=referred_by,
         )
 
-        # ================= EXCEL =================
+        # ================= SAVE TO EXCEL =================
 
-        file_path = os.path.join(
-            settings.BASE_DIR,
-            "workshop_registrations.xlsx"
-        )
+        file_path = os.path.join(settings.BASE_DIR, "workshop_registrations.xlsx")
 
         if os.path.exists(file_path):
-
             wb = load_workbook(file_path)
             ws = wb.active
 
         else:
-
             wb = Workbook()
             ws = wb.active
 
+            # Header Row
             ws.append([
-                "Name",
+                "Full Name","Email","Mobile","Gender","Participation Mode", "Present Address","Year Of Study",
+                "College Name","Degree","Department","Passed Out Year","Interested Domains","Technical Skill",
+                "Technical Skill (Other)","Demo Interest",
+                "Demo Interest (Other)",
+                "Preferred Demo Mode",
+                "Preferred Demo Time",
+                "Consent",
+                "Queries",
+                "Referred By",
+                "Registration Date"
+            ])
+            ws.append([
+                "Full Name",
                 "Email",
                 "Mobile",
-                "Education",
-                "Workshop",
-                "Date"
+                "Gender",
+                "Participation Mode",
+                "Present Address",
+                "Year Of Study",
+                "College Name",
+                "Degree",
+                "Department",
+                "Passed Out Year",
+                "Interested Domains",
+                "Technical Skill",
+                "Technical Skill (Other)",
+                "Demo Interest",
+                "Demo Interest (Other)",
+                "Preferred Demo Mode",
+                "Preferred Demo Time",
+                "Consent",
+                "Queries",
+                "Referred By",
+                "Registration Date"
             ])
 
-        ws.append([
-            name,
-            email,
-            mobile,
-            education,
-            workshop,
-            datetime.now().strftime("%d-%m-%Y %H:%M")
-        ])
+            # Data Row
+            ws.append([
+                full_name,
+                email,
+                mobile,
+                gender,
+                participation_mode,
+                present_address,
+                year_of_study,
+                college_name,
+                degree,
+                department,
+                passed_out_year,
+                interested_domains,
+                technical_skill,
+                technical_skill_other,
+                demo_interest,
+                demo_interest_other,
+                demo_mode,
+                preferred_demo_time,
+                "Yes" if consent else "No",
+                queries,
+                referred_by,
+                datetime.now().strftime("%d-%m-%Y %I:%M %p")
+            ])
 
-        wb.save(file_path)
+            wb.save(file_path)
 
-        # ================= ADMIN MAIL =================
+            # =====================================================
+            # ADMIN EMAIL
+            # =====================================================
 
-        admin_subject = f"New Workshop Registration - {workshop}"
+            admin_subject = f"📢 New Workshop Registration - {full_name}"
 
-        admin_message = f"""
-New Workshop Registration
+            admin_html = f"""
+            <!DOCTYPE html>
+            <html>
 
-Name      : {name}
-Email     : {email}
-Mobile    : {mobile}
-Education : {education}
-Workshop  : {workshop}
+            <body style="font-family:Arial,Helvetica,sans-serif;background:#f4f4f4;padding:30px;">
 
-Registration Time :
-{datetime.now().strftime("%d-%m-%Y %H:%M")}
-"""
+            <div style="
+                max-width:800px;
+                margin:auto;
+                background:#ffffff;
+                border-radius:10px;
+                overflow:hidden;
+                border:1px solid #dddddd;
+            ">
 
-        EmailMessage(
-            subject=admin_subject,
-            body=admin_message,
-            from_email=settings.EMAIL_HOST_USER,
-            to=[settings.ADMIN_NOTIFICATION_EMAIL]
-        ).send()
+                <div style="background:#2e7d32;padding:18px;color:white;">
+                    <h2 style="margin:0;">
+                        📢 New Workshop Registration
+                    </h2>
+                </div>
 
-        # ================= USER MAIL =================
+                <div style="padding:25px;">
 
-        subject = f"Workshop Registration Successful - {workshop}"
+                    <table style="width:100%;border-collapse:collapse;">
 
-        text_content = f"""
-Hi {name},
+                        <tr>
+                            <td style="padding:10px;border:1px solid #ddd;"><b>Full Name</b></td>
+                            <td style="padding:10px;border:1px solid #ddd;">{full_name}</td>
+                        </tr>
 
-Thank you for registering successfully for the {workshop}.
+                        <tr>
+                            <td style="padding:10px;border:1px solid #ddd;"><b>Email</b></td>
+                            <td style="padding:10px;border:1px solid #ddd;">{email}</td>
+                        </tr>
 
-Your registration has been received successfully.
+                        <tr>
+                            <td style="padding:10px;border:1px solid #ddd;"><b>Mobile</b></td>
+                            <td style="padding:10px;border:1px solid #ddd;">{mobile}</td>
+                        </tr>
 
-Our team will contact you shortly with the meeting link and workshop details.
+                        <tr>
+                            <td style="padding:10px;border:1px solid #ddd;"><b>Gender</b></td>
+                            <td style="padding:10px;border:1px solid #ddd;">{gender}</td>
+                        </tr>
 
-Regards,
-Errors2Experts Team
-"""
+                        <tr>
+                            <td style="padding:10px;border:1px solid #ddd;"><b>Participation Mode</b></td>
+                            <td style="padding:10px;border:1px solid #ddd;">{participation_mode}</td>
+                        </tr>
 
-        html_content = f"""
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-</head>
+                        <tr>
+                            <td style="padding:10px;border:1px solid #ddd;"><b>Present Address</b></td>
+                            <td style="padding:10px;border:1px solid #ddd;">{present_address}</td>
+                        </tr>
 
-<body style="font-family:Arial,sans-serif;background:#f5f5f5;padding:30px;">
+                        <tr>
+                            <td style="padding:10px;border:1px solid #ddd;"><b>Year Of Study</b></td>
+                            <td style="padding:10px;border:1px solid #ddd;">{year_of_study}</td>
+                        </tr>
 
-<div style="max-width:650px;margin:auto;background:#ffffff;border-radius:10px;padding:30px;border:1px solid #ddd;">
+                        <tr>
+                            <td style="padding:10px;border:1px solid #ddd;"><b>College Name</b></td>
+                            <td style="padding:10px;border:1px solid #ddd;">{college_name}</td>
+                        </tr>
 
-<h2 style="color:#2e7d32;">
-Hello {name},
-</h2>
+                        <tr>
+                            <td style="padding:10px;border:1px solid #ddd;"><b>Degree</b></td>
+                            <td style="padding:10px;border:1px solid #ddd;">{degree}</td>
+                        </tr>
 
-<p>
-Thank you for registering for our
-<b>{workshop}</b>.
-</p>
+                        <tr>
+                            <td style="padding:10px;border:1px solid #ddd;"><b>Department</b></td>
+                            <td style="padding:10px;border:1px solid #ddd;">{department}</td>
+                        </tr>
 
-<p>
-Your registration has been received successfully.
-</p>
+                        <tr>
+                            <td style="padding:10px;border:1px solid #ddd;"><b>Passed Out Year</b></td>
+                            <td style="padding:10px;border:1px solid #ddd;">{passed_out_year}</td>
+                        </tr>
 
-<p>
-Our team will contact you shortly with the workshop meeting link and complete instructions.
-</p>
+                        <tr>
+                            <td style="padding:10px;border:1px solid #ddd;"><b>Interested Domains</b></td>
+                            <td style="padding:10px;border:1px solid #ddd;">{interested_domains}</td>
+                        </tr>
 
-<hr>
+                        <tr>
+                            <td style="padding:10px;border:1px solid #ddd;"><b>Technical Skill</b></td>
+                            <td style="padding:10px;border:1px solid #ddd;">{technical_skill}</td>
+                        </tr>
 
-<h3 style="color:#1b9615;">
-Workshop Details
-</h3>
+                        <tr>
+                            <td style="padding:10px;border:1px solid #ddd;"><b>Technical Skill (Other)</b></td>
+                            <td style="padding:10px;border:1px solid #ddd;">{technical_skill_other}</td>
+                        </tr>
 
-<p>
+                        <tr>
+                            <td style="padding:10px;border:1px solid #ddd;"><b>Demo Interest</b></td>
+                            <td style="padding:10px;border:1px solid #ddd;">{demo_interest}</td>
+                        </tr>
 
-<b>Workshop :</b> {workshop}<br>
-<b>Status :</b> Registration Confirmed ..
+                        <tr>
+                            <td style="padding:10px;border:1px solid #ddd;"><b>Demo Interest (Other)</b></td>
+                            <td style="padding:10px;border:1px solid #ddd;">{demo_interest_other}</td>
+                        </tr>
 
-</p>
+                        <tr>
+                            <td style="padding:10px;border:1px solid #ddd;"><b>Preferred Demo Mode</b></td>
+                            <td style="padding:10px;border:1px solid #ddd;">{demo_mode}</td>
+                        </tr>
 
-<br>
+                        <tr>
+                            <td style="padding:10px;border:1px solid #ddd;"><b>Preferred Demo Time</b></td>
+                            <td style="padding:10px;border:1px solid #ddd;">{preferred_demo_time}</td>
+                        </tr>
 
-<p>
-Thank you for choosing
-<b>Errors2Experts</b>.
-</p>
+                        <tr>
+                            <td style="padding:10px;border:1px solid #ddd;"><b>Consent</b></td>
+                            <td style="padding:10px;border:1px solid #ddd;">{"Yes" if consent else "No"}</td>
+                        </tr>
 
-<p>
-Regards,<br>
-<b>Errors2Experts Team</b>
-</p>
+                        <tr>
+                            <td style="padding:10px;border:1px solid #ddd;"><b>Queries</b></td>
+                            <td style="padding:10px;border:1px solid #ddd;">{queries}</td>
+                        </tr>
 
-</div>
+                        <tr>
+                            <td style="padding:10px;border:1px solid #ddd;"><b>Referred By</b></td>
+                            <td style="padding:10px;border:1px solid #ddd;">{referred_by}</td>
+                        </tr>
 
-</body>
-</html>
-"""
+                        <tr>
+                            <td style="padding:10px;border:1px solid #ddd;"><b>Registration Time</b></td>
+                            <td style="padding:10px;border:1px solid #ddd;">{datetime.now().strftime("%d-%m-%Y %I:%M %p")}</td>
+                        </tr>
 
-        mail = EmailMultiAlternatives(
-            subject=subject,
-            body=text_content,
-            from_email=settings.EMAIL_HOST_USER,
-            to=[email],
-        )
+                    </table>
 
-        mail.attach_alternative(html_content, "text/html")
-        mail.send()
+                </div>
 
-        # ================= REDIRECT =================
+            </div>
 
+            </body>
+            </html>
+            """
+
+            send_brevo_email(
+                settings.ADMIN_NOTIFICATION_EMAIL,
+                admin_subject,
+                admin_html
+            )
+
+            # =====================================================
+            # USER EMAIL
+            # =====================================================
+
+            user_subject = "Workshop Registration Successful | Errors2Experts"
+
+            user_html = f"""
+            <!DOCTYPE html>
+            <html>
+
+            <body style="margin:0;padding:0;background:#f4f6f9;font-family:Arial,Helvetica,sans-serif;">
+
+            <div style="max-width:700px;margin:30px auto;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e5e5e5;">
+
+                <!-- Header -->
+                <div style="background:#2e7d32;padding:25px;text-align:center;color:white;">
+                    <h2 style="margin:0;">🎉 Registration Successful</h2>
+                    <p style="margin-top:8px;font-size:15px;">
+                        Thank you for registering with Errors2Experts.
+                    </p>
+                </div>
+
+                <!-- Body -->
+                <div style="padding:30px;">
+
+                    <p>Dear <strong>{full_name}</strong>,</p>
+
+                    <p>
+                        Thank you for registering for our training program.
+                        We have successfully received your registration details.
+                    </p>
+
+                    <p>
+                        Our team will contact you shortly regarding your preferred
+                        domain and demo session (if selected).
+                    </p>
+
+                    <h3 style="color:#2e7d32;border-bottom:2px solid #2e7d32;padding-bottom:8px;">
+                        Registration Summary
+                    </h3>
+
+                    <table style="width:100%;border-collapse:collapse;">
+
+                        <tr>
+                            <td style="padding:8px;border:1px solid #ddd;"><b>Name</b></td>
+                            <td style="padding:8px;border:1px solid #ddd;">{full_name}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding:8px;border:1px solid #ddd;"><b>Email</b></td>
+                            <td style="padding:8px;border:1px solid #ddd;">{email}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding:8px;border:1px solid #ddd;"><b>Mobile</b></td>
+                            <td style="padding:8px;border:1px solid #ddd;">{mobile}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding:8px;border:1px solid #ddd;"><b>Participation Mode</b></td>
+                            <td style="padding:8px;border:1px solid #ddd;">{participation_mode}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding:8px;border:1px solid #ddd;"><b>Interested Domains</b></td>
+                            <td style="padding:8px;border:1px solid #ddd;">{interested_domains}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding:8px;border:1px solid #ddd;"><b>Technical Skill</b></td>
+                            <td style="padding:8px;border:1px solid #ddd;">{technical_skill}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding:8px;border:1px solid #ddd;"><b>Demo Interest</b></td>
+                            <td style="padding:8px;border:1px solid #ddd;">{demo_interest}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding:8px;border:1px solid #ddd;"><b>Preferred Demo Mode</b></td>
+                            <td style="padding:8px;border:1px solid #ddd;">{demo_mode}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding:8px;border:1px solid #ddd;"><b>Preferred Demo Time</b></td>
+                            <td style="padding:8px;border:1px solid #ddd;">{preferred_demo_time}</td>
+                        </tr>
+
+                    </table>
+
+                    <br>
+
+                    <div style="background:#f8f9fa;padding:15px;border-left:4px solid #2e7d32;">
+                        <strong>What's Next?</strong>
+                        <ul style="margin:10px 0 0 18px;padding:0;">
+                            <li>Our team will review your registration.</li>
+                            <li>You'll receive a call or email regarding the next steps.</li>
+                            <li>If you've requested a demo session, we'll schedule it based on your preferred mode and time.</li>
+                        </ul>
+                    </div>
+
+                    <br>
+
+                    <p>
+                        If you have any questions, simply reply to this email or contact our support team.
+                    </p>
+
+                    <p>
+                        Regards,<br>
+                        <strong>Errors2Experts Team</strong>
+                    </p>
+
+                </div>
+
+                <!-- Footer -->
+                <div style="background:#f1f1f1;padding:15px;text-align:center;font-size:13px;color:#666;">
+                    © 2026 Errors2Experts. All Rights Reserved.
+                </div>
+
+            </div>
+
+            </body>
+            </html>
+            """
+
+            send_brevo_email(
+                email,
+                user_subject,
+                user_html
+            )
+
+        
         return redirect("home")
 
     return redirect("home")
-
-from .models import DemoRequest, DemoCategory
-from django.core.mail import EmailMessage
-from django.contrib import messages
-
 
 def demo_request(request):
     if request.method == "POST":
@@ -974,7 +1263,7 @@ def demo_request(request):
         category_value = request.POST.get("category")
         custom_requirement = request.POST.get("custom_requirement")
 
-        category = None
+        # ================= GET CATEGORY =================
 
         if category_value == "other":
             category = None
@@ -984,7 +1273,8 @@ def demo_request(request):
             except DemoCategory.DoesNotExist:
                 category = None
 
-        # Save Request
+        # ================= SAVE REQUEST =================
+
         DemoRequest.objects.create(
             organization_name=organization_name,
             email=email,
@@ -993,87 +1283,140 @@ def demo_request(request):
             custom_requirement=custom_requirement,
         )
 
-        
-        # CATEGORY FOUND
-        
+        # ===================================================
+        # CATEGORY DEMO REQUEST
+        # ===================================================
 
         if category:
 
-            user_subject = f"{category.name if category else 'Other'} Demo Link"
+            user_subject = f"{category.name} Demo Link"
 
-            user_message = f"""
-Hi {organization_name},
+            user_html = f"""
+            <h2>Hello {organization_name},</h2>
 
-Thank you for requesting the {category.name if category else "Other"} demo.
+            <p>
+            Thank you for requesting the
+            <b>{category.name}</b> demo.
+            </p>
 
-Below is your demo link:
+            <p>
+            Below is your demo link:
+            </p>
 
-{category.demo_link}
+            <p>
+            <a href="{category.demo_link}">
+                {category.demo_link}
+            </a>
+            </p>
 
-Thank you.
+            <br>
 
-Regards,
-Errors2Experts Team
-"""
+            <p>
+            Thank you.
+            </p>
 
-            EmailMessage(
+            <p>
+            Regards,<br>
+            <b>Errors2Experts Team</b>
+            </p>
+            """
+
+            send_brevo_email(
+                email,
                 user_subject,
-                user_message,
-                settings.EMAIL_HOST_USER,
-                [email],
-            ).send()
+                user_html
+            )
 
             messages.success(
                 request,
                 "Demo link has been sent to your email."
             )
 
-        
-        # OTHER REQUIREMENT
-        
+        # ===================================================
+        # CUSTOM REQUIREMENT
+        # ===================================================
 
         else:
 
-            # User Mail
+            # ---------------- USER EMAIL ----------------
 
-            EmailMessage(
-                "Demo Request Received",
-                f"""
-Hi {organization_name},
+            user_subject = "Demo Request Received"
 
-Thank you for contacting Errors2Experts.
+            user_html = f"""
+            <h2>Hello {organization_name},</h2>
 
-We have received your custom demo request.
+            <p>
+            Thank you for contacting
+            <b>Errors2Experts</b>.
+            </p>
 
-Our technical team will review your requirement.
+            <p>
+            We have received your custom demo request.
+            </p>
 
-You will receive a response within 2-3 business days.
+            <p>
+            Our technical team will review your requirement.
+            </p>
 
-Regards,
-Errors2Experts Team
-""",
-                settings.EMAIL_HOST_USER,
-                [email],
-            ).send()
+            <p>
+            You will receive a response within
+            <b>2-3 business days.</b>
+            </p>
 
-            # Admin Mail
+            <br>
 
-            EmailMessage(
-                "🚨 Critical Custom Demo Request",
-                f"""
-Customer Name : {organization_name}
+            <p>
+            Regards,<br>
+            <b>Errors2Experts Team</b>
+            </p>
+            """
 
-Email : {email}
+            send_brevo_email(
+                email,
+                user_subject,
+                user_html
+            )
 
-Mobile : {mobile}
+            # ---------------- ADMIN EMAIL ----------------
 
-Requirement :
+            admin_subject = "🚨 Critical Custom Demo Request"
 
-{custom_requirement}
-""",
-                settings.EMAIL_HOST_USER,
-                [settings.ADMIN_NOTIFICATION_EMAIL],
-            ).send()
+            admin_html = f"""
+            <h2>🚨 New Custom Demo Request</h2>
+
+            <table cellpadding="6">
+                <tr>
+                    <td><b>Customer Name</b></td>
+                    <td>{organization_name}</td>
+                </tr>
+
+                <tr>
+                    <td><b>Email</b></td>
+                    <td>{email}</td>
+                </tr>
+
+                <tr>
+                    <td><b>Mobile</b></td>
+                    <td>{mobile}</td>
+                </tr>
+            </table>
+
+            <br>
+
+            <h3>Requirement</h3>
+
+            <p>{custom_requirement}</p>
+
+            <br>
+
+            <b>Errors2Experts System</b>
+            """
+
+            send_brevo_email(
+                settings.ADMIN_NOTIFICATION_EMAIL,
+                admin_subject,
+                admin_html
+            )
 
             messages.success(
                 request,
@@ -1083,3 +1426,5 @@ Requirement :
         return redirect("services")
 
     return redirect("services")
+    
+

@@ -262,12 +262,160 @@ class WorkshopPhoto(models.Model):
     def __str__(self):
         return self.title
 
+
 class WorkshopRegistration(models.Model):
+
+    # ---------------- Participation Mode ----------------
+    PARTICIPATION_MODE = [
+        ("Offline", "Offline"),
+        ("Online", "Online"),
+    ]
+
+    # ---------------- Technical Skill ----------------
+    TECHNICAL_LEVEL = [
+        ("Beginner", "Beginner"),
+        ("Basic Knowledge", "Basic Knowledge"),
+        ("Intermediate", "Intermediate"),
+        ("Advanced", "Advanced"),
+        ("Other", "Other"),
+    ]
+
+    # ---------------- Demo Interest ----------------
+    DEMO_INTEREST = [
+        ("Yes", "Yes, I want to Attend a Free Demo Session on my Interested Domain"),
+        ("Maybe", "Maybe"),
+        ("Need more information", "Need more information"),
+        ("No", "No"),
+        ("Other", "Other"),
+    ]
+
+    # ---------------- Demo Mode ----------------
+    DEMO_MODE = [
+        ("Online", "Online"),
+        ("Offline", "Offline"),
+        ("Either", "Either is Okay"),
+    ]
+
+    # ---------------- Gender ----------------
+    
+    GENDER_CHOICES = [
+        ("Male", "Male"),
+        ("Female", "Female"),
+        ("Prefer not to say", "Prefer not to say"),
+    ]
+
+    # ===================================================
+    # Basic Details
+    # ===================================================
+
     full_name = models.CharField(max_length=150)
     email = models.EmailField()
     mobile = models.CharField(max_length=20)
-    education = models.CharField(max_length=150)
-    workshop = models.CharField(max_length=200)
+
+    gender = models.CharField(
+        max_length=30,
+        choices=GENDER_CHOICES,
+        blank=True,
+        null=True
+    )
+
+    participation_mode = models.CharField(
+        max_length=20,
+        choices=PARTICIPATION_MODE
+    )
+
+    present_address = models.TextField(blank=True, null=True)
+
+    year_of_study = models.CharField(max_length=50, blank=True, null=True)
+
+    college_name = models.CharField(max_length=200, blank=True, null=True)
+
+    degree = models.CharField(max_length=100, blank=True, null=True)
+
+    department = models.CharField(max_length=100, blank=True, null=True)
+
+    passed_out_year = models.CharField(max_length=10, blank=True, null=True)
+
+    # ===================================================
+    # Upskill Domain
+    # (Store multiple selections as comma separated text)
+    # ===================================================
+
+    interested_domains = models.TextField(
+        help_text="Comma separated selected domains"
+        , blank=True, null=True
+    )
+
+    # ===================================================
+    # Technical Skill
+    # ===================================================
+
+    technical_skill = models.CharField(
+        max_length=30,
+        choices=TECHNICAL_LEVEL
+        , blank=True, null=True
+    )
+
+    technical_skill_other = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True
+    )
+
+    # ===================================================
+    # Free Demo Session
+    # ===================================================
+
+    demo_interest = models.CharField(
+        max_length=40,
+        choices=DEMO_INTEREST, blank=True, null=True
+    )
+
+    demo_interest_other = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True
+    )
+
+    # ===================================================
+    # Optional Demo Preferences
+    # ===================================================
+
+    demo_mode = models.CharField(
+        max_length=20,
+        choices=DEMO_MODE,
+        blank=True,
+        null=True
+    )
+
+    # Morning, Afternoon, Evening, Weekend
+    preferred_demo_time = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True,
+        help_text="Comma separated selected time slots"
+    )
+
+    # ===================================================
+    # Consent
+    # ===================================================
+
+    consent = models.BooleanField(default=False, blank=True, null=True)
+
+    # ===================================================
+    # Additional Details
+    # ===================================================
+
+    queries = models.TextField(
+        blank=True,
+        null=True
+    )
+
+    referred_by = models.CharField(
+        max_length=150,
+        blank=True,
+        null=True
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
 
