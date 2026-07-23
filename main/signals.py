@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.core.mail import EmailMessage
-from django.conf import settings
+
+from .brevo_mail import send_brevo_email
 
 from .models import (
     Course,
@@ -13,7 +13,6 @@ from .models import (
     ServiceBooking,
     Contact,
 )
-
 
 def get_registered_emails():
     """Collect all registered user emails and remove duplicates."""
@@ -157,17 +156,12 @@ Errors2Experts Team
     else:
         return
 
-    # Send mail individually to each registered user
+    # Send mail individually using Brevo
     for recipient in recipients:
-
-        email = EmailMessage(
-            subject=subject,
-            body=body,
-            from_email=settings.EMAIL_HOST_USER,
-            to=[recipient],
-        )
-
-        email.send(fail_silently=False)
+        try:
+            send_brevo_email(recipient, subject, body)
+        except Exception as e:
+            print(f"Failed to send email to {recipient}: {e}")
 
 
 # ---------------- COURSE ----------------
