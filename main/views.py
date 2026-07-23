@@ -13,10 +13,7 @@ from openpyxl import Workbook, load_workbook
 from datetime import datetime, timezone
 from .models import UpcomingWorkshop
 
-import resend
-from django.conf import settings
-
-resend.api_key = settings.RESEND_API_KEY
+from .brevo_mail import send_brevo_email
 
 import os
 def home(request):
@@ -648,12 +645,22 @@ Message: {message}
         #     [settings.EMAIL_HOST_USER],
         #     fail_silently=False,
         # )
-        resend.Emails.send({
-            "from": "Errors2Experts <onboarding@resend.dev>",
-            "to": [settings.ADMIN_NOTIFICATION_EMAIL],
-            "subject": admin_subject, 
-            "text": admin_message,
-        })
+
+        send_brevo_email(
+            settings.ADMIN_NOTIFICATION_EMAIL,
+            admin_subject,
+            f"""
+            <h2>🚀 New Service Booking</h2>
+            <p><b>Name:</b> {full_name}</p>
+            <p><b>Email:</b> {email}</p>
+            <p><b>Mobile:</b> {mobile}</p>
+            <p><b>Service:</b> {service_name}</p>
+            <p><b>Preferred Date:</b> {preferred_date}</p>
+            
+            <p><b>Message:</b></p>
+            <p>{message}</p>
+            """
+        )
 
         # Email to Client
         client_subject = "Thank You for Registering"
@@ -682,12 +689,17 @@ Errors2Experts Team
         #     [email],
         #     fail_silently=False,
         # )
-        resend.Emails.send({
-            "from": "Errors2Experts <onboarding@resend.dev>",
-            "to": [email],
-            "subject": client_subject,
-            "text": client_message,
-        })
+        send_brevo_email(
+            email,
+            client_subject,
+            f"""
+            <h2>Hello {full_name}</h2>
+            <p>{client_message}</p>
+            <br>
+            <b>Errors2Experts Team</b>
+            """
+            )
+        
         messages.success(request, "Service Registered Successfully")
         return redirect("services")  # change if needed
     
