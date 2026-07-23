@@ -13,6 +13,11 @@ from openpyxl import Workbook, load_workbook
 from datetime import datetime, timezone
 from .models import UpcomingWorkshop
 
+import resend
+from django.conf import settings
+
+resend.api_key = settings.RESEND_API_KEY
+
 import os
 def home(request):
     courses = Course.objects.all()
@@ -636,13 +641,19 @@ Preferred Date: {preferred_date}
 Message: {message}
 """
 
-        send_mail(
-            admin_subject,
-            admin_message,
-            settings.EMAIL_HOST_USER,
-            [settings.EMAIL_HOST_USER],
-            fail_silently=False,
-        )
+        # send_mail(
+        #     admin_subject,
+        #     admin_message,
+        #     settings.EMAIL_HOST_USER,
+        #     [settings.EMAIL_HOST_USER],
+        #     fail_silently=False,
+        # )
+        resend.Emails.send({
+            "from": "Errors2Experts <onboarding@resend.dev>",
+            "to": [settings.ADMIN_NOTIFICATION_EMAIL],
+            "subject": admin_subject, 
+            "text": admin_message,
+        })
 
         # Email to Client
         client_subject = "Thank You for Registering"
@@ -664,13 +675,19 @@ Best Regards,
 Errors2Experts Team
 """
 
-        send_mail(
-            client_subject,
-            client_message,
-            settings.EMAIL_HOST_USER,
-            [email],
-            fail_silently=False,
-        )
+        # send_mail(
+        #     client_subject,
+        #     client_message,
+        #     settings.EMAIL_HOST_USER,
+        #     [email],
+        #     fail_silently=False,
+        # )
+        resend.Emails.send({
+            "from": "Errors2Experts <onboarding@resend.dev>",
+            "to": [email],
+            "subject": client_subject,
+            "text": client_message,
+        })
         messages.success(request, "Service Registered Successfully")
         return redirect("services")  # change if needed
     
