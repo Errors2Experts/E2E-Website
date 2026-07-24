@@ -78,7 +78,14 @@
   pointer-events: auto !important;
 }
 
+.modal-dialog {
+  max-width: 700px;
+}
 
+.modal-body {
+  max-height: 80vh;
+  overflow-y: auto;
+}
 /* ── 4. INTERACTIVE PAGE ELEMENTS ───────────────────────────
    Buttons, links, inputs on every page must be clickable
    regardless of what decorative layers sit around them.
