@@ -34,6 +34,7 @@ from .models import (
     UpcomingWorkshop,
     WorkshopPhoto,
     WorkshopRegistration,
+    DemoBooking,
 )
 
 # Brevo Email Helper
@@ -161,40 +162,43 @@ def apply_job(request, pk):
             application.career = career
             application.save()
 
-            # ================= SAVE TO EXCEL =================
+            # # ================= SAVE TO EXCEL =================
 
-            job_folder = os.path.join(settings.MEDIA_ROOT, "job_applications")
-            os.makedirs(job_folder, exist_ok=True)
+            # job_folder = os.path.join(settings.MEDIA_ROOT, "job_applications")
+            # os.makedirs(job_folder, exist_ok=True)
 
-            file_path = os.path.join(job_folder, "job_applications.xlsx")
+            # file_path = os.path.join(job_folder, "job_applications.xlsx")
 
-            if os.path.exists(file_path):
-                workbook = load_workbook(file_path)
-                sheet = workbook.active
-            else:
-                workbook = Workbook()
-                sheet = workbook.active
-                sheet.append([
-                    "Full Name",
-                    "Email",
-                    "Phone",
-                    "Role Applied",
-                    "Cover Letter",
-                    "Resume File Name",
-                    "Applied Date",
-                ])
+            # headers = [
+            #     "Full Name",
+            #     "Email",
+            #     "Phone",
+            #     "Role Applied",
+            #     "Cover Letter",
+            #     "Resume File Name",
+            #     "Applied Date",
+            # ]
 
-            sheet.append([
-                application.full_name,
-                application.email,
-                application.mobile,
-                career.role,
-                application.cover_letter,
-                application.resume.name,
-                datetime.now().strftime("%d-%m-%Y %H:%M"),
-            ])
+            # if os.path.exists(file_path):
+            #     workbook = load_workbook(file_path)
+            #     sheet = workbook.active
+            # else:
+            #     workbook = Workbook()
+            #     sheet = workbook.active
+            #     sheet.title = "Job Applications"
+            #     sheet.append(headers)
 
-            workbook.save(file_path)
+            # sheet.append([
+            #     application.full_name,
+            #     application.email,
+            #     application.mobile,
+            #     career.role,
+            #     application.cover_letter,
+            #     os.path.basename(application.resume.name) if application.resume else "",
+            #     datetime.now().strftime("%d-%m-%Y %I:%M %p"),
+            # ])
+
+            # workbook.save(file_path)
 
             # ================= EMAIL TO CANDIDATE =================
 
@@ -297,35 +301,54 @@ def demo_booking(request):
         source = request.POST.get("source")
 
         # ===============================
+        # SAVE TO DATABASE
+        # ===============================
+
+        DemoBooking.objects.create(
+            name=name,
+            email=email,
+            mobile=mobile,
+            education=education,
+            source=source,
+)
+
+        # ===============================
         # SAVE TO EXCEL
         # ===============================
 
-        file_path = os.path.join(settings.BASE_DIR, "demo_booking1.xlsx")
+        # demo_folder = os.path.join(settings.MEDIA_ROOT, "demo_bookings")
+        # os.makedirs(demo_folder, exist_ok=True)
 
-        if os.path.exists(file_path):
-            wb = load_workbook(file_path)
-            ws = wb.active
-        else:
-            wb = Workbook()
-            ws = wb.active
-            ws.title = "Demo Bookings"
-            ws.append([
-                "Name",
-                "Email",
-                "Mobile",
-                "Education",
-                "Source"
-            ])
+        # file_path = os.path.join(demo_folder, "demo_bookings.xlsx")
 
-        ws.append([
-            name,
-            email,
-            mobile,
-            education,
-            source
-        ])
+        # headers = [
+        #     "Name",
+        #     "Email",
+        #     "Mobile",
+        #     "Education",
+        #     "Source",
+        #     "Booking Date",
+        # ]
 
-        wb.save(file_path)
+        # if os.path.exists(file_path):
+        #     wb = load_workbook(file_path)
+        #     ws = wb.active
+        # else:
+        #     wb = Workbook()
+        #     ws = wb.active
+        #     ws.title = "Demo Bookings"
+        #     ws.append(headers)
+
+        # ws.append([
+        #     name,
+        #     email,
+        #     mobile,
+        #     education,
+        #     source,
+        #     datetime.now().strftime("%d-%m-%Y %I:%M %p"),
+        # ])
+
+        # wb.save(file_path)
 
         # ===============================
         # EMAIL TO ADMIN
@@ -444,48 +467,51 @@ def book_course(request, id):
 
         # ---------------- SAVE TO EXCEL ----------------
 
-        booking_folder = os.path.join(settings.BASE_DIR, "media", "bookings")
+        # booking_folder = os.path.join(settings.MEDIA_ROOT, "course_bookings")
+        # os.makedirs(booking_folder, exist_ok=True)
 
-        if not os.path.exists(booking_folder):
-            os.makedirs(booking_folder)
+        # file_path = os.path.join(booking_folder, "course_bookings.xlsx")
 
-        file_path = os.path.join(booking_folder, "course_bookings.xlsx")
+        # headers = [
+        #     "Name",
+        #     "Email",
+        #     "Mobile",
+        #     "Education",
+        #     "Year Passed",
+        #     "Course",
+        #     "Payment Type",
+        #     "Course Fee",
+        #     "First Payment",
+        #     "Balance Amount",
+        #     "Due Date",
+        #     "Booking Date",
+        # ]
 
-        if os.path.exists(file_path):
-            workbook = load_workbook(file_path)
-            sheet = workbook.active
-        else:
-            workbook = Workbook()
-            sheet = workbook.active
-            sheet.append([
-                "Name",
-                "Email",
-                "Mobile",
-                "Education",
-                "Year Passed",
-                "Course",
-                "Payment Type",
-                "First Payment",
-                "Balance",
-                "Due Date",
-                "Booking Date"
-            ])
+        # if os.path.exists(file_path):
+        #     workbook = load_workbook(file_path)
+        #     sheet = workbook.active
+        # else:
+        #     workbook = Workbook()
+        #     sheet = workbook.active
+        #     sheet.title = "Course Bookings"
+        #     sheet.append(headers)
 
-        sheet.append([
-            name,
-            email,
-            mobile,
-            education,
-            year_passed,
-            course.title,
-            payment_type,
-            amount,
-            balance,
-            due_date.strftime("%d-%m-%Y") if due_date else "N/A",
-            datetime.now().strftime("%d-%m-%Y %H:%M")
-        ])
+        # sheet.append([
+        #     name,
+        #     email,
+        #     mobile,
+        #     education,
+        #     year_passed,
+        #     course.title,
+        #     payment_type.upper(),
+        #     price,
+        #     amount,
+        #     balance,
+        #     due_date.strftime("%d-%m-%Y") if due_date else "N/A",
+        #     datetime.now().strftime("%d-%m-%Y %I:%M %p"),
+        # ])
 
-        workbook.save(file_path)
+        # workbook.save(file_path)
 
         # ---------------- STUDENT EMAIL CONTENT ----------------
 
@@ -637,33 +663,40 @@ def service_booking(request):
 
         # ---------------- SAVE TO EXCEL ----------------
 
-        file_path = os.path.join(settings.BASE_DIR, "service_bookings.xlsx")
+        # excel_folder = os.path.join(settings.MEDIA_ROOT, "excel")
+        # os.makedirs(excel_folder, exist_ok=True)
 
-        if os.path.exists(file_path):
-            wb = load_workbook(file_path)
-            ws = wb.active
-        else:
-            wb = Workbook()
-            ws = wb.active
-            ws.append([
-                "Full Name",
-                "Email",
-                "Mobile",
-                "Service",
-                "Preferred Date",
-                "Message",
-            ])
+        # file_path = os.path.join(excel_folder, "service_bookings.xlsx")
 
-        ws.append([
-            full_name,
-            email,
-            mobile,
-            service_name,
-            preferred_date,
-            message,
-        ])
+        # if os.path.exists(file_path):
+        #     wb = load_workbook(file_path)
+        #     ws = wb.active
+        # else:
+        #     wb = Workbook()
+        #     ws = wb.active
+        #     ws.title = "Service Bookings"
 
-        wb.save(file_path)
+        #     ws.append([
+        #         "Full Name",
+        #         "Email",
+        #         "Mobile",
+        #         "Service",
+        #         "Preferred Date",
+        #         "Message",
+        #         "Booking Date",
+        #     ])
+
+        # ws.append([
+        #     full_name,
+        #     email,
+        #     mobile,
+        #     service_name,
+        #     preferred_date,
+        #     message,
+        #     datetime.now().strftime("%d-%m-%Y %I:%M %p"),
+        # ])
+
+        # wb.save(file_path)
 
         # ---------------- EMAIL TO ADMIN ----------------
 
@@ -885,371 +918,360 @@ def workshop_registration(request):
 
         # ================= SAVE TO EXCEL =================
 
-        file_path = os.path.join(settings.BASE_DIR, "workshop_registrations.xlsx")
+        # excel_folder = os.path.join(settings.MEDIA_ROOT, "excel")
+        # os.makedirs(excel_folder, exist_ok=True)
 
-        if os.path.exists(file_path):
-            wb = load_workbook(file_path)
-            ws = wb.active
+        # file_path = os.path.join(excel_folder, "workshop_registrations.xlsx")
 
-        else:
-            wb = Workbook()
-            ws = wb.active
+        # if os.path.exists(file_path):
+        #     wb = load_workbook(file_path)
+        #     ws = wb.active
+        # else:
+        #     wb = Workbook()
+        #     ws = wb.active
+        #     ws.title = "Workshop Registrations"
 
-            # Header Row
-            ws.append([
-                "Full Name","Email","Mobile","Gender","Participation Mode", "Present Address","Year Of Study",
-                "College Name","Degree","Department","Passed Out Year","Interested Domains","Technical Skill",
-                "Technical Skill (Other)","Demo Interest",
-                "Demo Interest (Other)",
-                "Preferred Demo Mode",
-                "Preferred Demo Time",
-                "Consent",
-                "Queries",
-                "Referred By",
-                "Registration Date"
-            ])
-            ws.append([
-                "Full Name",
-                "Email",
-                "Mobile",
-                "Gender",
-                "Participation Mode",
-                "Present Address",
-                "Year Of Study",
-                "College Name",
-                "Degree",
-                "Department",
-                "Passed Out Year",
-                "Interested Domains",
-                "Technical Skill",
-                "Technical Skill (Other)",
-                "Demo Interest",
-                "Demo Interest (Other)",
-                "Preferred Demo Mode",
-                "Preferred Demo Time",
-                "Consent",
-                "Queries",
-                "Referred By",
-                "Registration Date"
-            ])
+        #     ws.append([
+        #         "Full Name",
+        #         "Email",
+        #         "Mobile",
+        #         "Gender",
+        #         "Participation Mode",
+        #         "Present Address",
+        #         "Year Of Study",
+        #         "College Name",
+        #         "Degree",
+        #         "Department",
+        #         "Passed Out Year",
+        #         "Interested Domains",
+        #         "Technical Skill",
+        #         "Technical Skill (Other)",
+        #         "Demo Interest",
+        #         "Demo Interest (Other)",
+        #         "Preferred Demo Mode",
+        #         "Preferred Demo Time",
+        #         "Consent",
+        #         "Queries",
+        #         "Referred By",
+        #         "Registration Date",
+        #     ])
 
-            # Data Row
-            ws.append([
-                full_name,
-                email,
-                mobile,
-                gender,
-                participation_mode,
-                present_address,
-                year_of_study,
-                college_name,
-                degree,
-                department,
-                passed_out_year,
-                interested_domains,
-                technical_skill,
-                technical_skill_other,
-                demo_interest,
-                demo_interest_other,
-                demo_mode,
-                preferred_demo_time,
-                "Yes" if consent else "No",
-                queries,
-                referred_by,
-                datetime.now().strftime("%d-%m-%Y %I:%M %p")
-            ])
+        # # Data Row (ALWAYS APPEND)
+        # ws.append([
+        #     full_name,
+        #     email,
+        #     mobile,
+        #     gender,
+        #     participation_mode,
+        #     present_address,
+        #     year_of_study,
+        #     college_name,
+        #     degree,
+        #     department,
+        #     passed_out_year,
+        #     interested_domains,
+        #     technical_skill,
+        #     technical_skill_other,
+        #     demo_interest,
+        #     demo_interest_other,
+        #     demo_mode,
+        #     preferred_demo_time,
+        #     "Yes" if consent else "No",
+        #     queries,
+        #     referred_by,
+        #     datetime.now().strftime("%d-%m-%Y %I:%M %p"),
+        # ])
 
-            wb.save(file_path)
+        # wb.save(file_path)
 
-            # =====================================================
-            # ADMIN EMAIL
-            # =====================================================
+        # =====================================================
+        # ADMIN EMAIL
+        # =====================================================
 
-            admin_subject = f"📢 New Workshop Registration - {full_name}"
+        admin_subject = f"📢 New Workshop Registration - {full_name}"
 
-            admin_html = f"""
-            <!DOCTYPE html>
-            <html>
+        admin_html = f"""
+        <!DOCTYPE html>
+        <html>
 
-            <body style="font-family:Arial,Helvetica,sans-serif;background:#f4f4f4;padding:30px;">
+        <body style="font-family:Arial,Helvetica,sans-serif;background:#f4f4f4;padding:30px;">
 
-            <div style="
-                max-width:800px;
-                margin:auto;
-                background:#ffffff;
-                border-radius:10px;
-                overflow:hidden;
-                border:1px solid #dddddd;
-            ">
+        <div style="
+            max-width:800px;
+            margin:auto;
+            background:#ffffff;
+            border-radius:10px;
+            overflow:hidden;
+            border:1px solid #dddddd;
+        ">
 
-                <div style="background:#2e7d32;padding:18px;color:white;">
-                    <h2 style="margin:0;">
-                        📢 New Workshop Registration
-                    </h2>
-                </div>
+            <div style="background:#2e7d32;padding:18px;color:white;">
+                <h2 style="margin:0;">
+                    📢 New Workshop Registration
+                </h2>
+            </div>
 
-                <div style="padding:25px;">
+            <div style="padding:25px;">
 
-                    <table style="width:100%;border-collapse:collapse;">
+                <table style="width:100%;border-collapse:collapse;">
 
-                        <tr>
-                            <td style="padding:10px;border:1px solid #ddd;"><b>Full Name</b></td>
-                            <td style="padding:10px;border:1px solid #ddd;">{full_name}</td>
-                        </tr>
+                    <tr>
+                        <td style="padding:10px;border:1px solid #ddd;"><b>Full Name</b></td>
+                        <td style="padding:10px;border:1px solid #ddd;">{full_name}</td>
+                    </tr>
 
-                        <tr>
-                            <td style="padding:10px;border:1px solid #ddd;"><b>Email</b></td>
-                            <td style="padding:10px;border:1px solid #ddd;">{email}</td>
-                        </tr>
+                    <tr>
+                        <td style="padding:10px;border:1px solid #ddd;"><b>Email</b></td>
+                        <td style="padding:10px;border:1px solid #ddd;">{email}</td>
+                    </tr>
 
-                        <tr>
-                            <td style="padding:10px;border:1px solid #ddd;"><b>Mobile</b></td>
-                            <td style="padding:10px;border:1px solid #ddd;">{mobile}</td>
-                        </tr>
+                    <tr>
+                        <td style="padding:10px;border:1px solid #ddd;"><b>Mobile</b></td>
+                        <td style="padding:10px;border:1px solid #ddd;">{mobile}</td>
+                    </tr>
 
-                        <tr>
-                            <td style="padding:10px;border:1px solid #ddd;"><b>Gender</b></td>
-                            <td style="padding:10px;border:1px solid #ddd;">{gender}</td>
-                        </tr>
+                    <tr>
+                        <td style="padding:10px;border:1px solid #ddd;"><b>Gender</b></td>
+                        <td style="padding:10px;border:1px solid #ddd;">{gender}</td>
+                    </tr>
 
-                        <tr>
-                            <td style="padding:10px;border:1px solid #ddd;"><b>Participation Mode</b></td>
-                            <td style="padding:10px;border:1px solid #ddd;">{participation_mode}</td>
-                        </tr>
+                    <tr>
+                        <td style="padding:10px;border:1px solid #ddd;"><b>Participation Mode</b></td>
+                        <td style="padding:10px;border:1px solid #ddd;">{participation_mode}</td>
+                    </tr>
 
-                        <tr>
-                            <td style="padding:10px;border:1px solid #ddd;"><b>Present Address</b></td>
-                            <td style="padding:10px;border:1px solid #ddd;">{present_address}</td>
-                        </tr>
+                    <tr>
+                        <td style="padding:10px;border:1px solid #ddd;"><b>Present Address</b></td>
+                        <td style="padding:10px;border:1px solid #ddd;">{present_address}</td>
+                    </tr>
 
-                        <tr>
-                            <td style="padding:10px;border:1px solid #ddd;"><b>Year Of Study</b></td>
-                            <td style="padding:10px;border:1px solid #ddd;">{year_of_study}</td>
-                        </tr>
+                    <tr>
+                        <td style="padding:10px;border:1px solid #ddd;"><b>Year Of Study</b></td>
+                        <td style="padding:10px;border:1px solid #ddd;">{year_of_study}</td>
+                    </tr>
 
-                        <tr>
-                            <td style="padding:10px;border:1px solid #ddd;"><b>College Name</b></td>
-                            <td style="padding:10px;border:1px solid #ddd;">{college_name}</td>
-                        </tr>
+                    <tr>
+                        <td style="padding:10px;border:1px solid #ddd;"><b>College Name</b></td>
+                        <td style="padding:10px;border:1px solid #ddd;">{college_name}</td>
+                    </tr>
 
-                        <tr>
-                            <td style="padding:10px;border:1px solid #ddd;"><b>Degree</b></td>
-                            <td style="padding:10px;border:1px solid #ddd;">{degree}</td>
-                        </tr>
+                    <tr>
+                        <td style="padding:10px;border:1px solid #ddd;"><b>Degree</b></td>
+                        <td style="padding:10px;border:1px solid #ddd;">{degree}</td>
+                    </tr>
 
-                        <tr>
-                            <td style="padding:10px;border:1px solid #ddd;"><b>Department</b></td>
-                            <td style="padding:10px;border:1px solid #ddd;">{department}</td>
-                        </tr>
+                    <tr>
+                        <td style="padding:10px;border:1px solid #ddd;"><b>Department</b></td>
+                        <td style="padding:10px;border:1px solid #ddd;">{department}</td>
+                    </tr>
 
-                        <tr>
-                            <td style="padding:10px;border:1px solid #ddd;"><b>Passed Out Year</b></td>
-                            <td style="padding:10px;border:1px solid #ddd;">{passed_out_year}</td>
-                        </tr>
+                    <tr>
+                        <td style="padding:10px;border:1px solid #ddd;"><b>Passed Out Year</b></td>
+                        <td style="padding:10px;border:1px solid #ddd;">{passed_out_year}</td>
+                    </tr>
 
-                        <tr>
-                            <td style="padding:10px;border:1px solid #ddd;"><b>Interested Domains</b></td>
-                            <td style="padding:10px;border:1px solid #ddd;">{interested_domains}</td>
-                        </tr>
+                    <tr>
+                        <td style="padding:10px;border:1px solid #ddd;"><b>Interested Domains</b></td>
+                        <td style="padding:10px;border:1px solid #ddd;">{interested_domains}</td>
+                    </tr>
 
-                        <tr>
-                            <td style="padding:10px;border:1px solid #ddd;"><b>Technical Skill</b></td>
-                            <td style="padding:10px;border:1px solid #ddd;">{technical_skill}</td>
-                        </tr>
+                    <tr>
+                        <td style="padding:10px;border:1px solid #ddd;"><b>Technical Skill</b></td>
+                        <td style="padding:10px;border:1px solid #ddd;">{technical_skill}</td>
+                    </tr>
 
-                        <tr>
-                            <td style="padding:10px;border:1px solid #ddd;"><b>Technical Skill (Other)</b></td>
-                            <td style="padding:10px;border:1px solid #ddd;">{technical_skill_other}</td>
-                        </tr>
+                    <tr>
+                        <td style="padding:10px;border:1px solid #ddd;"><b>Technical Skill (Other)</b></td>
+                        <td style="padding:10px;border:1px solid #ddd;">{technical_skill_other}</td>
+                    </tr>
 
-                        <tr>
-                            <td style="padding:10px;border:1px solid #ddd;"><b>Demo Interest</b></td>
-                            <td style="padding:10px;border:1px solid #ddd;">{demo_interest}</td>
-                        </tr>
+                    <tr>
+                        <td style="padding:10px;border:1px solid #ddd;"><b>Demo Interest</b></td>
+                        <td style="padding:10px;border:1px solid #ddd;">{demo_interest}</td>
+                    </tr>
 
-                        <tr>
-                            <td style="padding:10px;border:1px solid #ddd;"><b>Demo Interest (Other)</b></td>
-                            <td style="padding:10px;border:1px solid #ddd;">{demo_interest_other}</td>
-                        </tr>
+                    <tr>
+                        <td style="padding:10px;border:1px solid #ddd;"><b>Demo Interest (Other)</b></td>
+                        <td style="padding:10px;border:1px solid #ddd;">{demo_interest_other}</td>
+                    </tr>
 
-                        <tr>
-                            <td style="padding:10px;border:1px solid #ddd;"><b>Preferred Demo Mode</b></td>
-                            <td style="padding:10px;border:1px solid #ddd;">{demo_mode}</td>
-                        </tr>
+                    <tr>
+                        <td style="padding:10px;border:1px solid #ddd;"><b>Preferred Demo Mode</b></td>
+                        <td style="padding:10px;border:1px solid #ddd;">{demo_mode}</td>
+                    </tr>
 
-                        <tr>
-                            <td style="padding:10px;border:1px solid #ddd;"><b>Preferred Demo Time</b></td>
-                            <td style="padding:10px;border:1px solid #ddd;">{preferred_demo_time}</td>
-                        </tr>
+                    <tr>
+                        <td style="padding:10px;border:1px solid #ddd;"><b>Preferred Demo Time</b></td>
+                        <td style="padding:10px;border:1px solid #ddd;">{preferred_demo_time}</td>
+                    </tr>
 
-                        <tr>
-                            <td style="padding:10px;border:1px solid #ddd;"><b>Consent</b></td>
-                            <td style="padding:10px;border:1px solid #ddd;">{"Yes" if consent else "No"}</td>
-                        </tr>
+                    <tr>
+                        <td style="padding:10px;border:1px solid #ddd;"><b>Consent</b></td>
+                        <td style="padding:10px;border:1px solid #ddd;">{"Yes" if consent else "No"}</td>
+                    </tr>
 
-                        <tr>
-                            <td style="padding:10px;border:1px solid #ddd;"><b>Queries</b></td>
-                            <td style="padding:10px;border:1px solid #ddd;">{queries}</td>
-                        </tr>
+                    <tr>
+                        <td style="padding:10px;border:1px solid #ddd;"><b>Queries</b></td>
+                        <td style="padding:10px;border:1px solid #ddd;">{queries}</td>
+                    </tr>
 
-                        <tr>
-                            <td style="padding:10px;border:1px solid #ddd;"><b>Referred By</b></td>
-                            <td style="padding:10px;border:1px solid #ddd;">{referred_by}</td>
-                        </tr>
+                    <tr>
+                        <td style="padding:10px;border:1px solid #ddd;"><b>Referred By</b></td>
+                        <td style="padding:10px;border:1px solid #ddd;">{referred_by}</td>
+                    </tr>
 
-                        <tr>
-                            <td style="padding:10px;border:1px solid #ddd;"><b>Registration Time</b></td>
-                            <td style="padding:10px;border:1px solid #ddd;">{datetime.now().strftime("%d-%m-%Y %I:%M %p")}</td>
-                        </tr>
+                    <tr>
+                        <td style="padding:10px;border:1px solid #ddd;"><b>Registration Time</b></td>
+                        <td style="padding:10px;border:1px solid #ddd;">{datetime.now().strftime("%d-%m-%Y %I:%M %p")}</td>
+                    </tr>
 
-                    </table>
-
-                </div>
+                </table>
 
             </div>
 
-            </body>
-            </html>
-            """
+        </div>
 
-            send_brevo_email(
-                settings.ADMIN_NOTIFICATION_EMAIL,
-                admin_subject,
-                admin_html
-            )
+        </body>
+        </html>
+        """
 
-            # =====================================================
-            # USER EMAIL
-            # =====================================================
+        send_brevo_email(
+            settings.ADMIN_NOTIFICATION_EMAIL,
+            admin_subject,
+            admin_html
+        )
 
-            user_subject = "Workshop Registration Successful | Errors2Experts"
+        # =====================================================
+        # USER EMAIL
+        # =====================================================
 
-            user_html = f"""
-            <!DOCTYPE html>
-            <html>
+        user_subject = "Workshop Registration Successful | Errors2Experts"
 
-            <body style="margin:0;padding:0;background:#f4f6f9;font-family:Arial,Helvetica,sans-serif;">
+        user_html = f"""
+        <!DOCTYPE html>
+        <html>
 
-            <div style="max-width:700px;margin:30px auto;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e5e5e5;">
+        <body style="margin:0;padding:0;background:#f4f6f9;font-family:Arial,Helvetica,sans-serif;">
 
-                <!-- Header -->
-                <div style="background:#2e7d32;padding:25px;text-align:center;color:white;">
-                    <h2 style="margin:0;">🎉 Registration Successful</h2>
-                    <p style="margin-top:8px;font-size:15px;">
-                        Thank you for registering with Errors2Experts.
-                    </p>
+        <div style="max-width:700px;margin:30px auto;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e5e5e5;">
+
+            <!-- Header -->
+            <div style="background:#2e7d32;padding:25px;text-align:center;color:white;">
+                <h2 style="margin:0;">🎉 Registration Successful</h2>
+                <p style="margin-top:8px;font-size:15px;">
+                    Thank you for registering with Errors2Experts.
+                </p>
+            </div>
+
+            <!-- Body -->
+            <div style="padding:30px;">
+
+                <p>Dear <strong>{full_name}</strong>,</p>
+
+                <p>
+                    Thank you for registering for our training program.
+                    We have successfully received your registration details.
+                </p>
+
+                <p>
+                    Our team will contact you shortly regarding your preferred
+                    domain and demo session (if selected).
+                </p>
+
+                <h3 style="color:#2e7d32;border-bottom:2px solid #2e7d32;padding-bottom:8px;">
+                    Registration Summary
+                </h3>
+
+                <table style="width:100%;border-collapse:collapse;">
+
+                    <tr>
+                        <td style="padding:8px;border:1px solid #ddd;"><b>Name</b></td>
+                        <td style="padding:8px;border:1px solid #ddd;">{full_name}</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:8px;border:1px solid #ddd;"><b>Email</b></td>
+                        <td style="padding:8px;border:1px solid #ddd;">{email}</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:8px;border:1px solid #ddd;"><b>Mobile</b></td>
+                        <td style="padding:8px;border:1px solid #ddd;">{mobile}</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:8px;border:1px solid #ddd;"><b>Participation Mode</b></td>
+                        <td style="padding:8px;border:1px solid #ddd;">{participation_mode}</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:8px;border:1px solid #ddd;"><b>Interested Domains</b></td>
+                        <td style="padding:8px;border:1px solid #ddd;">{interested_domains}</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:8px;border:1px solid #ddd;"><b>Technical Skill</b></td>
+                        <td style="padding:8px;border:1px solid #ddd;">{technical_skill}</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:8px;border:1px solid #ddd;"><b>Demo Interest</b></td>
+                        <td style="padding:8px;border:1px solid #ddd;">{demo_interest}</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:8px;border:1px solid #ddd;"><b>Preferred Demo Mode</b></td>
+                        <td style="padding:8px;border:1px solid #ddd;">{demo_mode}</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:8px;border:1px solid #ddd;"><b>Preferred Demo Time</b></td>
+                        <td style="padding:8px;border:1px solid #ddd;">{preferred_demo_time}</td>
+                    </tr>
+
+                </table>
+
+                <br>
+
+                <div style="background:#f8f9fa;padding:15px;border-left:4px solid #2e7d32;">
+                    <strong>What's Next?</strong>
+                    <ul style="margin:10px 0 0 18px;padding:0;">
+                        <li>Our team will review your registration.</li>
+                        <li>You'll receive a call or email regarding the next steps.</li>
+                        <li>If you've requested a demo session, we'll schedule it based on your preferred mode and time.</li>
+                    </ul>
                 </div>
 
-                <!-- Body -->
-                <div style="padding:30px;">
+                <br>
 
-                    <p>Dear <strong>{full_name}</strong>,</p>
+                <p>
+                    If you have any questions, simply reply to this email or contact our support team.
+                </p>
 
-                    <p>
-                        Thank you for registering for our training program.
-                        We have successfully received your registration details.
-                    </p>
-
-                    <p>
-                        Our team will contact you shortly regarding your preferred
-                        domain and demo session (if selected).
-                    </p>
-
-                    <h3 style="color:#2e7d32;border-bottom:2px solid #2e7d32;padding-bottom:8px;">
-                        Registration Summary
-                    </h3>
-
-                    <table style="width:100%;border-collapse:collapse;">
-
-                        <tr>
-                            <td style="padding:8px;border:1px solid #ddd;"><b>Name</b></td>
-                            <td style="padding:8px;border:1px solid #ddd;">{full_name}</td>
-                        </tr>
-
-                        <tr>
-                            <td style="padding:8px;border:1px solid #ddd;"><b>Email</b></td>
-                            <td style="padding:8px;border:1px solid #ddd;">{email}</td>
-                        </tr>
-
-                        <tr>
-                            <td style="padding:8px;border:1px solid #ddd;"><b>Mobile</b></td>
-                            <td style="padding:8px;border:1px solid #ddd;">{mobile}</td>
-                        </tr>
-
-                        <tr>
-                            <td style="padding:8px;border:1px solid #ddd;"><b>Participation Mode</b></td>
-                            <td style="padding:8px;border:1px solid #ddd;">{participation_mode}</td>
-                        </tr>
-
-                        <tr>
-                            <td style="padding:8px;border:1px solid #ddd;"><b>Interested Domains</b></td>
-                            <td style="padding:8px;border:1px solid #ddd;">{interested_domains}</td>
-                        </tr>
-
-                        <tr>
-                            <td style="padding:8px;border:1px solid #ddd;"><b>Technical Skill</b></td>
-                            <td style="padding:8px;border:1px solid #ddd;">{technical_skill}</td>
-                        </tr>
-
-                        <tr>
-                            <td style="padding:8px;border:1px solid #ddd;"><b>Demo Interest</b></td>
-                            <td style="padding:8px;border:1px solid #ddd;">{demo_interest}</td>
-                        </tr>
-
-                        <tr>
-                            <td style="padding:8px;border:1px solid #ddd;"><b>Preferred Demo Mode</b></td>
-                            <td style="padding:8px;border:1px solid #ddd;">{demo_mode}</td>
-                        </tr>
-
-                        <tr>
-                            <td style="padding:8px;border:1px solid #ddd;"><b>Preferred Demo Time</b></td>
-                            <td style="padding:8px;border:1px solid #ddd;">{preferred_demo_time}</td>
-                        </tr>
-
-                    </table>
-
-                    <br>
-
-                    <div style="background:#f8f9fa;padding:15px;border-left:4px solid #2e7d32;">
-                        <strong>What's Next?</strong>
-                        <ul style="margin:10px 0 0 18px;padding:0;">
-                            <li>Our team will review your registration.</li>
-                            <li>You'll receive a call or email regarding the next steps.</li>
-                            <li>If you've requested a demo session, we'll schedule it based on your preferred mode and time.</li>
-                        </ul>
-                    </div>
-
-                    <br>
-
-                    <p>
-                        If you have any questions, simply reply to this email or contact our support team.
-                    </p>
-
-                    <p>
-                        Regards,<br>
-                        <strong>Errors2Experts Team</strong>
-                    </p>
-
-                </div>
-
-                <!-- Footer -->
-                <div style="background:#f1f1f1;padding:15px;text-align:center;font-size:13px;color:#666;">
-                    © 2026 Errors2Experts. All Rights Reserved.
-                </div>
+                <p>
+                    Regards,<br>
+                    <strong>Errors2Experts Team</strong>
+                </p>
 
             </div>
 
-            </body>
-            </html>
-            """
+            <!-- Footer -->
+            <div style="background:#f1f1f1;padding:15px;text-align:center;font-size:13px;color:#666;">
+                © 2026 Errors2Experts. All Rights Reserved.
+            </div>
 
-            send_brevo_email(
-                email,
-                user_subject,
-                user_html
-            )
+        </div>
 
-        
+        </body>
+        </html>
+        """
+
+        send_brevo_email(
+            email,
+            user_subject,
+            user_html
+        )
+
         return redirect("home")
 
     return redirect("home")
@@ -1272,6 +1294,41 @@ def demo_request(request):
                 category = DemoCategory.objects.get(id=category_value)
             except DemoCategory.DoesNotExist:
                 category = None
+
+        # ================= SAVE TO EXCEL =================
+
+        # excel_folder = os.path.join(settings.MEDIA_ROOT, "excel")
+        # os.makedirs(excel_folder, exist_ok=True)
+
+        # file_path = os.path.join(excel_folder, "demo_requests.xlsx")
+
+        # if os.path.exists(file_path):
+        #     wb = load_workbook(file_path)
+        #     ws = wb.active
+        # else:
+        #     wb = Workbook()
+        #     ws = wb.active
+        #     ws.title = "Demo Requests"
+
+        #     ws.append([
+        #         "Organization Name",
+        #         "Email",
+        #         "Mobile",
+        #         "Category",
+        #         "Custom Requirement",
+        #         "Request Date",
+        #     ])
+
+        # ws.append([
+        #     organization_name,
+        #     email,
+        #     mobile,
+        #     category.name if category else "Custom Requirement",
+        #     custom_requirement,
+        #     datetime.now().strftime("%d-%m-%Y %I:%M %p"),
+        # ])
+
+        # wb.save(file_path)
 
         # ================= SAVE REQUEST =================
 

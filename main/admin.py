@@ -1,4 +1,6 @@
 from django.contrib import admin
+from .excel_export import export_as_excel
+from .admin_export import ExportExcelAdmin
 
 # Register your models here.
 from django.contrib import admin
@@ -10,9 +12,7 @@ from .models import Internship
 from .models import SiteOffer
 from .models import UpcomingWorkshop
 from .models import DemoCategory, DemoRequest
-
-
-
+from .models import DemoBooking, CourseBooking, ServiceBooking, WorkshopRegistration
 
 admin.site.register(ClientProject)
 admin.site.register(StudentReview)
@@ -54,12 +54,154 @@ class CareerAdmin(admin.ModelAdmin):
     list_display = ('role', 'employment_type', 'salary', 'posted_on')
     list_filter = ('employment_type',)
     search_fields = ('role',)
-    
+
+
 @admin.register(JobApplication)
-class JobApplicationAdmin(admin.ModelAdmin):
-    list_display = ('full_name', 'career', 'email', 'mobile', 'applied_on')
-    search_fields = ('full_name', 'email')
-    
+class JobApplicationAdmin(ExportExcelAdmin, admin.ModelAdmin):
+
+    list_display = (
+        "full_name",
+        "career",
+        "email",
+        "mobile",
+        "education",
+        "year_passed_out",
+        "applied_on",
+    )
+
+    search_fields = (
+        "full_name",
+        "email",
+        "mobile",
+    )
+
+    list_filter = (
+        "career",
+        "applied_on",
+    )
+
+    ordering = ("-applied_on",)
+
+    actions = [export_as_excel]
+
+
+@admin.register(CourseBooking)
+class CourseBookingAdmin(ExportExcelAdmin, admin.ModelAdmin):
+
+    list_display = (
+        "name",
+        "course",
+        "email",
+        "mobile",
+        "education",
+        "year_passed",
+        "amount",
+        "created_at",
+    )
+
+    search_fields = (
+        "name",
+        "email",
+        "mobile",
+        "course",
+    )
+
+    list_filter = (
+        "course",
+        "education",
+        "created_at",
+    )
+
+    ordering = ("-created_at",)
+
+    actions = [export_as_excel]
+
+
+@admin.register(WorkshopRegistration)
+class WorkshopRegistrationAdmin(ExportExcelAdmin, admin.ModelAdmin):
+    list_display = (
+        "full_name",
+        "email",
+        "mobile",
+        "gender",
+        "participation_mode",
+        "present_address",
+        "year_of_study",
+        "college_name",
+        "degree",
+        "department",
+        "passed_out_year",
+        "interested_domains",
+        "technical_skill",
+        "technical_skill_other",
+        "demo_interest",
+        "demo_interest_other",
+        "demo_mode",
+        "preferred_demo_time",
+        "consent",
+        "queries",
+        "referred_by",
+        "created_at",
+    )
+
+    search_fields = (
+        "full_name",
+        "email",
+        "mobile",
+        "college_name",
+        "department",
+        "degree",
+        "interested_domains",
+        "referred_by",
+    )
+
+    list_filter = (
+        "gender",
+        "participation_mode",
+        "technical_skill",
+        "demo_interest",
+        "demo_mode",
+        "consent",
+        "created_at",
+    )
+
+    readonly_fields = ("created_at",)
+
+    ordering = ("-created_at",)
+
+    actions = [export_as_excel]
+
+
+@admin.register(ServiceBooking)
+class ServiceBookingAdmin(ExportExcelAdmin, admin.ModelAdmin):
+    list_display = (
+        "full_name",
+        "service_name",
+        "email",
+        "mobile",
+        "preferred_date",
+        "created_at",
+    )
+
+    search_fields = (
+        "full_name",
+        "email",
+        "mobile",
+        "service_name",
+    )
+
+    list_filter = (
+        "service_name",
+        "created_at",
+    )
+
+    readonly_fields = ("created_at",)
+
+    ordering = ("-created_at",)
+
+    actions = [export_as_excel]
+
+
 # from .models import Course, CourseBooking
 
 @admin.register(WorkshopPhoto)
@@ -85,12 +227,12 @@ class InternshipAdmin(admin.ModelAdmin):
     list_display = ('title', 'price', 'duration')
   
     search_fields = ('title',)
-   
+
 
 @admin.register(SiteOffer)
 class SiteOfferAdmin(admin.ModelAdmin):
     list_display = ('title', 'is_active', 'created_at')
-    
+
 @admin.register(DemoCategory)
 class DemoCategoryAdmin(admin.ModelAdmin):
     list_display = ("name", "demo_link", "is_active")
@@ -99,7 +241,7 @@ class DemoCategoryAdmin(admin.ModelAdmin):
 
 
 @admin.register(DemoRequest)
-class DemoRequestAdmin(admin.ModelAdmin):
+class DemoRequestAdmin(ExportExcelAdmin, admin.ModelAdmin):
     list_display = (
         "organization_name",
         "email",
@@ -118,3 +260,33 @@ class DemoRequestAdmin(admin.ModelAdmin):
     )
 
     readonly_fields = ("created_at",)
+
+    actions = [export_as_excel]
+
+
+@admin.register(DemoBooking)
+class DemoBookingAdmin(ExportExcelAdmin, admin.ModelAdmin):
+    list_display = (
+        "name",
+        "email",
+        "mobile",
+        "education",
+        "source",
+        "created_at",
+    )
+
+    search_fields = (
+        "name",
+        "email",
+        "mobile",
+    )
+
+    list_filter = (
+        "education",
+        "created_at",
+    )
+
+    ordering = ("-created_at",)
+
+    actions = [export_as_excel]
+

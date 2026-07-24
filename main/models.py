@@ -10,7 +10,6 @@ class Course(models.Model):
 
     def __str__(self):
         return self.title
-    
 
 
 class Placement(models.Model):
@@ -56,8 +55,8 @@ class Service(models.Model):
     def tech_list(self):
         """Returns technologies as a clean list for templates: service.tech_list"""
         return [t.strip() for t in self.technologies.split(',') if t.strip()]
- 
- 
+
+
 class ServiceDemoLink(models.Model):
 
     service = models.ForeignKey(
@@ -149,7 +148,7 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.name
-    
+
 class ClientProject(models.Model):
     client_name = models.CharField(max_length=150)
     project_type = models.CharField(max_length=150)
@@ -175,7 +174,7 @@ class StudentReview(models.Model):
     
     def __str__(self):
         return f"{self.student_name} - {self.course_name}"
-    
+
 from django.db import models
 
 class Career(models.Model):
@@ -196,7 +195,7 @@ class Career(models.Model):
 
     def __str__(self):
         return self.role
-    
+
 class JobApplication(models.Model):
     career = models.ForeignKey('Career', on_delete=models.CASCADE)
     full_name = models.CharField(max_length=200)
@@ -210,7 +209,7 @@ class JobApplication(models.Model):
 
     def __str__(self):
         return f"{self.full_name} - {self.career.role}"
-    
+
 class CourseBooking(models.Model):
     PAYMENT_CHOICES = (
         ('full', 'Full Amount'),
@@ -229,7 +228,7 @@ class CourseBooking(models.Model):
 
     def __str__(self):
         return self.name
-    
+
 class ServiceBooking(models.Model):
     full_name = models.CharField(max_length=150)
     email = models.EmailField()
@@ -435,8 +434,8 @@ class UpcomingWorkshop(models.Model):
 
     def __str__(self):
         return self.title
-    
-    
+
+
 class Certificate(models.Model):
     """
     Stores certificate images that E2E issues to students.
@@ -538,3 +537,15 @@ class DemoRequest(models.Model):
         if self.category:
             return f"{self.organization_name} - {self.category.name}"
         return f"{self.organization_name} - Custom Request"
+
+
+class DemoBooking(models.Model):
+    name = models.CharField(max_length=150)
+    email = models.EmailField()
+    mobile = models.CharField(max_length=15)
+    education = models.CharField(max_length=150)
+    source = models.CharField(max_length=150)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
