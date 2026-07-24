@@ -620,7 +620,7 @@
             <ul class="workshop-details">
                 <li>📅 {{ upcoming_workshop.event_date|date:"d M Y" }}</li>
                 <li>🕒 {{ upcoming_workshop.event_time }}</li>
-                <li>💻 {{ upcoming_workshop.location }}</li>
+                <li>📍 {{ upcoming_workshop.location }}</li>
                 <li>🎓 {{ upcoming_workshop.registration_info }}</li>
             </ul>
 
@@ -940,9 +940,6 @@
                     </label>
                   </div>
           
-                  <input type="text" class="form-control mt-2" name="interested_domains_other"
-                    placeholder="If Other, please specify">
-          
                 </div>
           
               </div>
@@ -991,7 +988,7 @@
           <!-- Demo Interest -->
           <div class="mb-3">
             <label class="form-label">
-              Interested in Free Demo Session? <span class="text-danger">*</span>
+              Are You Interested in Free Demo Session? <span class="text-danger">*</span>
             </label>
             <select class="form-select" name="demo_interest" required>
               <option value="">Select</option>
@@ -1003,18 +1000,8 @@
                 Need more information
               </option>
               <option value="No">No</option>
-              <option value="Other">Other</option>
             </select>
           </div>
-
-          <!-- Other Demo Interest -->
-          <div class="mb-3 d-none" id="otherDomainDiv">
-            <label class="form-label">
-              Other interested Demo Session
-            </label>
-            <input type="text" class="form-control" name="demo_interest_other">
-          </div>
-
           <!-- Demo Mode -->
           <div class="mb-3">
             <label class="form-label">
@@ -1080,7 +1067,7 @@
           <!-- Queries -->
           <div class="mb-3">
             <label class="form-label">
-              Queries / Questions 
+              Queries
             </label>
             <textarea class="form-control" name="queries" rows="3"
               placeholder="Enter your questions here (optional)"></textarea>
@@ -1091,7 +1078,7 @@
             <label class="form-label">
               Referred By <span class="text-danger">*</span>
             </label>
-            <input type="text" class="form-control" name="referred_by" placeholder="name" required>
+            <input type="text" class="form-control" name="referred_by" placeholder="Name" required>
           </div>
 
           <!-- Consent -->
@@ -1676,6 +1663,11 @@
   flex-direction: column !important;
   height: 100% !important;
 }
+.form-control,
+.form-select,
+.form-check-input {
+    transition: none !important;
+}
 .workshop-card:hover {
   transform: translateY(-6px);
   box-shadow: var(--shadow-xl);
@@ -1990,11 +1982,6 @@ if (toggleBtn) { // Only run if the button exists
 
     // Run once when page loads
     toggleOtherField();
-
-  });
-</script>
-<script>
-  document.querySelector("form").addEventListener("submit", function (e) {
 
     const checked = document.querySelectorAll(
       'input[name="preferred_demo_time"]:checked'
