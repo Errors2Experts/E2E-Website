@@ -1973,18 +1973,23 @@ if (toggleBtn) { // Only run if the button exists
 <script>
   document.addEventListener("DOMContentLoaded", function () {
 
-    const domainSelect = document.querySelector('select[name="interested_domain"]');
+    const otherCheckbox = document.getElementById("domain16");
     const otherDiv = document.getElementById("otherDomainDiv");
 
-    domainSelect.addEventListener("change", function () {
+    if (!otherCheckbox || !otherDiv) return;
 
-      if (this.value === "Other") {
+    function toggleOtherField() {
+      if (otherCheckbox.checked) {
         otherDiv.classList.remove("d-none");
       } else {
         otherDiv.classList.add("d-none");
       }
+    }
 
-    });
+    otherCheckbox.addEventListener("change", toggleOtherField);
+
+    // Run once when page loads
+    toggleOtherField();
 
   });
 </script>
