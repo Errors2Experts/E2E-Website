@@ -127,456 +127,396 @@ Institute.{% endblock %}
         </div>
     </div>
 </div>
+
 <!-- Workshop Registration Modal -->
-<div class="modal fade" id="workshopRegisterModal" tabindex="-1">
-<div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content workshop-modal">
+<div class="modal fade" id="workshopRegisterModal" tabindex="-1" aria-labelledby="workshopRegisterModalLabel"
+    aria-hidden="true">
 
-        <div class="modal-header border-0">
-            <h3 class="modal-title">Workshop Registration</h3>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
 
-            <button type="button" class="btn-close" data-bs-dismiss="modal"> </button>
-        </div>
+        <div class="modal-content workshop-modal">
 
-        <div class="modal-body">
-            <form>
-                <!-- Full Name -->
-                <div class="mb-3">
-                    <label class="form-label">
-                        Full Name <span class="text-danger">*</span>
-                    </label>
-                    <input>
-                    type="text"
-                    class="form-control"
-                    name="full_name"
-                    required>
-                </div>
+            <!-- Modal Header -->
+            <div class="modal-header border-0">
 
-                <!-- Email -->
-                <div class="mb-3">
-                    <label class="form-label">
-                        Email Address <span class="text-danger">*</span>
-                    </label>
+                <h3 class="modal-title" id="workshopRegisterModalLabel">
+                    Workshop Registration
+                </h3>
 
-                    <input type="email" class="form-control" name="email" required>
-                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
 
-                <!-- Mobile -->
-                <div class="mb-3">
-                    <label class="form-label">
-                        Mobile Number <span class="text-danger">*</span>
-                    </label>
+            </div>
 
-                    <input type="tel" class="form-control" name="mobile" pattern="[0-9]{10}" maxlength="10"
-                        required>
-                </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
 
-                <!-- Gender -->
-                <div class="mb-3">
+                <form method="POST" action="{% url 'workshop_registration' %}">
 
-                    <label class="form-label">
-                        Gender <span class="text-danger">*</span>
-                    </label>
+                    {% csrf_token %}
 
-                    <div>
+                    <!-- Full Name -->
+                    <div class="mb-3">
 
-                        <input type="radio" name="gender" value="Male" required>
-                        Male
+                        <label class="form-label">
+                            Full Name <span class="text-danger">*</span>
+                        </label>
 
-                        &nbsp;&nbsp;
-
-                        <input type="radio" name="gender" value="Female">
-                        Female
-
-                        &nbsp;&nbsp;
-
-                        <input type="radio" name="gender" value="Prefer not to say">
-                        Prefer not to say
+                        <input type="text" class="form-control" name="full_name" required>
 
                     </div>
 
-                </div>
+                    <!-- Email -->
+                    <div class="mb-3">
 
+                        <label class="form-label">
+                            Email Address <span class="text-danger">*</span>
+                        </label>
 
-                <!-- Participation Mode -->
-                <div class="mb-3">
+                        <input type="email" class="form-control" name="email" required>
 
-                    <label class="form-label">
-                        Participation Mode <span class="text-danger">*</span>
-                    </label>
+                    </div>
 
-                    <select class="form-select" name="participation_mode" required>
+                    <!-- Mobile -->
+                    <div class="mb-3">
 
-                        <option value="">
-                            Select Mode
-                        </option>
+                        <label class="form-label">
+                            Mobile Number <span class="text-danger">*</span>
+                        </label>
 
-                        <option value="Offline">
-                            Offline
-                        </option>
+                        <input type="tel" class="form-control" name="mobile" pattern="[0-9]{10}" maxlength="10"
+                            required>
 
-                        <option value="Online">
-                            Online
-                        </option>
+                    </div>
 
-                    </select>
+                    <!-- Gender -->
+                    <div class="mb-3">
 
-                </div>
+                        <label class="form-label">
+                            Gender <span class="text-danger">*</span>
+                        </label>
 
+                        <div class="d-flex gap-4 flex-wrap">
 
-                <!-- Present Address -->
-                <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="gender" value="Male" required>
+                                <label class="form-check-label">Male</label>
+                            </div>
 
-                    <label class="form-label">
-                        Present Address
-                    </label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="gender" value="Female">
+                                <label class="form-check-label">Female</label>
+                            </div>
 
-                    <textarea class="form-control" name="present_address" rows="3"></textarea>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="gender" value="Prefer not to say">
+                                <label class="form-check-label">
+                                    Prefer not to say
+                                </label>
+                            </div>
 
-                </div>
+                        </div>
 
+                    </div>
 
-                <!-- Year Of Study -->
-                <div class="mb-3">
+                    <!-- Participation Mode -->
+                    <div class="mb-3">
 
-                    <label class="form-label">
-                        Year Of Study
-                    </label>
+                        <label class="form-label">
+                            Participation Mode
+                            <span class="text-danger">*</span>
+                        </label>
 
-                    <select class="form-select" name="year_of_study">
+                        <select class="form-select" name="participation_mode" required>
 
-                        <option value="">
-                            Select Year
-                        </option>
+                            <option value="">Select Mode</option>
+                            <option value="Offline">Offline</option>
+                            <option value="Online">Online</option>
 
-                        <option value="1st Year">
-                            1st Year
-                        </option>
+                        </select>
 
-                        <option value="2nd Year">
-                            2nd Year
-                        </option>
+                    </div>
 
-                        <option value="3rd Year">
-                            3rd Year
-                        </option>
+                    <!-- Present Address -->
+                    <div class="mb-3">
 
-                        <option value="Final Year">
-                            Final Year
-                        </option>
+                        <label class="form-label">
+                            Present Address
+                        </label>
 
-                        <option value="Graduate">
-                            Graduate
-                        </option>
+                        <textarea class="form-control" name="present_address" rows="3"></textarea>
 
-                        <option value="Working Professional">
-                            Working Professional
-                        </option>
+                    </div>
 
-                    </select>
+                    <!-- Year Of Study -->
+                    <div class="mb-3">
 
-                </div>
+                        <label class="form-label">
+                            Year Of Study
+                        </label>
 
+                        <select class="form-select" name="year_of_study">
 
-                <!-- College Name -->
-                <div class="mb-3">
+                            <option value="">Select Year</option>
+                            <option>1st Year</option>
+                            <option>2nd Year</option>
+                            <option>3rd Year</option>
+                            <option>Final Year</option>
+                            <option>Graduate</option>
+                            <option>Working Professional</option>
 
-                    <label class="form-label">
-                        College Name
-                    </label>
+                        </select>
 
-                    <input type="text" class="form-control" name="college_name">
+                    </div>
 
-                </div>
+                    <!-- College -->
+                    <div class="mb-3">
 
+                        <label class="form-label">
+                            College Name
+                        </label>
 
-                <!-- Degree -->
-                <div class="mb-3">
+                        <input type="text" class="form-control" name="college_name">
 
-                    <label class="form-label">
-                        Degree
-                    </label>
+                    </div>
 
-                    <input type="text" class="form-control" name="degree">
+                    <!-- Degree -->
+                    <div class="mb-3">
 
-                </div>
+                        <label class="form-label">
+                            Degree
+                        </label>
 
+                        <input type="text" class="form-control" name="degree">
 
-                <!-- Department -->
-                <div class="mb-3">
+                    </div>
 
-                    <label class="form-label">
-                        Department
-                    </label>
+                    <!-- Department -->
+                    <div class="mb-3">
 
-                    <input type="text" class="form-control" name="department">
+                        <label class="form-label">
+                            Department
+                        </label>
 
-                </div>
+                        <input type="text" class="form-control" name="department">
 
+                    </div>
 
-                <!-- Passed Out Year -->
-                <div class="mb-3">
+                    <!-- Passed Out Year -->
+                    <div class="mb-3">
 
-                    <label class="form-label">
-                        Passed Out Year
-                    </label>
+                        <label class="form-label">
+                            Passed Out Year
+                        </label>
 
-                    <select class="form-select" name="passed_out_year">
+                        <select class="form-select" name="passed_out_year">
 
-                        <option value="">
-                            Select Year
-                        </option>
+                            <option value="">Select Year</option>
 
-                        <option value="2026">2026</option>
-                        <option value="2025">2025</option>
-                        <option value="2024">2024</option>
-                        <option value="2023">2023</option>
-                        <option value="2022">2022</option>
-                        <option value="2021">2021</option>
+                            <option>2026</option>
+                            <option>2025</option>
+                            <option>2024</option>
+                            <option>2023</option>
+                            <option>2022</option>
+                            <option>2021</option>
 
-                    </select>
+                        </select>
 
-                </div>
+                    </div>
 
-                <!-- Interested Domains -->
-                <div class="mb-3">
+                    <!-- Interested Domains -->
+                    <div class="mb-3">
 
-                    <label class="form-label">
-                        Interested Domains
-                    </label>
+                        <label class="form-label">
+                            Interested Domains
+                        </label>
 
-                    <select class="form-select" name="interested_domains" multiple>
+                        <select class="form-select" name="interested_domains" multiple>
 
-                        <option value="Cloud Computing">
-                            Cloud Computing
-                        </option>
+                            <option>Cloud Computing</option>
+                            <option>Web Development</option>
+                            <option>Full Stack Development</option>
+                            <option>Data Science</option>
+                            <option>Artificial Intelligence</option>
+                            <option>Cyber Security</option>
+                            <option>DevOps</option>
 
-                        <option value="Web Development">
-                            Web Development
-                        </option>
+                        </select>
 
-                        <option value="Full Stack Development">
-                            Full Stack Development
-                        </option>
+                        <small class="text-muted">
+                            Hold Ctrl (Windows) / Command (Mac) to select multiple domains.
+                        </small>
 
-                        <option value="Data Science">
-                            Data Science
-                        </option>
+                    </div>
 
-                        <option value="Artificial Intelligence">
-                            Artificial Intelligence
-                        </option>
+                    <!-- Technical Skill -->
+                    <div class="mb-3">
 
-                        <option value="Cyber Security">
-                            Cyber Security
-                        </option>
+                        <label class="form-label">
+                            Current Technical Skill Level
+                        </label>
 
-                        <option value="DevOps">
-                            DevOps
-                        </option>
+                        <select class="form-select" name="technical_skill">
 
-                    </select>
+                            <option value="">Select Level</option>
+                            <option>Beginner</option>
+                            <option>Basic Knowledge</option>
+                            <option>Intermediate</option>
+                            <option>Advanced</option>
+                            <option>Other</option>
 
-                    <small class="text-muted">
-                        Hold Ctrl (Windows) / Command (Mac) to select multiple domains
-                    </small>
+                        </select>
 
-                </div>
+                    </div>
 
-                <!-- Technical Skill -->
-                <div class="mb-3">
+                    <!-- Other Skill -->
+                    <div class="mb-3">
 
-                    <label class="form-label">
-                        Current Technical Skill Level
-                    </label>
+                        <label class="form-label">
+                            Other Technical Skill
+                        </label>
 
-                    <select class="form-select" name="technical_skill">
+                        <input type="text" class="form-control" name="technical_skill_other"
+                            placeholder="Mention your skill">
 
-                        <option value="">
-                            Select Level
-                        </option>
+                    </div>
 
-                        <option value="Beginner">
-                            Beginner
-                        </option>
+                    <!-- Demo Interest -->
+                    <div class="mb-3">
 
-                        <option value="Basic Knowledge">
-                            Basic Knowledge
-                        </option>
+                        <label class="form-label">
+                            Interested in Free Demo Session?
+                        </label>
 
-                        <option value="Intermediate">
-                            Intermediate
-                        </option>
+                        <select class="form-select" name="demo_interest">
 
-                        <option value="Advanced">
-                            Advanced
-                        </option>
+                            <option value="">Select</option>
 
-                        <option value="Other">
-                            Other
-                        </option>
+                            <option value="Yes">
+                                Yes, I want to Attend a Free Demo Session on my Interested Domain
+                            </option>
 
-                    </select>
+                            <option value="Maybe">Maybe</option>
 
-                </div>
+                            <option value="Need more information">
+                                Need more information
+                            </option>
 
-                <!-- Other Technical Skill -->
-                <div class="mb-3">
+                            <option value="No">No</option>
 
-                    <label class="form-label">
-                        Other Technical Skill
-                    </label>
+                            <option value="Other">Other</option>
 
-                    <input type="text" class="form-control" name="technical_skill_other"
-                        placeholder="Mention your skill">
+                        </select>
 
-                </div>
+                    </div>
 
-                <!-- Demo Interest -->
-                <div class="mb-3">
+                    <!-- Other Demo Interest -->
+                    <div class="mb-3">
 
-                    <label class="form-label">
-                        Interested in Free Demo Session?
-                    </label>
+                        <label class="form-label">
+                            Other Demo Interest
+                        </label>
 
+                        <input type="text" class="form-control" name="demo_interest_other">
 
-                    <select class="form-select" name="demo_interest">
+                    </div>
 
-                        <option value="">
-                            Select
-                        </option>
+                    <!-- Demo Mode -->
+                    <div class="mb-3">
 
-                        <option value="Yes">
-                            Yes, I want to Attend a Free Demo Session on my Interested Domain
-                        </option>
+                        <label class="form-label">
+                            Preferred Demo Mode
+                        </label>
 
-                        <option value="Maybe">
-                            Maybe
-                        </option>
+                        <select class="form-select" name="demo_mode">
 
-                        <option value="Need more information">
-                            Need more information
-                        </option>
+                            <option value="">Select Mode</option>
+                            <option>Online</option>
+                            <option>Offline</option>
+                            <option>Either</option>
 
-                        <option value="No">
-                            No
-                        </option>
+                        </select>
 
-                        <option value="Other">
-                            Other
-                        </option>
+                    </div>
 
-                    </select>
+                    <!-- Preferred Demo Time -->
+                    <div class="mb-3">
 
-                </div>
+                        <label class="form-label">
+                            Preferred Demo Time
+                        </label>
 
-                <div class="mb-3">
+                        <select class="form-select" name="preferred_demo_time" multiple>
 
-                    <label class="form-label">
-                        Other Demo Interest
-                    </label>
+                            <option>Morning</option>
+                            <option>Afternoon</option>
+                            <option>Evening</option>
+                            <option>Weekend</option>
 
-                    <input type="text" class="form-control" name="demo_interest_other">
+                        </select>
 
-                </div>
+                        <small class="text-muted">
+                            Select one or more preferred time slots.
+                        </small>
 
-                <!-- Demo Mode -->
-                <div class="mb-3">
+                    </div>
 
-                    <label class="form-label">
-                        Preferred Demo Mode
-                    </label>
+                    <!-- Queries -->
+                    <div class="mb-3">
 
-                    <select class="form-select" name="demo_mode">
+                        <label class="form-label">
+                            Queries / Questions
+                        </label>
 
-                        <option value="">
-                            Select Mode
-                        </option>
+                        <textarea class="form-control" name="queries" rows="3"
+                            placeholder="Enter your questions here (optional)"></textarea>
 
-                        <option value="Online">
-                            Online
-                        </option>
+                    </div>
 
-                        <option value="Offline">
-                            Offline
-                        </option>
+                    <!-- Referred By -->
+                    <div class="mb-3">
 
-                        <option value="Either">
-                            Either is Okay
-                        </option>
+                        <label class="form-label">
+                            Referred By
+                        </label>
 
-                    </select>
+                        <input type="text" class="form-control" name="referred_by"
+                            placeholder="Friend / College / Social Media">
 
-                </div>
+                    </div>
 
-                <!-- Preferred Demo Time -->
-                <div class="mb-3">
+                    <!-- Consent -->
+                    <div class="form-check mb-4">
 
-                    <label class="form-label">
-                        Preferred Demo Time
-                    </label>
+                        <input class="form-check-input" type="checkbox" name="consent" value="True" required>
 
-                    <select class="form-select" name="preferred_demo_time" multiple>
+                        <label class="form-check-label">
 
+                            I agree to be contacted by Errors2Experts regarding Workshops and Training Programs.
 
-                        <option value="Morning">
-                            Morning
-                        </option>
+                        </label>
 
+                    </div>
 
-                        <option value="Afternoon">
-                            Afternoon
-                        </option>
+                    <!-- Buttons -->
+                    <div class="text-end">
 
+                        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
 
-                        <option value="Evening">
-                            Evening
-                        </option>
+                        <button type="submit" class="btn btn-success">
+                            Register Now
+                        </button>
 
+                    </div>
 
-                        <option value="Weekend">
-                            Weekend
-                        </option>
+                </form>
 
+            </div>
 
-                    </select>
-
-                    <small class="text-muted">
-                        Select one or more preferred time slots
-                    </small>
-
-                </div>
-
-                <!-- Referred By -->
-                <div class="mb-3">
-
-                    <label class="form-label">
-                        Referred By
-                    </label>
-
-                    <input type="text" class="form-control" name="referred_by"
-                        placeholder="Friend / College / Social Media">
-
-                </div>
-
-                <!-- Consent -->
-
-                <div class="form-check mb-4">
-
-                    <input class="form-check-input" type="checkbox" name="consent" value="True" required>
-
-
-                    <label class="form-check-label">
-
-                        I agree to be contacted by Errors2Experts
-                        regarding Workshops and Training Programs.
-
-                    </label>
-
-                </div>
-
-            </form>
         </div>
+
     </div>
 </div>
     <!-- ── STYLES ── -->
