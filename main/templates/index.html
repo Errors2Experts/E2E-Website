@@ -749,17 +749,17 @@
           <!-- Present Address -->
           <div class="mb-3">
             <label class="form-label">
-              Present Address
+              Present Address <span class="text-danger">*</span>
             </label>
-            <textarea class="form-control" name="present_address" rows="3"></textarea>
+            <textarea class="form-control" name="present_address" rows="3" required></textarea>
           </div>
 
           <!-- Year Of Study -->
           <div class="mb-3">
             <label class="form-label">
-              Year Of Study
+              Year Of Study <span class="text-danger">*</span>
             </label>
-            <select class="form-select" name="year_of_study">
+            <select class="form-select" name="year_of_study" required>
               <option value="">Select Year</option>
               <option>1st Year</option>
               <option>2nd Year</option>
@@ -773,68 +773,204 @@
           <!-- College -->
           <div class="mb-3">
             <label class="form-label">
-              College Name
+              College Name <span class="text-danger">*</span>
             </label>
-            <input type="text" class="form-control" name="college_name">
+            <input type="text" class="form-control" name="college_name" required>
           </div>
 
           <!-- Degree -->
           <div class="mb-3">
             <label class="form-label">
-              Degree
+              Degree <span class="text-danger">*</span>
             </label>
-            <input type="text" class="form-control" name="degree">
+            <input type="text" class="form-control" name="degree" required>
           </div>
 
           <!-- Department -->
           <div class="mb-3">
             <label class="form-label">
-              Department
+              Department <span class="text-danger">*</span>
             </label>
-            <input type="text" class="form-control" name="department">
+            <input type="text" class="form-control" name="department" required>
           </div>
 
           <!-- Passed Out Year -->
           <div class="mb-3">
             <label class="form-label">
-              Passed Out Year
+              Passed Out Year <span class="text-danger">*</span>
             </label>
-            <select class="form-select" name="passed_out_year">
-              <option value="">Select Year</option>
-              <option>2026</option>
-              <option>2025</option>
-              <option>2024</option>
-              <option>2023</option>
-              <option>2022</option>
-              <option>2021</option>
-            </select>
+            <input type="text" class="form-control" name="passed_out_year" required>
           </div>
 
           <!-- Interested Domains -->
           <div class="mb-3">
+          
             <label class="form-label">
-              Interested Domains
+              Interested Domains <span class="text-danger">*</span>
             </label>
-            <select class="form-select" name="interested_domains" multiple>
-              <option>Cloud Computing</option>
-              <option>Web Development</option>
-              <option>Full Stack Development</option>
-              <option>Data Science</option>
-              <option>Artificial Intelligence</option>
-              <option>Cyber Security</option>
-              <option>DevOps</option>
-            </select>
+          
+            <div class="border rounded p-3 bg-light">
+          
+              <div class="row">
+          
+                <div class="col-md-6">
+          
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" name="interested_domains"
+                      value="Python Full Stack Development" id="domain1">
+                    <label class="form-check-label" for="domain1">
+                      Python Full Stack Development
+                    </label>
+                  </div>
+          
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" name="interested_domains" value="Java Full Stack Development"
+                      id="domain2">
+                    <label class="form-check-label" for="domain2">
+                      Java Full Stack Development
+                    </label>
+                  </div>
+          
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" name="interested_domains" value="Frontend Development"
+                      id="domain3">
+                    <label class="form-check-label" for="domain3">
+                      Frontend Development
+                    </label>
+                  </div>
+          
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" name="interested_domains" value="Backend Development"
+                      id="domain4">
+                    <label class="form-check-label" for="domain4">
+                      Backend Development
+                    </label>
+                  </div>
+          
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" name="interested_domains" value="Python" id="domain5">
+                    <label class="form-check-label" for="domain5">
+                      Python
+                    </label>
+                  </div>
+          
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" name="interested_domains" value="Java" id="domain6">
+                    <label class="form-check-label" for="domain6">
+                      Java
+                    </label>
+                  </div>
+          
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" name="interested_domains" value="Python + SQL" id="domain7">
+                    <label class="form-check-label" for="domain7">
+                      Python + SQL
+                    </label>
+                  </div>
+          
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" name="interested_domains" value="Java + SQL" id="domain8">
+                    <label class="form-check-label" for="domain8">
+                      Java + SQL
+                    </label>
+                  </div>
+          
+                </div>
+          
+                <div class="col-md-6">
+          
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" name="interested_domains" value="SQL (MySQL)" id="domain9">
+                    <label class="form-check-label" for="domain9">
+                      SQL (MySQL)
+                    </label>
+                  </div>
+          
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" name="interested_domains" value="NoSQL (MongoDB)"
+                      id="domain10">
+                    <label class="form-check-label" for="domain10">
+                      NoSQL (MongoDB)
+                    </label>
+                  </div>
+          
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" name="interested_domains" value="React JS" id="domain11">
+                    <label class="form-check-label" for="domain11">
+                      React JS
+                    </label>
+                  </div>
+          
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" name="interested_domains" value="Django" id="domain12">
+                    <label class="form-check-label" for="domain12">
+                      Django
+                    </label>
+                  </div>
+          
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" name="interested_domains" value="MERN Stack Development"
+                      id="domain13">
+                    <label class="form-check-label" for="domain13">
+                      MERN Stack Development
+                    </label>
+                  </div>
+          
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" name="interested_domains" value="Automation Testing"
+                      id="domain14">
+                    <label class="form-check-label" for="domain14">
+                      Automation Testing
+                    </label>
+                  </div>
+          
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" name="interested_domains" value="Not Sure (Need Guidance)"
+                      id="domain15">
+                    <label class="form-check-label" for="domain15">
+                      Not Sure (Need Guidance)
+                    </label>
+                  </div>
+          
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" name="interested_domains" value="Other" id="domain16">
+          
+                    <label class="form-check-label" for="domain16">
+                      Other
+                    </label>
+                  </div>
+          
+                  <input type="text" class="form-control mt-2" name="interested_domains_other"
+                    placeholder="If Other, please specify">
+          
+                </div>
+          
+              </div>
+          
+            </div>
+          
             <small class="text-muted">
-              Hold Ctrl (Windows) / Command (Mac) to select multiple domains.
+              You may select one or more domains.
             </small>
+          
+          </div>
+
+          
+          <!-- Optional: Show textbox only when "Other" is selected -->
+          <div class="mb-3 d-none" id="otherDomainDiv">
+            <label class="form-label">
+              Please Specify
+            </label>
+          
+            <input type="text" class="form-control" name="other_domain" placeholder="Enter your interested domain">
           </div>
 
           <!-- Technical Skill -->
           <div class="mb-3">
             <label class="form-label">
-              Current Technical Skill Level
+              Current Technical Skill Level <span class="text-danger">*</span>
             </label>
-            <select class="form-select" name="technical_skill">
+            <select class="form-select" name="technical_skill" required>
               <option value="">Select Level</option>
               <option>Beginner</option>
               <option>Basic Knowledge</option>
@@ -845,9 +981,9 @@
           </div>
 
           <!-- Other Skill -->
-          <div class="mb-3">
+          <div class="mb-3 d-none" id="otherDomainDiv">
             <label class="form-label">
-              Other Technical Skill
+              Other Technical Skill 
             </label>
             <input type="text" class="form-control" name="technical_skill_other" placeholder="Mention your skill">
           </div>
@@ -855,9 +991,9 @@
           <!-- Demo Interest -->
           <div class="mb-3">
             <label class="form-label">
-              Interested in Free Demo Session?
+              Interested in Free Demo Session? <span class="text-danger">*</span>
             </label>
-            <select class="form-select" name="demo_interest">
+            <select class="form-select" name="demo_interest" required>
               <option value="">Select</option>
               <option value="Yes">
                 Yes, I want to Attend a Free Demo Session on my Interested Domain
@@ -872,9 +1008,9 @@
           </div>
 
           <!-- Other Demo Interest -->
-          <div class="mb-3">
+          <div class="mb-3 d-none" id="otherDomainDiv">
             <label class="form-label">
-              Other Demo Interest
+              Other interested Demo Session
             </label>
             <input type="text" class="form-control" name="demo_interest_other">
           </div>
@@ -894,24 +1030,57 @@
 
           <!-- Preferred Demo Time -->
           <div class="mb-3">
+          
             <label class="form-label">
-              Preferred Demo Time
+              Preferred Demo Time <span class="text-danger">*</span>
             </label>
-            <select class="form-select" name="preferred_demo_time" multiple>
-              <option>Morning</option>
-              <option>Afternoon</option>
-              <option>Evening</option>
-              <option>Weekend</option>
-            </select>
+          
+            <div class="border rounded p-3 bg-light">
+          
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" name="preferred_demo_time" value="Morning" id="timeMorning">
+          
+                <label class="form-check-label" for="timeMorning">
+                  🌅 Morning (9:00 AM – 12:00 PM)
+                </label>
+              </div>
+          
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" name="preferred_demo_time" value="Afternoon" id="timeAfternoon">
+          
+                <label class="form-check-label" for="timeAfternoon">
+                  ☀️ Afternoon (12:00 PM – 4:00 PM)
+                </label>
+              </div>
+          
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" name="preferred_demo_time" value="Evening" id="timeEvening">
+          
+                <label class="form-check-label" for="timeEvening">
+                  🌇 Evening (4:00 PM – 8:00 PM)
+                </label>
+              </div>
+          
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="preferred_demo_time" value="Weekend" id="timeWeekend">
+          
+                <label class="form-check-label" for="timeWeekend">
+                  📅 Weekend
+                </label>
+              </div>
+          
+            </div>
+          
             <small class="text-muted">
-              Select one or more preferred time slots.
+              Select one or more preferred demo time slots.
             </small>
+          
           </div>
 
           <!-- Queries -->
           <div class="mb-3">
             <label class="form-label">
-              Queries / Questions
+              Queries / Questions 
             </label>
             <textarea class="form-control" name="queries" rows="3"
               placeholder="Enter your questions here (optional)"></textarea>
@@ -920,16 +1089,16 @@
           <!-- Referred By -->
           <div class="mb-3">
             <label class="form-label">
-              Referred By
+              Referred By <span class="text-danger">*</span>
             </label>
-            <input type="text" class="form-control" name="referred_by" placeholder="Friend / College / Social Media">
+            <input type="text" class="form-control" name="referred_by" placeholder="name" required>
           </div>
 
           <!-- Consent -->
           <div class="form-check mb-4">
             <input class="form-check-input" type="checkbox" name="consent" value="True" required>
             <label class="form-check-label">
-              I agree to be contacted by Errors2Experts regarding Workshops and Training Programs.
+              I agree to be contacted by Errors2Experts regarding Workshops and Training Programs.<span class="text-danger">*</span>
             </label>
           </div>
 
@@ -1799,5 +1968,52 @@ if (toggleBtn) { // Only run if the button exists
         toggleBtn.textContent = expanded ? "View Less" : "View More";
     });
 }
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+
+    const domainSelect = document.querySelector('select[name="interested_domain"]');
+    const otherDiv = document.getElementById("otherDomainDiv");
+
+    domainSelect.addEventListener("change", function () {
+
+      if (this.value === "Other") {
+        otherDiv.classList.remove("d-none");
+      } else {
+        otherDiv.classList.add("d-none");
+      }
+
+    });
+
+  });
+</script>
+<script>
+  document.querySelector("form").addEventListener("submit", function (e) {
+
+    const checked = document.querySelectorAll(
+      'input[name="preferred_demo_time"]:checked'
+    );
+
+    if (checked.length === 0) {
+      e.preventDefault();
+      alert("Please select at least one preferred demo time.");
+    }
+
+  });
+</script>
+<script>
+  document.querySelector("form").addEventListener("submit", function (e) {
+
+    const checked = document.querySelectorAll(
+      'input[name="interested_domains"]:checked'
+    );
+
+    if (checked.length === 0) {
+      e.preventDefault();
+      alert("Please select at least one Interested Domain.");
+    }
+
+  });
 </script>
 {% endblock %}
