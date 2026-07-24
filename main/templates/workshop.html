@@ -1,19 +1,25 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block title %}Workshop Gallery — Errors2Experts{% endblock %}
-{% block meta_desc %}Photos from workshops, bootcamps and training events conducted by Errors2Experts IT Training
-Institute.{% endblock %}
+{% block meta_desc %}
+Photos from workshops, bootcamps and training events conducted by Errors2Experts IT Training Institute.
+{% endblock %}
+
 {% block content %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
 <!-- ── PAGE HEADER ── -->
 <div
     style="text-align:center;padding:64px 20px 44px;background:linear-gradient(180deg,var(--e2e-green-bg) 0%,transparent 100%)">
     <p
         style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--e2e-green);margin-bottom:10px;font-weight:700;margin-top:15px;">
-        OUR EVENTS</p>
+        OUR EVENTS
+    </p>
     <h1
         style="font-family:var(--font-display);font-size:clamp(2rem,5vw,3rem);font-weight:700;color:var(--text-dark);margin-bottom:0">
-        Workshop </h1>
+        Workshop
+    </h1>
     <p
         style="color:var(--text-muted);margin-top:12px;font-size:16px;max-width:500px;margin-left:auto;margin-right:auto">
         Real moments from our hands-on training sessions, bootcamps and student events.
@@ -22,21 +28,20 @@ Institute.{% endblock %}
         style="width:50px;height:4px;background:linear-gradient(90deg,var(--e2e-red),var(--e2e-gold),var(--e2e-green));border-radius:4px;margin:16px auto 0">
     </div>
 </div>
+
 {% if upcoming_workshop %}
 <section class="container mb-5">
-
     <div class="upcoming-workshop">
-
         <div class="upcoming-image">
             <img src="{{ upcoming_workshop.image.url }}" alt="{{ upcoming_workshop.title }}">
         </div>
 
         <div class="upcoming-content">
-
-            <span class="badge bg-success mb-2"> <i class="fas fa-bullhorn me-1"></i> Upcoming Workshop</span>
+            <span class="badge bg-success mb-2">
+                <i class="fas fa-bullhorn me-1"></i> Upcoming Workshop
+            </span>
 
             <h2>{{ upcoming_workshop.title }}</h2>
-
             <p>{{ upcoming_workshop.description }}</p>
 
             <ul class="workshop-details">
@@ -47,19 +52,16 @@ Institute.{% endblock %}
             </ul>
 
             <button class="btn btn-success px-4" data-bs-toggle="modal" data-bs-target="#workshopRegisterModal">
-                Register Now </button>
-
+                Register Now
+            </button>
         </div>
-
     </div>
-
 </section>
 {% endif %}
+
 <!-- ── GALLERY GRID ── -->
 <section class="container pb-5" style="padding-top:20px">
-
     {% if workshops %}
-
     <!-- Masonry-style responsive grid -->
     <div class="workshop-grid stagger-children" role="list" aria-label="Workshop photos">
         {% for photo in workshops %}
@@ -74,20 +76,21 @@ Institute.{% endblock %}
                         <span class="zoom-label">View Photo</span>
                     </div>
                 </div>
-
             </div>
         </div>
         {% endfor %}
     </div>
-
     {% else %}
     <!-- Empty state -->
     <div
         style="text-align:center;padding:80px 20px;background:var(--bg-white);border:1px solid var(--border-light);border-radius:var(--radius-xl);max-width:520px;margin:0 auto">
         <div style="font-size:56px;margin-bottom:16px">🎓</div>
-        <h3 style="font-family:var(--font-display);font-weight:700;color:var(--text-dark);margin-bottom:8px">Coming Soon
+        <h3 style="font-family:var(--font-display);font-weight:700;color:var(--text-dark);margin-bottom:8px">
+            Coming Soon
         </h3>
-        <p style="color:var(--text-muted)">Workshop photos will be uploaded here soon. Stay tuned!</p>
+        <p style="color:var(--text-muted)">
+            Workshop photos will be uploaded here soon. Stay tuned!
+        </p>
         <a href="{% url 'home' %}" class="btn btn-success mt-3 px-4">Back to Home</a>
     </div>
     {% endif %}
@@ -100,27 +103,32 @@ Institute.{% endblock %}
     <div style="position:relative;max-width:900px;width:100%;animation:lbFadeIn 0.28s ease">
         <!-- Close -->
         <button id="lb-close" onclick="closeLightbox()" aria-label="Close lightbox" style="position:absolute;top:-48px;right:0;background:rgba(255,255,255,0.15);
-                   border:1px solid rgba(255,255,255,0.25);border-radius:50%;
-                   width:40px;height:40px;color:#fff;font-size:20px;cursor:pointer;
-                   display:flex;align-items:center;justify-content:center;
-                   transition:background 0.2s">×</button>
+                       border:1px solid rgba(255,255,255,0.25);border-radius:50%;
+                       width:40px;height:40px;color:#fff;font-size:20px;cursor:pointer;
+                       display:flex;align-items:center;justify-content:center;
+                       transition:background 0.2s">×</button>
+
         <!-- Navigation -->
         <button id="lb-prev" onclick="lbNav(-1)" aria-label="Previous photo" style="position:absolute;left:-56px;top:50%;transform:translateY(-50%);
-                   background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);
-                   border-radius:50%;width:44px;height:44px;color:#fff;font-size:20px;
-                   cursor:pointer;display:flex;align-items:center;justify-content:center">‹</button>
+                       background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);
+                       border-radius:50%;width:44px;height:44px;color:#fff;font-size:20px;
+                       cursor:pointer;display:flex;align-items:center;justify-content:center">‹</button>
+
         <button id="lb-next" onclick="lbNav(1)" aria-label="Next photo" style="position:absolute;right:-56px;top:50%;transform:translateY(-50%);
-                   background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);
-                   border-radius:50%;width:44px;height:44px;color:#fff;font-size:20px;
-                   cursor:pointer;display:flex;align-items:center;justify-content:center">›</button>
+                       background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);
+                       border-radius:50%;width:44px;height:44px;color:#fff;font-size:20px;
+                       cursor:pointer;display:flex;align-items:center;justify-content:center">›</button>
+
         <!-- Image -->
         <img id="lb-img" src="" alt=""
             style="width:100%;max-height:78vh;object-fit:contain;border-radius:16px;display:block">
+
         <!-- Caption -->
         <div style="margin-top:16px;text-align:center">
             <h3 id="lb-title" style="color:#fff;font-family:var(--font-display);font-size:18px;margin-bottom:4px"></h3>
             <p id="lb-desc" style="color:rgba(255,255,255,0.65);font-size:14px;margin:0"></p>
         </div>
+
         <!-- Counter -->
         <div id="lb-counter"
             style="position:absolute;top:-48px;left:0;color:rgba(255,255,255,0.55);font-size:13px;line-height:40px">
@@ -131,73 +139,53 @@ Institute.{% endblock %}
 <!-- Workshop Registration Modal -->
 <div class="modal fade" id="workshopRegisterModal" tabindex="-1" aria-labelledby="workshopRegisterModalLabel"
     aria-hidden="true">
-
     <div class="modal-dialog modal-dialog-centered modal-lg">
-
         <div class="modal-content workshop-modal">
-
             <!-- Modal Header -->
             <div class="modal-header border-0">
-
                 <h3 class="modal-title" id="workshopRegisterModalLabel">
                     Workshop Registration
                 </h3>
-
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                 </button>
-
             </div>
 
             <!-- Modal Body -->
             <div class="modal-body">
-
                 <form method="POST" action="{% url 'workshop_registration' %}">
-
                     {% csrf_token %}
 
                     <!-- Full Name -->
                     <div class="mb-3">
-
                         <label class="form-label">
                             Full Name <span class="text-danger">*</span>
                         </label>
-
                         <input type="text" class="form-control" name="full_name" required>
-
                     </div>
 
                     <!-- Email -->
                     <div class="mb-3">
-
                         <label class="form-label">
                             Email Address <span class="text-danger">*</span>
                         </label>
-
                         <input type="email" class="form-control" name="email" required>
-
                     </div>
 
                     <!-- Mobile -->
                     <div class="mb-3">
-
                         <label class="form-label">
                             Mobile Number <span class="text-danger">*</span>
                         </label>
-
                         <input type="tel" class="form-control" name="mobile" pattern="[0-9]{10}" maxlength="10"
                             required>
-
                     </div>
 
                     <!-- Gender -->
                     <div class="mb-3">
-
                         <label class="form-label">
                             Gender <span class="text-danger">*</span>
                         </label>
-
                         <div class="d-flex gap-4 flex-wrap">
-
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="gender" value="Male" required>
                                 <label class="form-check-label">Male</label>
@@ -214,49 +202,35 @@ Institute.{% endblock %}
                                     Prefer not to say
                                 </label>
                             </div>
-
                         </div>
-
                     </div>
 
                     <!-- Participation Mode -->
                     <div class="mb-3">
-
                         <label class="form-label">
-                            Participation Mode
-                            <span class="text-danger">*</span>
+                            Participation Mode <span class="text-danger">*</span>
                         </label>
-
                         <select class="form-select" name="participation_mode" required>
-
                             <option value="">Select Mode</option>
                             <option value="Offline">Offline</option>
                             <option value="Online">Online</option>
-
                         </select>
-
                     </div>
 
                     <!-- Present Address -->
                     <div class="mb-3">
-
                         <label class="form-label">
                             Present Address
                         </label>
-
                         <textarea class="form-control" name="present_address" rows="3"></textarea>
-
                     </div>
 
                     <!-- Year Of Study -->
                     <div class="mb-3">
-
                         <label class="form-label">
                             Year Of Study
                         </label>
-
                         <select class="form-select" name="year_of_study">
-
                             <option value="">Select Year</option>
                             <option>1st Year</option>
                             <option>2nd Year</option>
@@ -264,75 +238,55 @@ Institute.{% endblock %}
                             <option>Final Year</option>
                             <option>Graduate</option>
                             <option>Working Professional</option>
-
                         </select>
-
                     </div>
 
                     <!-- College -->
                     <div class="mb-3">
-
                         <label class="form-label">
                             College Name
                         </label>
-
                         <input type="text" class="form-control" name="college_name">
-
                     </div>
 
                     <!-- Degree -->
                     <div class="mb-3">
-
                         <label class="form-label">
                             Degree
                         </label>
-
                         <input type="text" class="form-control" name="degree">
-
                     </div>
 
                     <!-- Department -->
                     <div class="mb-3">
-
                         <label class="form-label">
                             Department
                         </label>
-
                         <input type="text" class="form-control" name="department">
-
                     </div>
 
                     <!-- Passed Out Year -->
                     <div class="mb-3">
-
                         <label class="form-label">
                             Passed Out Year
                         </label>
-
                         <select class="form-select" name="passed_out_year">
-
                             <option value="">Select Year</option>
-
                             <option>2026</option>
                             <option>2025</option>
                             <option>2024</option>
                             <option>2023</option>
                             <option>2022</option>
                             <option>2021</option>
-
                         </select>
-
                     </div>
 
                     <!-- Interested Domains -->
                     <div class="mb-3">
-
                         <label class="form-label">
                             Interested Domains
                         </label>
-
                         <select class="form-select" name="interested_domains" multiple>
-
                             <option>Cloud Computing</option>
                             <option>Web Development</option>
                             <option>Full Stack Development</option>
@@ -340,188 +294,135 @@ Institute.{% endblock %}
                             <option>Artificial Intelligence</option>
                             <option>Cyber Security</option>
                             <option>DevOps</option>
-
                         </select>
-
                         <small class="text-muted">
                             Hold Ctrl (Windows) / Command (Mac) to select multiple domains.
                         </small>
-
                     </div>
 
                     <!-- Technical Skill -->
                     <div class="mb-3">
-
                         <label class="form-label">
                             Current Technical Skill Level
                         </label>
-
                         <select class="form-select" name="technical_skill">
-
                             <option value="">Select Level</option>
                             <option>Beginner</option>
                             <option>Basic Knowledge</option>
                             <option>Intermediate</option>
                             <option>Advanced</option>
                             <option>Other</option>
-
                         </select>
-
                     </div>
 
                     <!-- Other Skill -->
                     <div class="mb-3">
-
                         <label class="form-label">
                             Other Technical Skill
                         </label>
-
                         <input type="text" class="form-control" name="technical_skill_other"
                             placeholder="Mention your skill">
-
                     </div>
 
                     <!-- Demo Interest -->
                     <div class="mb-3">
-
                         <label class="form-label">
                             Interested in Free Demo Session?
                         </label>
-
                         <select class="form-select" name="demo_interest">
-
                             <option value="">Select</option>
-
                             <option value="Yes">
                                 Yes, I want to Attend a Free Demo Session on my Interested Domain
                             </option>
-
                             <option value="Maybe">Maybe</option>
-
                             <option value="Need more information">
                                 Need more information
                             </option>
-
                             <option value="No">No</option>
-
                             <option value="Other">Other</option>
-
                         </select>
-
                     </div>
 
                     <!-- Other Demo Interest -->
                     <div class="mb-3">
-
                         <label class="form-label">
                             Other Demo Interest
                         </label>
-
                         <input type="text" class="form-control" name="demo_interest_other">
-
                     </div>
 
                     <!-- Demo Mode -->
                     <div class="mb-3">
-
                         <label class="form-label">
                             Preferred Demo Mode
                         </label>
-
                         <select class="form-select" name="demo_mode">
-
                             <option value="">Select Mode</option>
                             <option>Online</option>
                             <option>Offline</option>
                             <option>Either</option>
-
                         </select>
-
                     </div>
 
                     <!-- Preferred Demo Time -->
                     <div class="mb-3">
-
                         <label class="form-label">
                             Preferred Demo Time
                         </label>
-
                         <select class="form-select" name="preferred_demo_time" multiple>
-
                             <option>Morning</option>
                             <option>Afternoon</option>
                             <option>Evening</option>
                             <option>Weekend</option>
-
                         </select>
-
                         <small class="text-muted">
                             Select one or more preferred time slots.
                         </small>
-
                     </div>
 
                     <!-- Queries -->
                     <div class="mb-3">
-
                         <label class="form-label">
                             Queries / Questions
                         </label>
-
                         <textarea class="form-control" name="queries" rows="3"
                             placeholder="Enter your questions here (optional)"></textarea>
-
                     </div>
 
                     <!-- Referred By -->
                     <div class="mb-3">
-
                         <label class="form-label">
                             Referred By
                         </label>
-
                         <input type="text" class="form-control" name="referred_by"
                             placeholder="Friend / College / Social Media">
-
                     </div>
 
                     <!-- Consent -->
                     <div class="form-check mb-4">
-
                         <input class="form-check-input" type="checkbox" name="consent" value="True" required>
-
                         <label class="form-check-label">
-
                             I agree to be contacted by Errors2Experts regarding Workshops and Training Programs.
-
                         </label>
-
                     </div>
 
                     <!-- Buttons -->
                     <div class="text-end">
-
                         <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">
                             Cancel
                         </button>
-
                         <button type="submit" class="btn btn-success">
                             Register Now
                         </button>
-
                     </div>
-
                 </form>
-
             </div>
-
         </div>
-
     </div>
 </div>
-    <!-- ── STYLES ── -->
+
+<!-- ── STYLES ── -->
 <style>
-    /* Google Fonts already loaded via e2e-brand.css */
     .workshop-item {
         display: flex;
     }
@@ -687,10 +588,8 @@ Institute.{% endblock %}
         border-radius: 20px;
         padding: 25px;
         overflow: hidden;
-
         border: 1px solid #ececec;
         box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
-
         transition: all .35s ease;
     }
 
@@ -737,8 +636,6 @@ Institute.{% endblock %}
         font-size: 13px;
         padding: 7px 14px;
         border-radius: 30px;
-
-
     }
 
     .upcoming-content h2 {
@@ -773,11 +670,8 @@ Institute.{% endblock %}
         font-weight: 600;
     }
 
-
     /* ==========================Tablet======================= */
-
     @media(max-width:992px) {
-
         .upcoming-workshop {
             gap: 20px;
             padding: 20px;
@@ -794,14 +688,10 @@ Institute.{% endblock %}
         .upcoming-content h2 {
             font-size: 24px;
         }
-
     }
 
-
     /* ==========================Mobile======================= */
-
     @media(max-width:768px) {
-
         .upcoming-workshop {
             flex-direction: column;
             text-align: center;
@@ -833,14 +723,10 @@ Institute.{% endblock %}
         .upcoming-content .btn {
             width: 100%;
         }
-
     }
 
-
     /* ==========================Mobile================= */
-
     @media(max-width:480px) {
-
         .upcoming-workshop {
             padding: 15px;
         }
@@ -856,23 +742,21 @@ Institute.{% endblock %}
         .workshop-details li {
             font-size: 14px;
         }
-
     }
 </style>
 
-    <!-- ── LIGHTBOX SCRIPT ── -->
+<!-- ── LIGHTBOX SCRIPT ── -->
 <script>
-(function () {
-
-    var photos = [
-        {% for photo in workshops %}
+    (function () {
+        // Build photos array from Django context
+        var photos = [
+            {% for photo in workshops %}
         {
-            src: "{{ photo.image.url }}",
+        src: "{{ photo.image.url }}",
             title: "{{ photo.title|escapejs }}",
-            desc: "{{ photo.description|escapejs }}"
-        } 
-        {% if not forloop.last %}, {% endif %}
-        {% endfor %}
+                desc: "{{ photo.description|escapejs }}"
+    } {% if not forloop.last %}, {% endif %}
+    {% endfor %}
     ];
 
     var lb = document.getElementById("ws-lightbox");
@@ -883,18 +767,30 @@ Institute.{% endblock %}
     var cur = 0;
 
     function show(idx) {
-        cur = (idx + photos.length) % photos.length;
+        if (!photos.length) {
+            return;
+        }
 
+        cur = (idx + photos.length) % photos.length;
         var p = photos[cur];
 
         lbImg.src = p.src;
-        lbImg.alt = p.title;
-        lbTitle.textContent = p.title;
-        lbDesc.textContent = p.desc;
+        lbImg.alt = p.title || "";
+        lbTitle.textContent = p.title || "";
+        lbDesc.textContent = p.desc || "";
         lbCtr.textContent = (cur + 1) + " / " + photos.length;
     }
 
-    window.openLightbox = function (src) {
+    // Updated signature to match onclick (src, title, desc)
+    window.openLightbox = function (src, title, desc) {
+        if (!photos.length && src) {
+            // Fallback: single photo if photos array is empty
+            photos = [{
+                src: src,
+                title: title || "",
+                desc: desc || ""
+            }];
+        }
 
         var idx = photos.findIndex(function (p) {
             return p.src === src;
@@ -905,7 +801,10 @@ Institute.{% endblock %}
 
         show(idx >= 0 ? idx : 0);
 
-        document.getElementById("lb-close").focus();
+        var closeBtn = document.getElementById("lb-close");
+        if (closeBtn) {
+            closeBtn.focus();
+        }
     };
 
     window.closeLightbox = function () {
@@ -918,28 +817,24 @@ Institute.{% endblock %}
     };
 
     document.addEventListener("keydown", function (e) {
-
-        if (lb.style.display === "none")
+        if (lb.style.display === "none") {
             return;
+        }
 
-        if (e.key === "Escape")
+        if (e.key === "Escape") {
             closeLightbox();
-
-        if (e.key === "ArrowLeft")
+        } else if (e.key === "ArrowLeft") {
             lbNav(-1);
-
-        if (e.key === "ArrowRight")
+        } else if (e.key === "ArrowRight") {
             lbNav(1);
-
+        }
     });
 
     lb.addEventListener("click", function (e) {
-
-        if (e.target === lb)
+        if (e.target === lb) {
             closeLightbox();
-
+        }
     });
-
 }) ();
-</script>  
+</script>
 {% endblock %}
