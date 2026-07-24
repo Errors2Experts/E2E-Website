@@ -667,181 +667,286 @@
   
 
 <!-- Workshop Registration Modal -->
-<div class="modal fade" id="workshopRegisterModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content workshop-modal">
+<div class="modal fade" id="workshopRegisterModal" tabindex="-1" aria-labelledby="workshopRegisterModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content workshop-modal">
+      <!-- Modal Header -->
+      <div class="modal-header border-0">
+        <h3 class="modal-title" id="workshopRegisterModalLabel">
+          Workshop Registration
+        </h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+        </button>
+      </div>
 
-            <div class="modal-header border-0">
-                <h3 class="modal-title">Workshop Registration</h3>
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <form method="POST" action="{% url 'workshop_registration' %}">
+          {% csrf_token %}
 
-                <button type="button" class="btn-close" data-bs-dismiss="modal"> </button>
+          <!-- Full Name -->
+          <div class="mb-3">
+            <label class="form-label">
+              Full Name <span class="text-danger">*</span>
+            </label>
+            <input type="text" class="form-control" name="full_name" required>
+          </div>
+
+          <!-- Email -->
+          <div class="mb-3">
+            <label class="form-label">
+              Email Address <span class="text-danger">*</span>
+            </label>
+            <input type="email" class="form-control" name="email" required>
+          </div>
+
+          <!-- Mobile -->
+          <div class="mb-3">
+            <label class="form-label">
+              Mobile Number <span class="text-danger">*</span>
+            </label>
+            <input type="tel" class="form-control" name="mobile" pattern="[0-9]{10}" maxlength="10" required>
+          </div>
+
+          <!-- Gender -->
+          <div class="mb-3">
+            <label class="form-label">
+              Gender <span class="text-danger">*</span>
+            </label>
+            <div class="d-flex gap-4 flex-wrap">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="gender" value="Male" required>
+                <label class="form-check-label">Male</label>
+              </div>
+
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="gender" value="Female">
+                <label class="form-check-label">Female</label>
+              </div>
+
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="gender" value="Prefer not to say">
+                <label class="form-check-label">
+                  Prefer not to say
+                </label>
+              </div>
             </div>
+          </div>
 
-            <div class="modal-body">
+          <!-- Participation Mode -->
+          <div class="mb-3">
+            <label class="form-label">
+              Participation Mode <span class="text-danger">*</span>
+            </label>
+            <select class="form-select" name="participation_mode" required>
+              <option value="">Select Mode</option>
+              <option value="Offline">Offline</option>
+              <option value="Online">Online</option>
+            </select>
+          </div>
 
- <form method="POST" action="{% url 'workshop_registration' %}">
-    {% csrf_token %}
+          <!-- Present Address -->
+          <div class="mb-3">
+            <label class="form-label">
+              Present Address
+            </label>
+            <textarea class="form-control" name="present_address" rows="3"></textarea>
+          </div>
 
-    <!-- Full Name -->
-    <div class="mb-3">
-        <label class="form-label">Full Name <span class="text-danger">*</span></label>
-        <input type="text" class="form-control" name="full_name" required>
+          <!-- Year Of Study -->
+          <div class="mb-3">
+            <label class="form-label">
+              Year Of Study
+            </label>
+            <select class="form-select" name="year_of_study">
+              <option value="">Select Year</option>
+              <option>1st Year</option>
+              <option>2nd Year</option>
+              <option>3rd Year</option>
+              <option>Final Year</option>
+              <option>Graduate</option>
+              <option>Working Professional</option>
+            </select>
+          </div>
+
+          <!-- College -->
+          <div class="mb-3">
+            <label class="form-label">
+              College Name
+            </label>
+            <input type="text" class="form-control" name="college_name">
+          </div>
+
+          <!-- Degree -->
+          <div class="mb-3">
+            <label class="form-label">
+              Degree
+            </label>
+            <input type="text" class="form-control" name="degree">
+          </div>
+
+          <!-- Department -->
+          <div class="mb-3">
+            <label class="form-label">
+              Department
+            </label>
+            <input type="text" class="form-control" name="department">
+          </div>
+
+          <!-- Passed Out Year -->
+          <div class="mb-3">
+            <label class="form-label">
+              Passed Out Year
+            </label>
+            <select class="form-select" name="passed_out_year">
+              <option value="">Select Year</option>
+              <option>2026</option>
+              <option>2025</option>
+              <option>2024</option>
+              <option>2023</option>
+              <option>2022</option>
+              <option>2021</option>
+            </select>
+          </div>
+
+          <!-- Interested Domains -->
+          <div class="mb-3">
+            <label class="form-label">
+              Interested Domains
+            </label>
+            <select class="form-select" name="interested_domains" multiple>
+              <option>Cloud Computing</option>
+              <option>Web Development</option>
+              <option>Full Stack Development</option>
+              <option>Data Science</option>
+              <option>Artificial Intelligence</option>
+              <option>Cyber Security</option>
+              <option>DevOps</option>
+            </select>
+            <small class="text-muted">
+              Hold Ctrl (Windows) / Command (Mac) to select multiple domains.
+            </small>
+          </div>
+
+          <!-- Technical Skill -->
+          <div class="mb-3">
+            <label class="form-label">
+              Current Technical Skill Level
+            </label>
+            <select class="form-select" name="technical_skill">
+              <option value="">Select Level</option>
+              <option>Beginner</option>
+              <option>Basic Knowledge</option>
+              <option>Intermediate</option>
+              <option>Advanced</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <!-- Other Skill -->
+          <div class="mb-3">
+            <label class="form-label">
+              Other Technical Skill
+            </label>
+            <input type="text" class="form-control" name="technical_skill_other" placeholder="Mention your skill">
+          </div>
+
+          <!-- Demo Interest -->
+          <div class="mb-3">
+            <label class="form-label">
+              Interested in Free Demo Session?
+            </label>
+            <select class="form-select" name="demo_interest">
+              <option value="">Select</option>
+              <option value="Yes">
+                Yes, I want to Attend a Free Demo Session on my Interested Domain
+              </option>
+              <option value="Maybe">Maybe</option>
+              <option value="Need more information">
+                Need more information
+              </option>
+              <option value="No">No</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <!-- Other Demo Interest -->
+          <div class="mb-3">
+            <label class="form-label">
+              Other Demo Interest
+            </label>
+            <input type="text" class="form-control" name="demo_interest_other">
+          </div>
+
+          <!-- Demo Mode -->
+          <div class="mb-3">
+            <label class="form-label">
+              Preferred Demo Mode
+            </label>
+            <select class="form-select" name="demo_mode">
+              <option value="">Select Mode</option>
+              <option>Online</option>
+              <option>Offline</option>
+              <option>Either</option>
+            </select>
+          </div>
+
+          <!-- Preferred Demo Time -->
+          <div class="mb-3">
+            <label class="form-label">
+              Preferred Demo Time
+            </label>
+            <select class="form-select" name="preferred_demo_time" multiple>
+              <option>Morning</option>
+              <option>Afternoon</option>
+              <option>Evening</option>
+              <option>Weekend</option>
+            </select>
+            <small class="text-muted">
+              Select one or more preferred time slots.
+            </small>
+          </div>
+
+          <!-- Queries -->
+          <div class="mb-3">
+            <label class="form-label">
+              Queries / Questions
+            </label>
+            <textarea class="form-control" name="queries" rows="3"
+              placeholder="Enter your questions here (optional)"></textarea>
+          </div>
+
+          <!-- Referred By -->
+          <div class="mb-3">
+            <label class="form-label">
+              Referred By
+            </label>
+            <input type="text" class="form-control" name="referred_by" placeholder="Friend / College / Social Media">
+          </div>
+
+          <!-- Consent -->
+          <div class="form-check mb-4">
+            <input class="form-check-input" type="checkbox" name="consent" value="True" required>
+            <label class="form-check-label">
+              I agree to be contacted by Errors2Experts regarding Workshops and Training Programs.
+            </label>
+          </div>
+
+          <!-- Buttons -->
+          <div class="modal-footer border-0">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Close
+            </button>
+
+            <button type="submit" class="btn btn-success">
+              Register Now
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
-
-    <!-- Mobile -->
-    <div class="mb-3">
-        <label class="form-label">Mobile Number <span class="text-danger">*</span></label>
-        <input type="tel" class="form-control" name="mobile"
-               pattern="[0-9]{10}" maxlength="10" required>
-    </div>
-    <div class="mb-3">
-     <label>Email Address *</label> <input type="email"name="email" class="form-control" required>
-
-    </div>
-    <!-- Gender -->
-    <div class="mb-3">
-        <label class="form-label">Gender <span class="text-danger">*</span></label><br>
-
-        <input type="radio" name="gender" value="Male" required> Male
-        &nbsp;&nbsp;
-
-        <input type="radio" name="gender" value="Female"> Female
-        &nbsp;&nbsp;
-
-        <input type="radio" name="gender" value="Prefer not to say">
-        Prefer not to say
-    </div>
-
-    <!-- Current Location -->
-    <div class="mb-3">
-        <label class="form-label">Current Location <span class="text-danger">*</span></label>
-        <input type="text" class="form-control" name="location" required>
-    </div>
-
-    <!-- Education -->
-    <div class="mb-3">
-        <label class="form-label">Education Qualification <span class="text-danger">*</span></label>
-        <input type="text" class="form-control"  name="education" required>
-    </div>
-
-    <!-- Passed Out -->
-    <div class="mb-3">
-        <label class="form-label">Passed Out Year <span class="text-danger">*</span></label>
-
-        <select class="form-select" name="passed_out" required>
-
-            <option value="">Select</option>
-
-            <option>2026</option>
-            <option>2025</option>
-            <option>2024</option>
-            <option>2023</option>
-            <option>2022</option>
-            <option>2021</option>
-
-        </select>
-
-    </div>
-
-    <!-- Current Status -->
-    <div class="mb-3">
-        <label class="form-label">Current Status <span class="text-danger">*</span></label>
-
-        <select class="form-select" name="current_status" required>
-
-            <option value="">Select</option>
-
-            <option>Student</option>
-            <option>Final Year Student</option>
-            <option>Graduate</option>
-            <option>Working Professional</option>
-            <option>Job Seeker</option>
-
-        </select>
-    </div>
-
-    <!-- Workshop -->
-    <div class="mb-3">
-        <label class="form-label">Workshop</label>
-
-        <div class="alert alert-success mb-0">
-
-            <strong>{{ upcoming_workshop.title }}</strong><br>
-
-            📅 {{ upcoming_workshop.event_date|date:"d M Y" }}<br>
-
-            🕒 {{ upcoming_workshop.event_time }}<br>
-
-            💻 {{ upcoming_workshop.location }}
-            
-
-  
-
-
-        </div>
-
-        <input type="hidden"
-               name="workshop"
-               value="{{ upcoming_workshop.title }}">
-
-    </div>
-
-    <!-- Queries -->
-    <div class="mb-3">
-
-        <label class="form-label">
-            Any Queries?
-        </label>
-
-        <textarea
-            class="form-control"
-            rows="4"
-            name="queries"></textarea>
-
-    </div>
-
-    <!-- Consent -->
-    <div class="form-check mb-4">
-
-        <input
-            class="form-check-input"
-            type="checkbox"
-            required>
-
-        <label class="form-check-label">
-
-            I agree to be contacted by Errors2Experts
-            regarding Workshops and Training Programs.
-
-        </label>
-
-    </div>
-
-    <!-- Buttons -->
-
-    <div class="d-flex justify-content-end gap-2">
-
-        <button
-            type="reset"
-            class="btn btn-outline-secondary">
-
-            Clear Form
-
-        </button>
-
-        <button
-            type="submit"
-            class="btn btn-success">
-
-            Register Now
-
-        </button>
-
-    </div>
-</form>
-</div>
-</div>
-</div>
+  </div>
 </div>
  <!-- ══════════════════════════════════════════
      internship SECTION
